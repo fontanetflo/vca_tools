@@ -2,197 +2,1085 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#111827">
-<title>Photo → OneDrive</title>
+
+<title>VCA Capture</title>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f2f3f5;color:#111827}
-.app{max-width:500px;margin:auto;min-height:100vh;padding:30px 20px}
-header{text-align:center;margin-bottom:30px}
-.logo{font-size:50px}.subtitle{margin-top:8px;color:#6b7280}
-h1{margin:0;font-size:28px}
-.card{background:white;padding:22px;border-radius:22px;box-shadow:0 8px 25px rgba(0,0,0,.08)}
-.camera{display:block;width:100%;padding:18px;border-radius:16px;background:#111827;color:white;text-align:center;font-size:18px;font-weight:700;cursor:pointer}
-input{display:none}
-.status{text-align:center;margin-top:20px;color:#6b7280}
-.count{text-align:center;font-weight:700;margin-top:20px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:20px}
-.photo{position:relative;aspect-ratio:1;border-radius:12px;overflow:hidden;background:#e5e7eb}
-.photo img{width:100%;height:100%;object-fit:cover}
-.delete{position:absolute;top:5px;right:5px;width:28px;height:28px;border:0;border-radius:50%;background:rgba(0,0,0,.7);color:white;font-size:18px}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
-button{padding:15px;border-radius:14px;border:1px solid #d1d5db;background:white;font-size:16px;font-weight:600}
-.save{background:#111827;color:white;border-color:#111827}
-.info{margin-top:20px;padding:14px;border-radius:14px;background:#f3f4f6;color:#6b7280;font-size:13px;line-height:1.4}
-.hidden{display:none}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #f2f3f5;
+  color: #111827;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.app {
+  max-width: 520px;
+  margin: auto;
+  min-height: 100vh;
+  padding: 24px 18px 40px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo {
+  font-size: 46px;
+}
+
+h1 {
+  margin: 4px 0 0;
+  font-size: 27px;
+}
+
+.subtitle {
+  margin-top: 5px;
+  color: #6b7280;
+}
+
+.card {
+  background: white;
+  border-radius: 22px;
+  padding: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 8px 25px rgba(0,0,0,.07);
+}
+
+label.title {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 14px;
+  border-radius: 13px;
+  border: 1px solid #d1d5db;
+  font-size: 16px;
+}
+
+button,
+.camera-button {
+  width: 100%;
+  border: 0;
+  border-radius: 15px;
+  padding: 16px;
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+}
+
+.primary {
+  background: #111827;
+  color: white;
+}
+
+.secondary {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.blue {
+  background: #2563eb;
+  color: white;
+}
+
+.green {
+  background: #15803d;
+  color: white;
+}
+
+.red {
+  background: #dc2626;
+  color: white;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.session {
+  background: #f3f4f6;
+  border-radius: 14px;
+  padding: 13px;
+  margin-top: 15px;
+}
+
+.session-name {
+  font-weight: 700;
+}
+
+.session-date {
+  color: #6b7280;
+  font-size: 13px;
+  margin-top: 3px;
+}
+
+.status {
+  text-align: center;
+  color: #6b7280;
+  margin-top: 18px;
+}
+
+.count {
+  text-align: center;
+  font-weight: 700;
+  margin-top: 15px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.item {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #e5e7eb;
+}
+
+.item img,
+.item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.badge {
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  padding: 4px 6px;
+  border-radius: 7px;
+  background: rgba(0,0,0,.7);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.delete {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  margin: 0;
+  border-radius: 50%;
+  background: rgba(0,0,0,.7);
+  color: white;
+  font-size: 18px;
+}
+
+.video-container {
+  display: none;
+  position: relative;
+  margin-top: 15px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: black;
+}
+
+.video-container video {
+  display: block;
+  width: 100%;
+}
+
+.record-button {
+  position: absolute;
+  left: 50%;
+  bottom: 15px;
+  transform: translateX(-50%);
+  width: 65px;
+  height: 65px;
+  padding: 0;
+  border-radius: 50%;
+  border: 4px solid white;
+  background: #dc2626;
+}
+
+.recording .record-button {
+  border-radius: 14px;
+  background: #111827;
+}
+
+.timer {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 6px 9px;
+  border-radius: 8px;
+  background: rgba(0,0,0,.7);
+  color: white;
+  font-weight: 700;
+}
+
+.actions {
+  margin-top: 15px;
+}
+
+.info {
+  margin-top: 15px;
+  padding: 13px;
+  border-radius: 13px;
+  background: #f3f4f6;
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.hidden {
+  display: none !important;
+}
 </style>
 </head>
+
 <body>
 
 <div class="app">
 
 <header>
-  <div class="logo">📷</div>
-  <h1>Photo → OneDrive</h1>
-  <div class="subtitle">Capture et enregistrement</div>
+  <div class="logo">🧪</div>
+  <h1>VCA Capture</h1>
+  <div class="subtitle">Photos et vidéos d'essais</div>
 </header>
+
+
+<!-- NOM DE L'ESSAI -->
 
 <div class="card">
 
-<label for="camera" class="camera">
-  📷 Nouvelle série
-</label>
+  <label class="title" for="sessionName">
+    🏷️ Nom de l'essai
+  </label>
 
-<input
-  id="camera"
-  type="file"
-  accept="image/*"
-  capture="environment"
-  multiple
+  <input
+    id="sessionName"
+    type="text"
+    placeholder="Ex. Test choc boîtier A"
+  >
+
+  <div id="sessionInfo" class="session hidden">
+
+    <div id="displayName" class="session-name"></div>
+
+    <div id="displayDate" class="session-date"></div>
+
+  </div>
+
+</div>
+
+
+<!-- CAPTURE -->
+
+<div class="card">
+
+  <label for="photoInput" class="camera-button primary">
+    📷 Prendre des photos
+  </label>
+
+  <input
+    id="photoInput"
+    type="file"
+    accept="image/*"
+    capture="environment"
+    multiple
+  >
+
+
+  <button
+    class="secondary"
+    onclick="startVideo()"
+  >
+    🎥 Enregistrer une vidéo
+  </button>
+
+
+  <div
+    id="videoContainer"
+    class="video-container"
+  >
+
+    <video
+      id="videoPreview"
+      autoplay
+      muted
+      playsinline
+    ></video>
+
+    <div
+      id="videoTimer"
+      class="timer"
+    >
+      00:00
+    </div>
+
+    <button
+      id="recordButton"
+      class="record-button"
+      onclick="toggleRecording()"
+    ></button>
+
+  </div>
+
+</div>
+
+
+<!-- FICHIERS -->
+
+<div class="card">
+
+  <div
+    id="empty"
+    class="status"
+  >
+    Aucun fichier dans cette série
+  </div>
+
+  <div
+    id="count"
+    class="count hidden"
+  ></div>
+
+  <div
+    id="grid"
+    class="grid"
+  ></div>
+
+
+  <div
+    id="actions"
+    class="actions hidden"
+  >
+
+    <button
+      class="primary"
+      onclick="shareFiles()"
+    >
+      💾 Enregistrer dans Fichiers
+    </button>
+
+
+    <button
+      class="secondary"
+      onclick="openFolder()"
+    >
+      📂 Ouvrir Dossiers Essais
+    </button>
+
+
+    <button
+      class="red"
+      onclick="clearFiles()"
+    >
+      🗑️ Effacer la série
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- TERMINER -->
+
+<div
+  id="finishCard"
+  class="card hidden"
 >
 
-<div id="empty" class="status">
-  Aucune photo en attente
-</div>
-
-<div id="count" class="count hidden"></div>
-
-<div id="grid" class="grid"></div>
-
-<div id="actions" class="actions hidden">
-
-  <button onclick="clearPhotos()">
-    Effacer
-  </button>
-
-  <button class="save" onclick="savePhotos()">
-    💾 Enregistrer
+  <button
+    class="green"
+    onclick="finishTest()"
+  >
+    ✅ Terminer l'essai
   </button>
 
 </div>
 
-<div id="message" class="info">
-  Après avoir pris tes photos, appuie sur « Enregistrer ».
-  iOS te proposera ensuite les options de partage.
+
+<div
+  id="message"
+  class="info"
+>
+  Commence par donner un nom à ton essai.
 </div>
 
 </div>
-</div>
+
 
 <script>
 
-let photos = [];
-
-const camera = document.getElementById("camera");
-const grid = document.getElementById("grid");
-const empty = document.getElementById("empty");
-const count = document.getElementById("count");
-const actions = document.getElementById("actions");
-const message = document.getElementById("message");
-
-camera.addEventListener("change", function(event) {
-
-  const files = Array.from(event.target.files);
-
-  files.forEach(file => {
-
-    if (file.type.startsWith("image/")) {
-      photos.push(file);
-    }
-
-  });
-
-  camera.value = "";
-
-  displayPhotos();
-
-});
+const SHAREPOINT_FOLDER =
+"https://richemont.sharepoint.com/sites/VCAlab/Dossiers%20Essais/";
 
 
-function displayPhotos() {
+let files = [];
 
-  grid.innerHTML = "";
+let stream = null;
 
-  photos.forEach((file, index) => {
+let recorder = null;
 
-    const container = document.createElement("div");
-    container.className = "photo";
+let chunks = [];
 
-    const image = document.createElement("img");
-    image.src = URL.createObjectURL(file);
+let recordingStart = 0;
 
-    const deleteButton = document.createElement("button");
+let timerInterval = null;
 
-    deleteButton.className = "delete";
-    deleteButton.innerHTML = "×";
 
-    deleteButton.onclick = function() {
+const photoInput =
+document.getElementById("photoInput");
 
-      photos.splice(index, 1);
+const sessionName =
+document.getElementById("sessionName");
 
-      displayPhotos();
+const sessionInfo =
+document.getElementById("sessionInfo");
 
-    };
+const displayName =
+document.getElementById("displayName");
 
-    container.appendChild(image);
-    container.appendChild(deleteButton);
+const displayDate =
+document.getElementById("displayDate");
 
-    grid.appendChild(container);
+const grid =
+document.getElementById("grid");
 
-  });
+const empty =
+document.getElementById("empty");
 
-  const number = photos.length;
+const count =
+document.getElementById("count");
 
-  empty.classList.toggle("hidden", number > 0);
-  count.classList.toggle("hidden", number === 0);
-  actions.classList.toggle("hidden", number === 0);
+const actions =
+document.getElementById("actions");
 
-  count.textContent =
-    number + " photo" + (number > 1 ? "s" : "") + " en attente";
+const finishCard =
+document.getElementById("finishCard");
+
+const message =
+document.getElementById("message");
+
+const videoContainer =
+document.getElementById("videoContainer");
+
+const videoPreview =
+document.getElementById("videoPreview");
+
+const recordButton =
+document.getElementById("recordButton");
+
+const videoTimer =
+document.getElementById("videoTimer");
+
+
+
+/* =========================
+   SESSION
+========================= */
+
+sessionName.addEventListener(
+  "input",
+  updateSession
+);
+
+
+function updateSession() {
+
+  const name =
+    sessionName.value.trim();
+
+  if (!name) {
+
+    sessionInfo.classList.add("hidden");
+
+    return;
+  }
+
+  sessionInfo.classList.remove("hidden");
+
+  displayName.textContent =
+    name;
+
+  displayDate.textContent =
+    new Date().toLocaleString(
+      "fr-FR",
+      {
+        dateStyle: "short",
+        timeStyle: "short"
+      }
+    );
+
+  message.textContent =
+    "Essai prêt. Tu peux commencer les captures.";
 
 }
 
 
-async function savePhotos() {
 
-  if (photos.length === 0) {
-    return;
+/* =========================
+   PHOTOS
+========================= */
+
+photoInput.addEventListener(
+  "change",
+  function(event) {
+
+    const selected =
+      Array.from(event.target.files);
+
+    selected.forEach(file => {
+
+      if (
+        file.type.startsWith("image/")
+      ) {
+
+        files.push(file);
+
+      }
+
+    });
+
+    photoInput.value = "";
+
+    renderFiles();
+
   }
+);
+
+
+
+/* =========================
+   AFFICHAGE
+========================= */
+
+function renderFiles() {
+
+  grid.innerHTML = "";
+
+  files.forEach(
+    (file, index) => {
+
+      const item =
+        document.createElement("div");
+
+      item.className = "item";
+
+
+      let media;
+
+
+      if (
+        file.type.startsWith("video/")
+      ) {
+
+        media =
+          document.createElement("video");
+
+        media.src =
+          URL.createObjectURL(file);
+
+        media.muted = true;
+
+        media.playsInline = true;
+
+      }
+
+      else {
+
+        media =
+          document.createElement("img");
+
+        media.src =
+          URL.createObjectURL(file);
+
+      }
+
+
+      const badge =
+        document.createElement("div");
+
+      badge.className = "badge";
+
+      badge.textContent =
+        file.type.startsWith("video/")
+        ? "VIDÉO"
+        : "PHOTO";
+
+
+      const deleteButton =
+        document.createElement("button");
+
+      deleteButton.className =
+        "delete";
+
+      deleteButton.textContent =
+        "×";
+
+      deleteButton.onclick =
+        function() {
+
+          files.splice(index, 1);
+
+          renderFiles();
+
+        };
+
+
+      item.appendChild(media);
+
+      item.appendChild(badge);
+
+      item.appendChild(deleteButton);
+
+      grid.appendChild(item);
+
+    }
+  );
+
+
+  const number =
+    files.length;
+
+
+  empty.classList.toggle(
+    "hidden",
+    number > 0
+  );
+
+
+  count.classList.toggle(
+    "hidden",
+    number === 0
+  );
+
+
+  actions.classList.toggle(
+    "hidden",
+    number === 0
+  );
+
+
+  finishCard.classList.toggle(
+    "hidden",
+    number === 0
+  );
+
+
+  count.textContent =
+    number +
+    " fichier" +
+    (number > 1 ? "s" : "") +
+    " dans la série";
+
+}
+
+
+
+/* =========================
+   VIDEO
+========================= */
+
+async function startVideo() {
+
+  if (
+    !navigator.mediaDevices ||
+    !navigator.mediaDevices.getUserMedia
+  ) {
+
+    message.textContent =
+      "La caméra vidéo n'est pas disponible dans ce navigateur.";
+
+    return;
+
+  }
+
+
+  try {
+
+    stream =
+      await navigator.mediaDevices.getUserMedia(
+        {
+          video: {
+            facingMode: {
+              ideal: "environment"
+            }
+          },
+          audio: true
+        }
+      );
+
+
+    videoPreview.srcObject =
+      stream;
+
+
+    videoContainer.style.display =
+      "block";
+
+
+    message.textContent =
+      "Appuie sur le bouton rouge pour commencer.";
+
+  }
+
+  catch (error) {
+
+    message.textContent =
+      "Impossible d'accéder à la caméra. Vérifie l'autorisation de Safari.";
+
+  }
+
+}
+
+
+
+function toggleRecording() {
+
+  if (
+    recorder &&
+    recorder.state === "recording"
+  ) {
+
+    recorder.stop();
+
+    return;
+
+  }
+
+
+  chunks = [];
+
+
+  let options = {};
+
+
+  if (
+    MediaRecorder.isTypeSupported(
+      "video/mp4"
+    )
+  ) {
+
+    options.mimeType =
+      "video/mp4";
+
+  }
+
+  else if (
+    MediaRecorder.isTypeSupported(
+      "video/webm"
+    )
+  ) {
+
+    options.mimeType =
+      "video/webm";
+
+  }
+
+
+  recorder =
+    new MediaRecorder(
+      stream,
+      options
+    );
+
+
+  recorder.ondataavailable =
+    function(event) {
+
+      if (event.data.size > 0) {
+
+        chunks.push(event.data);
+
+      }
+
+    };
+
+
+  recorder.onstop =
+    function() {
+
+      const type =
+        recorder.mimeType ||
+        "video/webm";
+
+
+      const extension =
+        type.includes("mp4")
+        ? "mp4"
+        : "webm";
+
+
+      const blob =
+        new Blob(
+          chunks,
+          {
+            type: type
+          }
+        );
+
+
+      const filename =
+        buildFilename(
+          "video",
+          extension
+        );
+
+
+      const file =
+        new File(
+          [blob],
+          filename,
+          {
+            type: type
+          }
+        );
+
+
+      files.push(file);
+
+
+      stopCamera();
+
+      renderFiles();
+
+
+      message.textContent =
+        "✓ Vidéo ajoutée à la série.";
+
+    };
+
+
+  recorder.start();
+
+
+  videoContainer.classList.add(
+    "recording"
+  );
+
+
+  recordingStart =
+    Date.now();
+
+
+  timerInterval =
+    setInterval(
+      updateTimer,
+      500
+    );
+
+}
+
+
+
+function updateTimer() {
+
+  const elapsed =
+    Math.floor(
+      (
+        Date.now() -
+        recordingStart
+      ) / 1000
+    );
+
+
+  const minutes =
+    String(
+      Math.floor(
+        elapsed / 60
+      )
+    ).padStart(2, "0");
+
+
+  const seconds =
+    String(
+      elapsed % 60
+    ).padStart(2, "0");
+
+
+  videoTimer.textContent =
+    minutes +
+    ":" +
+    seconds;
+
+}
+
+
+
+function stopCamera() {
+
+  if (stream) {
+
+    stream
+      .getTracks()
+      .forEach(
+        track => track.stop()
+      );
+
+    stream = null;
+
+  }
+
+
+  videoPreview.srcObject =
+    null;
+
+
+  videoContainer.style.display =
+    "none";
+
+
+  videoContainer.classList.remove(
+    "recording"
+  );
+
+
+  clearInterval(
+    timerInterval
+  );
+
+
+  videoTimer.textContent =
+    "00:00";
+
+}
+
+
+
+/* =========================
+   NOM DES FICHIERS
+========================= */
+
+function buildFilename(
+  type,
+  extension
+) {
+
+  const name =
+    sessionName.value.trim() ||
+    "Essai";
+
+
+  const safeName =
+    name
+      .replace(
+        /[^a-zA-Z0-9À-ÿ_-]+/g,
+        "-"
+      )
+      .replace(
+        /-+/g,
+        "-"
+      );
+
+
+  const number =
+    String(
+      files.length + 1
+    ).padStart(
+      2,
+      "0"
+    );
+
+
+  const now =
+    new Date();
+
+
+  const date =
+    now
+      .toISOString()
+      .replace(
+        /[:.]/g,
+        "-"
+      );
+
+
+  return (
+    safeName +
+    "_" +
+    date +
+    "_" +
+    type +
+    "_" +
+    number +
+    "." +
+    extension
+  );
+
+}
+
+
+
+/* =========================
+   EXPORT
+========================= */
+
+async function shareFiles() {
+
+  if (!files.length) {
+
+    return;
+
+  }
+
 
   try {
 
     if (
       navigator.canShare &&
-      navigator.canShare({ files: photos })
+      navigator.canShare({
+        files: files
+      })
     ) {
 
-      await navigator.share({
+      await navigator.share(
+        {
+          files: files,
+          title:
+            sessionName.value ||
+            "Essai",
+          text:
+            "Photos et vidéos d'essai"
+        }
+      );
 
-        files: photos,
-
-        title: "Photos",
-
-        text: "Enregistrer les photos"
-
-      });
 
       message.innerHTML =
-        "✓ Dans le menu iOS, choisis <b>Enregistrer dans Fichiers</b>, puis sélectionne ton dossier OneDrive.";
-
-    } else {
-
-      message.textContent =
-        "Le partage de fichiers n'est pas disponible dans ce navigateur. Utilise Safari sur l'iPhone.";
+        "✓ Partage terminé. Dans iOS, choisis <b>Enregistrer dans Fichiers</b>, puis ton emplacement OneDrive/SharePoint.";
 
     }
 
-  } catch (error) {
-
-    if (error.name !== "AbortError") {
+    else {
 
       message.textContent =
-        "Impossible d'ouvrir le partage. Réessaie.";
+        "Le partage de fichiers n'est pas disponible. Utilise Safari sur iPhone.";
+
+    }
+
+  }
+
+  catch (error) {
+
+    if (
+      error.name !==
+      "AbortError"
+    ) {
+
+      message.textContent =
+        "Le partage n'a pas pu être lancé.";
 
     }
 
@@ -201,14 +1089,95 @@ async function savePhotos() {
 }
 
 
-function clearPhotos() {
 
-  photos = [];
+/* =========================
+   SHAREPOINT
+========================= */
 
-  displayPhotos();
+function openFolder() {
+
+  window.location.href =
+    SHAREPOINT_FOLDER;
+
+}
+
+
+
+/* =========================
+   FIN ESSAI
+========================= */
+
+function finishTest() {
+
+  const name =
+    sessionName.value.trim();
+
+
+  if (!name) {
+
+    message.textContent =
+      "Donne d'abord un nom à l'essai.";
+
+    sessionName.focus();
+
+    return;
+
+  }
+
+
+  if (!files.length) {
+
+    message.textContent =
+      "Aucun fichier à enregistrer.";
+
+    return;
+
+  }
+
+
+  message.innerHTML =
+    "<b>Essai terminé.</b><br>" +
+    files.length +
+    " fichier" +
+    (
+      files.length > 1
+      ? "s"
+      : ""
+    ) +
+    " prêt" +
+    (
+      files.length > 1
+      ? "s"
+      : ""
+    ) +
+    " à être enregistré.";
+
+
+  window.scrollTo(
+    {
+      top: document.body.scrollHeight,
+      behavior: "smooth"
+    }
+  );
+
+}
+
+
+
+/* =========================
+   EFFACER
+========================= */
+
+function clearFiles() {
+
+  stopCamera();
+
+  files = [];
+
+  renderFiles();
 
   message.textContent =
-    "Après avoir pris tes photos, appuie sur « Enregistrer ». iOS te proposera ensuite les options de partage.";
+    "Série effacée. Tu peux commencer un nouvel essai.";
 
 }
 
