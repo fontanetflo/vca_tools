@@ -1,202 +1,83 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#111827">
-  <title>Photo → OneDrive</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f2f3f5;
-      color: #111827;
-    }
-
-    .app {
-      max-width: 500px;
-      margin: auto;
-      min-height: 100vh;
-      padding: 30px 20px;
-    }
-
-    header {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .logo {
-      font-size: 50px;
-      margin-bottom: 10px;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 28px;
-    }
-
-    .subtitle {
-      margin-top: 8px;
-      color: #6b7280;
-    }
-
-    .card {
-      background: white;
-      padding: 22px;
-      border-radius: 22px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-    }
-
-    .camera-button {
-      display: block;
-      width: 100%;
-      padding: 18px;
-      border-radius: 16px;
-      background: #111827;
-      color: white;
-      text-align: center;
-      font-size: 18px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    input {
-      display: none;
-    }
-
-    .status {
-      text-align: center;
-      margin-top: 20px;
-      color: #6b7280;
-    }
-
-    .count {
-      text-align: center;
-      font-weight: 700;
-      margin-top: 20px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-top: 20px;
-    }
-
-    .photo {
-      position: relative;
-      aspect-ratio: 1;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #e5e7eb;
-    }
-
-    .photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .delete {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      width: 28px;
-      height: 28px;
-      border: none;
-      border-radius: 50%;
-      background: rgba(0,0,0,0.7);
-      color: white;
-      font-size: 18px;
-    }
-
-    .actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    button {
-      padding: 15px;
-      border-radius: 14px;
-      border: 1px solid #d1d5db;
-      background: white;
-      font-size: 16px;
-      font-weight: 600;
-    }
-
-    .info {
-      margin-top: 20px;
-      padding: 14px;
-      border-radius: 14px;
-      background: #f3f4f6;
-      color: #6b7280;
-      font-size: 13px;
-      line-height: 1.4;
-    }
-
-    .hidden {
-      display: none;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111827">
+<title>Photo → OneDrive</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f2f3f5;color:#111827}
+.app{max-width:500px;margin:auto;min-height:100vh;padding:30px 20px}
+header{text-align:center;margin-bottom:30px}
+.logo{font-size:50px}.subtitle{margin-top:8px;color:#6b7280}
+h1{margin:0;font-size:28px}
+.card{background:white;padding:22px;border-radius:22px;box-shadow:0 8px 25px rgba(0,0,0,.08)}
+.camera{display:block;width:100%;padding:18px;border-radius:16px;background:#111827;color:white;text-align:center;font-size:18px;font-weight:700;cursor:pointer}
+input{display:none}
+.status{text-align:center;margin-top:20px;color:#6b7280}
+.count{text-align:center;font-weight:700;margin-top:20px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:20px}
+.photo{position:relative;aspect-ratio:1;border-radius:12px;overflow:hidden;background:#e5e7eb}
+.photo img{width:100%;height:100%;object-fit:cover}
+.delete{position:absolute;top:5px;right:5px;width:28px;height:28px;border:0;border-radius:50%;background:rgba(0,0,0,.7);color:white;font-size:18px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+button{padding:15px;border-radius:14px;border:1px solid #d1d5db;background:white;font-size:16px;font-weight:600}
+.save{background:#111827;color:white;border-color:#111827}
+.info{margin-top:20px;padding:14px;border-radius:14px;background:#f3f4f6;color:#6b7280;font-size:13px;line-height:1.4}
+.hidden{display:none}
+</style>
 </head>
-
 <body>
 
 <div class="app">
 
-  <header>
-    <div class="logo">📷</div>
-    <h1>Photo → OneDrive</h1>
-    <div class="subtitle">
-      Capture rapide de photos
-    </div>
-  </header>
+<header>
+  <div class="logo">📷</div>
+  <h1>Photo → OneDrive</h1>
+  <div class="subtitle">Capture et enregistrement</div>
+</header>
 
-  <div class="card">
+<div class="card">
 
-    <label for="camera" class="camera-button">
-      📷 Nouvelle série
-    </label>
+<label for="camera" class="camera">
+  📷 Nouvelle série
+</label>
 
-    <input
-      id="camera"
-      type="file"
-      accept="image/*"
-      capture="environment"
-      multiple
-    >
+<input
+  id="camera"
+  type="file"
+  accept="image/*"
+  capture="environment"
+  multiple
+>
 
-    <div id="empty" class="status">
-      Aucune photo en attente
-    </div>
+<div id="empty" class="status">
+  Aucune photo en attente
+</div>
 
-    <div id="count" class="count hidden"></div>
+<div id="count" class="count hidden"></div>
 
-    <div id="grid" class="grid"></div>
+<div id="grid" class="grid"></div>
 
-    <div id="actions" class="actions hidden">
-      <button onclick="clearPhotos()">
-        Effacer
-      </button>
+<div id="actions" class="actions hidden">
 
-      <button onclick="fakeUpload()">
-        ☁️ Envoyer
-      </button>
-    </div>
+  <button onclick="clearPhotos()">
+    Effacer
+  </button>
 
-    <div id="message" class="info">
-      Les photos restent uniquement dans cette page
-      pour le moment.
-    </div>
+  <button class="save" onclick="savePhotos()">
+    💾 Enregistrer
+  </button>
 
-  </div>
+</div>
 
+<div id="message" class="info">
+  Après avoir pris tes photos, appuie sur « Enregistrer ».
+  iOS te proposera ensuite les options de partage.
+</div>
+
+</div>
 </div>
 
 <script>
@@ -239,7 +120,6 @@ function displayPhotos() {
     container.className = "photo";
 
     const image = document.createElement("img");
-
     image.src = URL.createObjectURL(file);
 
     const deleteButton = document.createElement("button");
@@ -274,25 +154,63 @@ function displayPhotos() {
 }
 
 
+async function savePhotos() {
+
+  if (photos.length === 0) {
+    return;
+  }
+
+  try {
+
+    if (
+      navigator.canShare &&
+      navigator.canShare({ files: photos })
+    ) {
+
+      await navigator.share({
+
+        files: photos,
+
+        title: "Photos",
+
+        text: "Enregistrer les photos"
+
+      });
+
+      message.innerHTML =
+        "✓ Dans le menu iOS, choisis <b>Enregistrer dans Fichiers</b>, puis sélectionne ton dossier OneDrive.";
+
+    } else {
+
+      message.textContent =
+        "Le partage de fichiers n'est pas disponible dans ce navigateur. Utilise Safari sur l'iPhone.";
+
+    }
+
+  } catch (error) {
+
+    if (error.name !== "AbortError") {
+
+      message.textContent =
+        "Impossible d'ouvrir le partage. Réessaie.";
+
+    }
+
+  }
+
+}
+
+
 function clearPhotos() {
 
   photos = [];
 
-  message.textContent =
-    "Les photos restent uniquement dans cette page pour le moment.";
-
   displayPhotos();
 
-}
-
-
-function fakeUpload() {
-
-  message.innerHTML =
-    "✓ Test réussi. La prochaine étape sera l'envoi réel vers OneDrive.";
+  message.textContent =
+    "Après avoir pris tes photos, appuie sur « Enregistrer ». iOS te proposera ensuite les options de partage.";
 
 }
-
 
 </script>
 
