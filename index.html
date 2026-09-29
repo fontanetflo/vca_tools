@@ -27,8 +27,6 @@ body {
   padding: 18px 16px 35px;
 }
 
-/* HEADER */
-
 header {
   text-align: center;
   margin-bottom: 18px;
@@ -50,8 +48,6 @@ h1 {
   color: #6b7280;
 }
 
-/* CARDS */
-
 .card {
   background: white;
   border-radius: 18px;
@@ -65,8 +61,6 @@ h1 {
   font-weight: 750;
   margin-bottom: 11px;
 }
-
-/* ESSAI */
 
 input[type="text"] {
   width: 100%;
@@ -100,8 +94,6 @@ input[type="text"]:focus {
   color: #6b7280;
   font-size: 12px;
 }
-
-/* BOUTONS */
 
 button,
 .action-button {
@@ -141,26 +133,19 @@ input[type="file"] {
   display: none;
 }
 
-/* CAPTURE GRID */
-
 .capture-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
 
-.capture-grid button,
 .capture-grid .action-button {
   margin: 0;
 }
 
-/* IMPORT */
-
 .import-button {
   margin-top: 10px;
 }
-
-/* FICHIERS */
 
 .file-count {
   display: flex;
@@ -177,8 +162,6 @@ input[type="file"] {
   color: #6b7280;
   font-size: 13px;
 }
-
-/* GRID */
 
 .grid {
   display: grid;
@@ -228,8 +211,6 @@ input[type="file"] {
   line-height: 27px;
 }
 
-/* ACTIONS */
-
 .actions {
   display: flex;
   flex-direction: column;
@@ -241,56 +222,6 @@ input[type="file"] {
   margin: 0;
 }
 
-/* VIDEOS */
-
-.video-container {
-  display: none;
-  position: relative;
-  margin-top: 13px;
-  border-radius: 14px;
-  overflow: hidden;
-  background: black;
-}
-
-.video-container video {
-  display: block;
-  width: 100%;
-  max-height: 55vh;
-}
-
-.record-button {
-  position: absolute;
-  left: 50%;
-  bottom: 14px;
-  transform: translateX(-50%);
-  width: 62px;
-  min-height: 62px;
-  height: 62px;
-  padding: 0;
-  border-radius: 50%;
-  border: 4px solid white;
-  background: #dc2626;
-}
-
-.recording .record-button {
-  border-radius: 13px;
-  background: #111827;
-}
-
-.timer {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  padding: 5px 8px;
-  border-radius: 7px;
-  background: rgba(0,0,0,.7);
-  color: white;
-  font-size: 13px;
-  font-weight: 700;
-}
-
-/* MESSAGE */
-
 .info {
   padding: 11px 13px;
   border-radius: 11px;
@@ -301,8 +232,6 @@ input[type="file"] {
   text-align: center;
 }
 
-/* EMPTY */
-
 .empty {
   padding: 22px 10px;
   text-align: center;
@@ -310,14 +239,11 @@ input[type="file"] {
   font-size: 14px;
 }
 
-/* UTIL */
-
 .hidden {
   display: none !important;
 }
 
 @media (max-width: 360px) {
-
   .capture-grid {
     grid-template-columns: 1fr;
   }
@@ -326,7 +252,6 @@ input[type="file"] {
     padding-left: 12px;
     padding-right: 12px;
   }
-
 }
 </style>
 </head>
@@ -342,9 +267,7 @@ input[type="file"] {
 </header>
 
 
-<!-- =========================
-     ESSAI
-========================= -->
+<!-- ESSAI -->
 
 <div class="card">
 
@@ -376,9 +299,7 @@ input[type="file"] {
 </div>
 
 
-<!-- =========================
-     CAPTURE
-========================= -->
+<!-- CAPTURE -->
 
 <div class="card">
 
@@ -388,6 +309,8 @@ input[type="file"] {
 
   <div class="capture-grid">
 
+    <!-- PHOTO NATIVE IPHONE -->
+
     <label
       for="photoInput"
       class="action-button primary"
@@ -395,56 +318,37 @@ input[type="file"] {
       📷 Photo
     </label>
 
-    <button
-      class="secondary"
-      onclick="startVideo()"
+    <input
+      id="photoInput"
+      type="file"
+      accept="image/*"
+      capture="environment"
+      multiple
+    >
+
+
+    <!-- VIDEO NATIVE IPHONE -->
+
+    <label
+      for="videoInput"
+      class="action-button secondary"
     >
       🎥 Vidéo
-    </button>
+    </label>
 
-  </div>
-
-  <input
-    id="photoInput"
-    type="file"
-    accept="image/*"
-    capture="environment"
-    multiple
-  >
-
-  <div
-    id="videoContainer"
-    class="video-container"
-  >
-
-    <video
-      id="videoPreview"
-      autoplay
-      muted
-      playsinline
-    ></video>
-
-    <div
-      id="videoTimer"
-      class="timer"
+    <input
+      id="videoInput"
+      type="file"
+      accept="video/*"
+      capture="environment"
     >
-      00:00
-    </div>
-
-    <button
-      id="recordButton"
-      class="record-button"
-      onclick="toggleRecording()"
-    ></button>
 
   </div>
 
 </div>
 
 
-<!-- =========================
-     IMPORT
-========================= -->
+<!-- IMPORT -->
 
 <div class="card">
 
@@ -469,9 +373,7 @@ input[type="file"] {
 </div>
 
 
-<!-- =========================
-     FICHIERS
-========================= -->
+<!-- FICHIERS -->
 
 <div class="card">
 
@@ -514,12 +416,14 @@ input[type="file"] {
       💾 Enregistrer dans Fichiers
     </button>
 
+
     <button
       class="secondary"
       onclick="openFolder()"
     >
       📂 Ouvrir Dossiers Essais
     </button>
+
 
     <button
       class="danger"
@@ -550,19 +454,17 @@ const SHAREPOINT_FOLDER =
 
 
 let files = [];
+
 let photoNumber = 0;
+
 let videoNumber = 0;
-
-let stream = null;
-let recorder = null;
-let chunks = [];
-
-let recordingStart = 0;
-let timerInterval = null;
 
 
 const photoInput =
 document.getElementById("photoInput");
+
+const videoInput =
+document.getElementById("videoInput");
 
 const fileInput =
 document.getElementById("fileInput");
@@ -594,15 +496,6 @@ document.getElementById("actions");
 const message =
 document.getElementById("message");
 
-const videoContainer =
-document.getElementById("videoContainer");
-
-const videoPreview =
-document.getElementById("videoPreview");
-
-const videoTimer =
-document.getElementById("videoTimer");
-
 
 /* =========================
    SESSION
@@ -619,6 +512,7 @@ function updateSession() {
   const name =
     sessionName.value.trim();
 
+
   if (!name) {
 
     sessionInfo.classList.add(
@@ -631,12 +525,15 @@ function updateSession() {
     return;
   }
 
+
   sessionInfo.classList.remove(
     "hidden"
   );
 
+
   displayName.textContent =
     name;
+
 
   displayDate.textContent =
     new Date().toLocaleString(
@@ -647,6 +544,7 @@ function updateSession() {
       }
     );
 
+
   message.textContent =
     "Essai prêt. Tu peux commencer.";
 
@@ -654,7 +552,7 @@ function updateSession() {
 
 
 /* =========================
-   NOM
+   NOM DE FICHIER
 ========================= */
 
 function getSafeSessionName() {
@@ -662,6 +560,7 @@ function getSafeSessionName() {
   const name =
     sessionName.value.trim() ||
     "Essai";
+
 
   return name
     .normalize("NFD")
@@ -679,8 +578,7 @@ function getSafeSessionName() {
     )
     .replace(
       /^-|-$/g,
-      ""
-    );
+      "");
 
 }
 
@@ -691,30 +589,37 @@ function getSafeSessionName() {
 
 function getDateString() {
 
-  const now = new Date();
+  const now =
+    new Date();
+
 
   const year =
     now.getFullYear();
+
 
   const month =
     String(
       now.getMonth() + 1
     ).padStart(2, "0");
 
+
   const day =
     String(
       now.getDate()
     ).padStart(2, "0");
+
 
   const hour =
     String(
       now.getHours()
     ).padStart(2, "0");
 
+
   const minute =
     String(
       now.getMinutes()
     ).padStart(2, "0");
+
 
   return (
     year +
@@ -740,14 +645,22 @@ function getImageExtension(file) {
   const type =
     file.type.toLowerCase();
 
+
   if (type.includes("png"))
     return "png";
+
 
   if (type.includes("heic"))
     return "heic";
 
+
   if (type.includes("webp"))
     return "webp";
+
+
+  if (type.includes("jpeg"))
+    return "jpg";
+
 
   return "jpg";
 
@@ -759,14 +672,18 @@ function getVideoExtension(file) {
   const type =
     file.type.toLowerCase();
 
+
   if (type.includes("mp4"))
     return "mp4";
+
 
   if (type.includes("quicktime"))
     return "mov";
 
+
   if (type.includes("webm"))
     return "webm";
+
 
   return "mp4";
 
@@ -774,7 +691,7 @@ function getVideoExtension(file) {
 
 
 /* =========================
-   PHOTOS
+   AJOUT PHOTO
 ========================= */
 
 photoInput.addEventListener(
@@ -785,6 +702,7 @@ photoInput.addEventListener(
       Array.from(
         event.target.files
       );
+
 
     let added = 0;
 
@@ -836,6 +754,7 @@ photoInput.addEventListener(
 
     photoInput.value = "";
 
+
     renderFiles();
 
 
@@ -845,11 +764,15 @@ photoInput.addEventListener(
         added +
         " photo" +
         (
-          added > 1 ? "s" : ""
+          added > 1
+          ? "s"
+          : ""
         ) +
         " ajoutée" +
         (
-          added > 1 ? "s" : ""
+          added > 1
+          ? "s"
+          : ""
         ) +
         " à la série.";
 
@@ -860,7 +783,99 @@ photoInput.addEventListener(
 
 
 /* =========================
-   IMPORT
+   AJOUT VIDEO
+========================= */
+
+videoInput.addEventListener(
+  "change",
+  function(event) {
+
+    const selected =
+      Array.from(
+        event.target.files
+      );
+
+
+    let added = 0;
+
+
+    selected.forEach(
+      function(file) {
+
+        if (
+          !file.type.startsWith(
+            "video/"
+          )
+        ) {
+          return;
+        }
+
+
+        videoNumber++;
+
+
+        const filename =
+          getSafeSessionName() +
+          "_" +
+          getDateString() +
+          "_video_" +
+          String(videoNumber)
+            .padStart(2, "0") +
+          "." +
+          getVideoExtension(file);
+
+
+        files.push(
+          new File(
+            [file],
+            filename,
+            {
+              type: file.type,
+              lastModified:
+                file.lastModified
+            }
+          )
+        );
+
+
+        added++;
+
+      }
+    );
+
+
+    videoInput.value = "";
+
+
+    renderFiles();
+
+
+    if (added) {
+
+      message.textContent =
+        added +
+        " vidéo" +
+        (
+          added > 1
+          ? "s"
+          : ""
+        ) +
+        " ajoutée" +
+        (
+          added > 1
+          ? "s"
+          : ""
+        ) +
+        " à la série.";
+
+    }
+
+  }
+);
+
+
+/* =========================
+   IMPORT FICHIERS
 ========================= */
 
 fileInput.addEventListener(
@@ -872,31 +887,37 @@ fileInput.addEventListener(
         event.target.files
       );
 
+
     let added = 0;
 
 
     selected.forEach(
       function(file) {
 
-        const image =
+        const isImage =
           file.type.startsWith(
             "image/"
           );
 
-        const video =
+
+        const isVideo =
           file.type.startsWith(
             "video/"
           );
 
 
-        if (!image && !video)
+        if (
+          !isImage &&
+          !isVideo
+        ) {
           return;
+        }
 
 
         let filename;
 
 
-        if (image) {
+        if (isImage) {
 
           photoNumber++;
 
@@ -952,6 +973,7 @@ fileInput.addEventListener(
 
     fileInput.value = "";
 
+
     renderFiles();
 
 
@@ -961,11 +983,15 @@ fileInput.addEventListener(
         added +
         " fichier" +
         (
-          added > 1 ? "s" : ""
+          added > 1
+          ? "s"
+          : ""
         ) +
         " importé" +
         (
-          added > 1 ? "s" : ""
+          added > 1
+          ? "s"
+          : ""
         ) +
         " dans la série.";
 
@@ -992,6 +1018,7 @@ function renderFiles() {
           "div"
         );
 
+
       item.className =
         "item";
 
@@ -1010,13 +1037,19 @@ function renderFiles() {
             "video"
           );
 
+
         media.src =
           URL.createObjectURL(
             file
           );
 
-        media.muted = true;
-        media.playsInline = true;
+
+        media.muted =
+          true;
+
+
+        media.playsInline =
+          true;
 
       }
 
@@ -1026,6 +1059,7 @@ function renderFiles() {
           document.createElement(
             "img"
           );
+
 
         media.src =
           URL.createObjectURL(
@@ -1040,8 +1074,10 @@ function renderFiles() {
           "div"
         );
 
+
       badge.className =
         "badge";
+
 
       badge.textContent =
         file.type.startsWith(
@@ -1056,8 +1092,10 @@ function renderFiles() {
           "button"
         );
 
+
       deleteButton.className =
         "delete";
+
 
       deleteButton.textContent =
         "×";
@@ -1071,6 +1109,7 @@ function renderFiles() {
             1
           );
 
+
           renderFiles();
 
         };
@@ -1080,13 +1119,16 @@ function renderFiles() {
         media
       );
 
+
       item.appendChild(
         badge
       );
 
+
       item.appendChild(
         deleteButton
       );
+
 
       grid.appendChild(
         item
@@ -1120,289 +1162,6 @@ function renderFiles() {
       ? "s"
       : ""
     );
-
-}
-
-
-/* =========================
-   VIDEO
-========================= */
-
-async function startVideo() {
-
-  if (
-    !navigator.mediaDevices ||
-    !navigator.mediaDevices.getUserMedia
-  ) {
-
-    message.textContent =
-      "La caméra vidéo n'est pas disponible.";
-
-    return;
-
-  }
-
-
-  try {
-
-    stream =
-      await navigator.mediaDevices
-        .getUserMedia(
-          {
-            video: {
-              facingMode: {
-                ideal:
-                  "environment"
-              }
-            },
-            audio: true
-          }
-        );
-
-
-    videoPreview.srcObject =
-      stream;
-
-    videoContainer.style.display =
-      "block";
-
-
-    message.textContent =
-      "Appuie sur le bouton rouge pour filmer.";
-
-  }
-
-  catch (error) {
-
-    message.textContent =
-      "Impossible d'accéder à la caméra. Vérifie l'autorisation de Safari.";
-
-  }
-
-}
-
-
-/* =========================
-   RECORD
-========================= */
-
-function toggleRecording() {
-
-  if (
-    recorder &&
-    recorder.state ===
-      "recording"
-  ) {
-
-    recorder.stop();
-
-    return;
-
-  }
-
-
-  chunks = [];
-
-
-  let options = {};
-
-
-  if (
-    MediaRecorder.isTypeSupported(
-      "video/mp4"
-    )
-  ) {
-
-    options.mimeType =
-      "video/mp4";
-
-  }
-  else if (
-    MediaRecorder.isTypeSupported(
-      "video/webm"
-    )
-  ) {
-
-    options.mimeType =
-      "video/webm";
-
-  }
-
-
-  recorder =
-    new MediaRecorder(
-      stream,
-      options
-    );
-
-
-  recorder.ondataavailable =
-    function(event) {
-
-      if (
-        event.data.size > 0
-      ) {
-
-        chunks.push(
-          event.data
-        );
-
-      }
-
-    };
-
-
-  recorder.onstop =
-    function() {
-
-      const type =
-        recorder.mimeType ||
-        "video/webm";
-
-
-      const extension =
-        type.includes("mp4")
-        ? "mp4"
-        : "webm";
-
-
-      const blob =
-        new Blob(
-          chunks,
-          {
-            type: type
-          }
-        );
-
-
-      videoNumber++;
-
-
-      const filename =
-        getSafeSessionName() +
-        "_" +
-        getDateString() +
-        "_video_" +
-        String(videoNumber)
-          .padStart(2, "0") +
-        "." +
-        extension;
-
-
-      files.push(
-        new File(
-          [blob],
-          filename,
-          {
-            type: type
-          }
-        )
-      );
-
-
-      stopCamera();
-
-      renderFiles();
-
-
-      message.textContent =
-        "✓ Vidéo ajoutée à la série.";
-
-    };
-
-
-  recorder.start();
-
-
-  videoContainer.classList.add(
-    "recording"
-  );
-
-
-  recordingStart =
-    Date.now();
-
-
-  timerInterval =
-    setInterval(
-      updateTimer,
-      500
-    );
-
-}
-
-
-function updateTimer() {
-
-  const elapsed =
-    Math.floor(
-      (
-        Date.now() -
-        recordingStart
-      ) / 1000
-    );
-
-
-  const minutes =
-    String(
-      Math.floor(
-        elapsed / 60
-      )
-    ).padStart(
-      2,
-      "0"
-    );
-
-
-  const seconds =
-    String(
-      elapsed % 60
-    ).padStart(
-      2,
-      "0"
-    );
-
-
-  videoTimer.textContent =
-    minutes +
-    ":" +
-    seconds;
-
-}
-
-
-function stopCamera() {
-
-  if (stream) {
-
-    stream
-      .getTracks()
-      .forEach(
-        track =>
-          track.stop()
-      );
-
-    stream = null;
-
-  }
-
-
-  videoPreview.srcObject =
-    null;
-
-  videoContainer.style.display =
-    "none";
-
-  videoContainer.classList.remove(
-    "recording"
-  );
-
-  clearInterval(
-    timerInterval
-  );
-
-  videoTimer.textContent =
-    "00:00";
 
 }
 
@@ -1488,8 +1247,6 @@ function openFolder() {
 ========================= */
 
 function clearFiles() {
-
-  stopCamera();
 
   files = [];
 
