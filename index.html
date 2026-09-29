@@ -20,64 +20,106 @@ body {
 }
 
 .app {
+  width: 100%;
   max-width: 520px;
   margin: auto;
   min-height: 100vh;
-  padding: 24px 18px 40px;
+  padding: 18px 16px 35px;
 }
+
+/* HEADER */
 
 header {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .logo {
-  font-size: 46px;
+  font-size: 38px;
+  line-height: 1;
 }
 
 h1 {
-  margin: 4px 0 0;
-  font-size: 27px;
+  margin: 7px 0 0;
+  font-size: 25px;
 }
 
 .subtitle {
-  margin-top: 5px;
+  margin-top: 4px;
+  font-size: 14px;
   color: #6b7280;
 }
 
+/* CARDS */
+
 .card {
   background: white;
-  border-radius: 22px;
-  padding: 20px;
-  margin-bottom: 15px;
-  box-shadow: 0 8px 25px rgba(0,0,0,.07);
+  border-radius: 18px;
+  padding: 17px;
+  margin-bottom: 13px;
+  box-shadow: 0 5px 18px rgba(0,0,0,.06);
 }
 
-label.title {
-  display: block;
-  font-weight: 700;
-  margin-bottom: 8px;
+.section-title {
+  font-size: 15px;
+  font-weight: 750;
+  margin-bottom: 11px;
 }
+
+/* ESSAI */
 
 input[type="text"] {
   width: 100%;
-  padding: 14px;
-  border-radius: 13px;
+  height: 48px;
+  padding: 0 13px;
+  border-radius: 11px;
   border: 1px solid #d1d5db;
+  background: #fff;
   font-size: 16px;
+  outline: none;
 }
 
-button,
-.camera-button {
-  width: 100%;
-  border: 0;
-  border-radius: 15px;
-  padding: 16px;
+input[type="text"]:focus {
+  border-color: #111827;
+}
+
+.session {
   margin-top: 10px;
-  font-size: 16px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #f3f4f6;
+}
+
+.session-name {
   font-weight: 700;
-  text-align: center;
+  font-size: 14px;
+}
+
+.session-date {
+  margin-top: 2px;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+/* BOUTONS */
+
+button,
+.action-button {
+  width: 100%;
+  min-height: 48px;
+  border: 0;
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: inherit;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+  text-decoration: none;
 }
 
 .primary {
@@ -86,70 +128,69 @@ button,
 }
 
 .secondary {
-  background: #f3f4f6;
+  background: #eef0f3;
   color: #111827;
 }
 
-.blue {
-  background: #2563eb;
-  color: white;
-}
-
-.green {
-  background: #15803d;
-  color: white;
-}
-
-.red {
-  background: #dc2626;
-  color: white;
+.danger {
+  background: #fee2e2;
+  color: #991b1b;
 }
 
 input[type="file"] {
   display: none;
 }
 
-.session {
-  background: #f3f4f6;
-  border-radius: 14px;
-  padding: 13px;
-  margin-top: 15px;
+/* CAPTURE GRID */
+
+.capture-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
-.session-name {
-  font-weight: 700;
+.capture-grid button,
+.capture-grid .action-button {
+  margin: 0;
 }
 
-.session-date {
+/* IMPORT */
+
+.import-button {
+  margin-top: 10px;
+}
+
+/* FICHIERS */
+
+.file-count {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.file-count strong {
+  font-size: 15px;
+}
+
+.file-count span {
   color: #6b7280;
   font-size: 13px;
-  margin-top: 3px;
 }
 
-.status {
-  text-align: center;
-  color: #6b7280;
-  margin-top: 18px;
-}
-
-.count {
-  text-align: center;
-  font-weight: 700;
-  margin-top: 15px;
-}
+/* GRID */
 
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-top: 15px;
+  gap: 7px;
 }
 
 .item {
   position: relative;
   aspect-ratio: 1;
-  border-radius: 12px;
   overflow: hidden;
+  border-radius: 10px;
   background: #e5e7eb;
 }
 
@@ -164,11 +205,11 @@ input[type="file"] {
   position: absolute;
   bottom: 5px;
   left: 5px;
-  padding: 4px 6px;
-  border-radius: 7px;
-  background: rgba(0,0,0,.7);
+  padding: 3px 5px;
+  border-radius: 5px;
+  background: rgba(0,0,0,.72);
   color: white;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 700;
 }
 
@@ -176,21 +217,37 @@ input[type="file"] {
   position: absolute;
   top: 5px;
   right: 5px;
-  width: 28px;
-  height: 28px;
+  width: 27px;
+  min-height: 27px;
+  height: 27px;
   padding: 0;
-  margin: 0;
   border-radius: 50%;
-  background: rgba(0,0,0,.7);
+  background: rgba(0,0,0,.72);
   color: white;
-  font-size: 18px;
+  font-size: 17px;
+  line-height: 27px;
 }
+
+/* ACTIONS */
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 13px;
+}
+
+.actions button {
+  margin: 0;
+}
+
+/* VIDEOS */
 
 .video-container {
   display: none;
   position: relative;
-  margin-top: 15px;
-  border-radius: 16px;
+  margin-top: 13px;
+  border-radius: 14px;
   overflow: hidden;
   background: black;
 }
@@ -198,15 +255,17 @@ input[type="file"] {
 .video-container video {
   display: block;
   width: 100%;
+  max-height: 55vh;
 }
 
 .record-button {
   position: absolute;
   left: 50%;
-  bottom: 15px;
+  bottom: 14px;
   transform: translateX(-50%);
-  width: 65px;
-  height: 65px;
+  width: 62px;
+  min-height: 62px;
+  height: 62px;
   padding: 0;
   border-radius: 50%;
   border: 4px solid white;
@@ -214,7 +273,7 @@ input[type="file"] {
 }
 
 .recording .record-button {
-  border-radius: 14px;
+  border-radius: 13px;
   background: #111827;
 }
 
@@ -222,29 +281,52 @@ input[type="file"] {
   position: absolute;
   top: 10px;
   left: 10px;
-  padding: 6px 9px;
-  border-radius: 8px;
+  padding: 5px 8px;
+  border-radius: 7px;
   background: rgba(0,0,0,.7);
   color: white;
+  font-size: 13px;
   font-weight: 700;
 }
 
-.actions {
-  margin-top: 15px;
-}
+/* MESSAGE */
 
 .info {
-  margin-top: 15px;
-  padding: 13px;
-  border-radius: 13px;
-  background: #f3f4f6;
-  color: #6b7280;
-  font-size: 13px;
-  line-height: 1.45;
+  padding: 11px 13px;
+  border-radius: 11px;
+  background: #e9edf2;
+  color: #4b5563;
+  font-size: 12px;
+  line-height: 1.4;
+  text-align: center;
 }
+
+/* EMPTY */
+
+.empty {
+  padding: 22px 10px;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+/* UTIL */
 
 .hidden {
   display: none !important;
+}
+
+@media (max-width: 360px) {
+
+  .capture-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .app {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
 }
 </style>
 </head>
@@ -260,38 +342,67 @@ input[type="file"] {
 </header>
 
 
-<!-- NOM DE L'ESSAI -->
+<!-- =========================
+     ESSAI
+========================= -->
 
 <div class="card">
 
-  <label class="title" for="sessionName">
-    🏷️ Nom de l'essai
-  </label>
+  <div class="section-title">
+    🏷️ Essai
+  </div>
 
   <input
     id="sessionName"
     type="text"
-    placeholder="Ex. Test choc boîtier A"
+    placeholder="Nom de l'essai"
   >
 
-  <div id="sessionInfo" class="session hidden">
+  <div
+    id="sessionInfo"
+    class="session hidden"
+  >
+    <div
+      id="displayName"
+      class="session-name"
+    ></div>
 
-    <div id="displayName" class="session-name"></div>
-
-    <div id="displayDate" class="session-date"></div>
-
+    <div
+      id="displayDate"
+      class="session-date"
+    ></div>
   </div>
 
 </div>
 
 
-<!-- CAPTURE -->
+<!-- =========================
+     CAPTURE
+========================= -->
 
 <div class="card">
 
-  <label for="photoInput" class="camera-button primary">
-    📷 Prendre des photos
-  </label>
+  <div class="section-title">
+    📸 Capture
+  </div>
+
+  <div class="capture-grid">
+
+    <label
+      for="photoInput"
+      class="action-button primary"
+    >
+      📷 Photo
+    </label>
+
+    <button
+      class="secondary"
+      onclick="startVideo()"
+    >
+      🎥 Vidéo
+    </button>
+
+  </div>
 
   <input
     id="photoInput"
@@ -300,15 +411,6 @@ input[type="file"] {
     capture="environment"
     multiple
   >
-
-
-  <button
-    class="secondary"
-    onclick="startVideo()"
-  >
-    🎥 Enregistrer une vidéo
-  </button>
-
 
   <div
     id="videoContainer"
@@ -340,21 +442,59 @@ input[type="file"] {
 </div>
 
 
-<!-- FICHIERS -->
+<!-- =========================
+     IMPORT
+========================= -->
 
 <div class="card">
 
-  <div
-    id="empty"
-    class="status"
-  >
-    Aucun fichier dans cette série
+  <div class="section-title">
+    📁 Import
   </div>
 
+  <label
+    for="fileInput"
+    class="action-button secondary"
+  >
+    📁 Importer depuis Fichiers
+  </label>
+
+  <input
+    id="fileInput"
+    type="file"
+    accept="image/*,video/*"
+    multiple
+  >
+
+</div>
+
+
+<!-- =========================
+     FICHIERS
+========================= -->
+
+<div class="card">
+
+  <div class="file-count">
+
+    <strong>
+      Fichiers de la série
+    </strong>
+
+    <span id="count">
+      0 fichier
+    </span>
+
+  </div>
+
+
   <div
-    id="count"
-    class="count hidden"
-  ></div>
+    id="empty"
+    class="empty"
+  >
+    Aucun fichier pour le moment
+  </div>
+
 
   <div
     id="grid"
@@ -374,7 +514,6 @@ input[type="file"] {
       💾 Enregistrer dans Fichiers
     </button>
 
-
     <button
       class="secondary"
       onclick="openFolder()"
@@ -382,9 +521,8 @@ input[type="file"] {
       📂 Ouvrir Dossiers Essais
     </button>
 
-
     <button
-      class="red"
+      class="danger"
       onclick="clearFiles()"
     >
       🗑️ Effacer la série
@@ -395,28 +533,11 @@ input[type="file"] {
 </div>
 
 
-<!-- TERMINER -->
-
-<div
-  id="finishCard"
-  class="card hidden"
->
-
-  <button
-    class="green"
-    onclick="finishTest()"
-  >
-    ✅ Terminer l'essai
-  </button>
-
-</div>
-
-
 <div
   id="message"
   class="info"
 >
-  Commence par donner un nom à ton essai.
+  Donne un nom à l'essai puis commence une capture.
 </div>
 
 </div>
@@ -429,20 +550,22 @@ const SHAREPOINT_FOLDER =
 
 
 let files = [];
+let photoNumber = 0;
+let videoNumber = 0;
 
 let stream = null;
-
 let recorder = null;
-
 let chunks = [];
 
 let recordingStart = 0;
-
 let timerInterval = null;
 
 
 const photoInput =
 document.getElementById("photoInput");
+
+const fileInput =
+document.getElementById("fileInput");
 
 const sessionName =
 document.getElementById("sessionName");
@@ -468,9 +591,6 @@ document.getElementById("count");
 const actions =
 document.getElementById("actions");
 
-const finishCard =
-document.getElementById("finishCard");
-
 const message =
 document.getElementById("message");
 
@@ -480,12 +600,8 @@ document.getElementById("videoContainer");
 const videoPreview =
 document.getElementById("videoPreview");
 
-const recordButton =
-document.getElementById("recordButton");
-
 const videoTimer =
 document.getElementById("videoTimer");
-
 
 
 /* =========================
@@ -505,12 +621,19 @@ function updateSession() {
 
   if (!name) {
 
-    sessionInfo.classList.add("hidden");
+    sessionInfo.classList.add(
+      "hidden"
+    );
+
+    message.textContent =
+      "Donne un nom à l'essai puis commence une capture.";
 
     return;
   }
 
-  sessionInfo.classList.remove("hidden");
+  sessionInfo.classList.remove(
+    "hidden"
+  );
 
   displayName.textContent =
     name;
@@ -525,10 +648,129 @@ function updateSession() {
     );
 
   message.textContent =
-    "Essai prêt. Tu peux commencer les captures.";
+    "Essai prêt. Tu peux commencer.";
 
 }
 
+
+/* =========================
+   NOM
+========================= */
+
+function getSafeSessionName() {
+
+  const name =
+    sessionName.value.trim() ||
+    "Essai";
+
+  return name
+    .normalize("NFD")
+    .replace(
+      /[\u0300-\u036f]/g,
+      ""
+    )
+    .replace(
+      /[^a-zA-Z0-9_-]+/g,
+      "-"
+    )
+    .replace(
+      /-+/g,
+      "-"
+    )
+    .replace(
+      /^-|-$/g,
+      ""
+    );
+
+}
+
+
+/* =========================
+   DATE
+========================= */
+
+function getDateString() {
+
+  const now = new Date();
+
+  const year =
+    now.getFullYear();
+
+  const month =
+    String(
+      now.getMonth() + 1
+    ).padStart(2, "0");
+
+  const day =
+    String(
+      now.getDate()
+    ).padStart(2, "0");
+
+  const hour =
+    String(
+      now.getHours()
+    ).padStart(2, "0");
+
+  const minute =
+    String(
+      now.getMinutes()
+    ).padStart(2, "0");
+
+  return (
+    year +
+    "-" +
+    month +
+    "-" +
+    day +
+    "_" +
+    hour +
+    "-" +
+    minute
+  );
+
+}
+
+
+/* =========================
+   EXTENSIONS
+========================= */
+
+function getImageExtension(file) {
+
+  const type =
+    file.type.toLowerCase();
+
+  if (type.includes("png"))
+    return "png";
+
+  if (type.includes("heic"))
+    return "heic";
+
+  if (type.includes("webp"))
+    return "webp";
+
+  return "jpg";
+
+}
+
+
+function getVideoExtension(file) {
+
+  const type =
+    file.type.toLowerCase();
+
+  if (type.includes("mp4"))
+    return "mp4";
+
+  if (type.includes("quicktime"))
+    return "mov";
+
+  if (type.includes("webm"))
+    return "webm";
+
+  return "mp4";
+
+}
 
 
 /* =========================
@@ -540,27 +782,197 @@ photoInput.addEventListener(
   function(event) {
 
     const selected =
-      Array.from(event.target.files);
+      Array.from(
+        event.target.files
+      );
 
-    selected.forEach(file => {
+    let added = 0;
 
-      if (
-        file.type.startsWith("image/")
-      ) {
 
-        files.push(file);
+    selected.forEach(
+      function(file) {
+
+        if (
+          !file.type.startsWith(
+            "image/"
+          )
+        ) {
+          return;
+        }
+
+
+        photoNumber++;
+
+
+        const filename =
+          getSafeSessionName() +
+          "_" +
+          getDateString() +
+          "_photo_" +
+          String(photoNumber)
+            .padStart(2, "0") +
+          "." +
+          getImageExtension(file);
+
+
+        files.push(
+          new File(
+            [file],
+            filename,
+            {
+              type: file.type,
+              lastModified:
+                file.lastModified
+            }
+          )
+        );
+
+
+        added++;
 
       }
+    );
 
-    });
 
     photoInput.value = "";
 
     renderFiles();
 
+
+    if (added) {
+
+      message.textContent =
+        added +
+        " photo" +
+        (
+          added > 1 ? "s" : ""
+        ) +
+        " ajoutée" +
+        (
+          added > 1 ? "s" : ""
+        ) +
+        " à la série.";
+
+    }
+
   }
 );
 
+
+/* =========================
+   IMPORT
+========================= */
+
+fileInput.addEventListener(
+  "change",
+  function(event) {
+
+    const selected =
+      Array.from(
+        event.target.files
+      );
+
+    let added = 0;
+
+
+    selected.forEach(
+      function(file) {
+
+        const image =
+          file.type.startsWith(
+            "image/"
+          );
+
+        const video =
+          file.type.startsWith(
+            "video/"
+          );
+
+
+        if (!image && !video)
+          return;
+
+
+        let filename;
+
+
+        if (image) {
+
+          photoNumber++;
+
+
+          filename =
+            getSafeSessionName() +
+            "_" +
+            getDateString() +
+            "_photo_" +
+            String(photoNumber)
+              .padStart(2, "0") +
+            "." +
+            getImageExtension(file);
+
+        }
+
+        else {
+
+          videoNumber++;
+
+
+          filename =
+            getSafeSessionName() +
+            "_" +
+            getDateString() +
+            "_video_" +
+            String(videoNumber)
+              .padStart(2, "0") +
+            "." +
+            getVideoExtension(file);
+
+        }
+
+
+        files.push(
+          new File(
+            [file],
+            filename,
+            {
+              type: file.type,
+              lastModified:
+                file.lastModified
+            }
+          )
+        );
+
+
+        added++;
+
+      }
+    );
+
+
+    fileInput.value = "";
+
+    renderFiles();
+
+
+    if (added) {
+
+      message.textContent =
+        added +
+        " fichier" +
+        (
+          added > 1 ? "s" : ""
+        ) +
+        " importé" +
+        (
+          added > 1 ? "s" : ""
+        ) +
+        " dans la série.";
+
+    }
+
+  }
+);
 
 
 /* =========================
@@ -571,30 +983,39 @@ function renderFiles() {
 
   grid.innerHTML = "";
 
+
   files.forEach(
-    (file, index) => {
+    function(file, index) {
 
       const item =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
 
-      item.className = "item";
+      item.className =
+        "item";
 
 
       let media;
 
 
       if (
-        file.type.startsWith("video/")
+        file.type.startsWith(
+          "video/"
+        )
       ) {
 
         media =
-          document.createElement("video");
+          document.createElement(
+            "video"
+          );
 
         media.src =
-          URL.createObjectURL(file);
+          URL.createObjectURL(
+            file
+          );
 
         media.muted = true;
-
         media.playsInline = true;
 
       }
@@ -602,27 +1023,38 @@ function renderFiles() {
       else {
 
         media =
-          document.createElement("img");
+          document.createElement(
+            "img"
+          );
 
         media.src =
-          URL.createObjectURL(file);
+          URL.createObjectURL(
+            file
+          );
 
       }
 
 
       const badge =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
 
-      badge.className = "badge";
+      badge.className =
+        "badge";
 
       badge.textContent =
-        file.type.startsWith("video/")
+        file.type.startsWith(
+          "video/"
+        )
         ? "VIDÉO"
         : "PHOTO";
 
 
       const deleteButton =
-        document.createElement("button");
+        document.createElement(
+          "button"
+        );
 
       deleteButton.className =
         "delete";
@@ -630,64 +1062,66 @@ function renderFiles() {
       deleteButton.textContent =
         "×";
 
+
       deleteButton.onclick =
         function() {
 
-          files.splice(index, 1);
+          files.splice(
+            index,
+            1
+          );
 
           renderFiles();
 
         };
 
 
-      item.appendChild(media);
+      item.appendChild(
+        media
+      );
 
-      item.appendChild(badge);
+      item.appendChild(
+        badge
+      );
 
-      item.appendChild(deleteButton);
+      item.appendChild(
+        deleteButton
+      );
 
-      grid.appendChild(item);
+      grid.appendChild(
+        item
+      );
 
     }
   );
 
 
-  const number =
+  const total =
     files.length;
 
 
   empty.classList.toggle(
     "hidden",
-    number > 0
-  );
-
-
-  count.classList.toggle(
-    "hidden",
-    number === 0
+    total !== 0
   );
 
 
   actions.classList.toggle(
     "hidden",
-    number === 0
-  );
-
-
-  finishCard.classList.toggle(
-    "hidden",
-    number === 0
+    total === 0
   );
 
 
   count.textContent =
-    number +
+    total +
     " fichier" +
-    (number > 1 ? "s" : "") +
-    " dans la série";
+    (
+      total > 1
+      ? "s"
+      : ""
+    );
 
 }
-
 
 
 /* =========================
@@ -702,7 +1136,7 @@ async function startVideo() {
   ) {
 
     message.textContent =
-      "La caméra vidéo n'est pas disponible dans ce navigateur.";
+      "La caméra vidéo n'est pas disponible.";
 
     return;
 
@@ -712,28 +1146,29 @@ async function startVideo() {
   try {
 
     stream =
-      await navigator.mediaDevices.getUserMedia(
-        {
-          video: {
-            facingMode: {
-              ideal: "environment"
-            }
-          },
-          audio: true
-        }
-      );
+      await navigator.mediaDevices
+        .getUserMedia(
+          {
+            video: {
+              facingMode: {
+                ideal:
+                  "environment"
+              }
+            },
+            audio: true
+          }
+        );
 
 
     videoPreview.srcObject =
       stream;
-
 
     videoContainer.style.display =
       "block";
 
 
     message.textContent =
-      "Appuie sur le bouton rouge pour commencer.";
+      "Appuie sur le bouton rouge pour filmer.";
 
   }
 
@@ -747,12 +1182,16 @@ async function startVideo() {
 }
 
 
+/* =========================
+   RECORD
+========================= */
 
 function toggleRecording() {
 
   if (
     recorder &&
-    recorder.state === "recording"
+    recorder.state ===
+      "recording"
   ) {
 
     recorder.stop();
@@ -778,7 +1217,6 @@ function toggleRecording() {
       "video/mp4";
 
   }
-
   else if (
     MediaRecorder.isTypeSupported(
       "video/webm"
@@ -801,9 +1239,13 @@ function toggleRecording() {
   recorder.ondataavailable =
     function(event) {
 
-      if (event.data.size > 0) {
+      if (
+        event.data.size > 0
+      ) {
 
-        chunks.push(event.data);
+        chunks.push(
+          event.data
+        );
 
       }
 
@@ -833,24 +1275,29 @@ function toggleRecording() {
         );
 
 
+      videoNumber++;
+
+
       const filename =
-        buildFilename(
-          "video",
-          extension
-        );
+        getSafeSessionName() +
+        "_" +
+        getDateString() +
+        "_video_" +
+        String(videoNumber)
+          .padStart(2, "0") +
+        "." +
+        extension;
 
 
-      const file =
+      files.push(
         new File(
           [blob],
           filename,
           {
             type: type
           }
-        );
-
-
-      files.push(file);
+        )
+      );
 
 
       stopCamera();
@@ -885,7 +1332,6 @@ function toggleRecording() {
 }
 
 
-
 function updateTimer() {
 
   const elapsed =
@@ -902,13 +1348,19 @@ function updateTimer() {
       Math.floor(
         elapsed / 60
       )
-    ).padStart(2, "0");
+    ).padStart(
+      2,
+      "0"
+    );
 
 
   const seconds =
     String(
       elapsed % 60
-    ).padStart(2, "0");
+    ).padStart(
+      2,
+      "0"
+    );
 
 
   videoTimer.textContent =
@@ -919,7 +1371,6 @@ function updateTimer() {
 }
 
 
-
 function stopCamera() {
 
   if (stream) {
@@ -927,7 +1378,8 @@ function stopCamera() {
     stream
       .getTracks()
       .forEach(
-        track => track.stop()
+        track =>
+          track.stop()
       );
 
     stream = null;
@@ -938,90 +1390,21 @@ function stopCamera() {
   videoPreview.srcObject =
     null;
 
-
   videoContainer.style.display =
     "none";
-
 
   videoContainer.classList.remove(
     "recording"
   );
 
-
   clearInterval(
     timerInterval
   );
-
 
   videoTimer.textContent =
     "00:00";
 
 }
-
-
-
-/* =========================
-   NOM DES FICHIERS
-========================= */
-
-function buildFilename(
-  type,
-  extension
-) {
-
-  const name =
-    sessionName.value.trim() ||
-    "Essai";
-
-
-  const safeName =
-    name
-      .replace(
-        /[^a-zA-Z0-9À-ÿ_-]+/g,
-        "-"
-      )
-      .replace(
-        /-+/g,
-        "-"
-      );
-
-
-  const number =
-    String(
-      files.length + 1
-    ).padStart(
-      2,
-      "0"
-    );
-
-
-  const now =
-    new Date();
-
-
-  const date =
-    now
-      .toISOString()
-      .replace(
-        /[:.]/g,
-        "-"
-      );
-
-
-  return (
-    safeName +
-    "_" +
-    date +
-    "_" +
-    type +
-    "_" +
-    number +
-    "." +
-    extension
-  );
-
-}
-
 
 
 /* =========================
@@ -1030,11 +1413,8 @@ function buildFilename(
 
 async function shareFiles() {
 
-  if (!files.length) {
-
+  if (!files.length)
     return;
-
-  }
 
 
   try {
@@ -1049,9 +1429,11 @@ async function shareFiles() {
       await navigator.share(
         {
           files: files,
+
           title:
             sessionName.value ||
             "Essai",
+
           text:
             "Photos et vidéos d'essai"
         }
@@ -1059,14 +1441,14 @@ async function shareFiles() {
 
 
       message.innerHTML =
-        "✓ Partage terminé. Dans iOS, choisis <b>Enregistrer dans Fichiers</b>, puis ton emplacement OneDrive/SharePoint.";
+        "✓ Choisis <b>Enregistrer dans Fichiers</b>, puis ton emplacement OneDrive/SharePoint.";
 
     }
 
     else {
 
       message.textContent =
-        "Le partage de fichiers n'est pas disponible. Utilise Safari sur iPhone.";
+        "Le partage de fichiers n'est pas disponible sur ce navigateur.";
 
     }
 
@@ -1089,7 +1471,6 @@ async function shareFiles() {
 }
 
 
-
 /* =========================
    SHAREPOINT
 ========================= */
@@ -1102,68 +1483,6 @@ function openFolder() {
 }
 
 
-
-/* =========================
-   FIN ESSAI
-========================= */
-
-function finishTest() {
-
-  const name =
-    sessionName.value.trim();
-
-
-  if (!name) {
-
-    message.textContent =
-      "Donne d'abord un nom à l'essai.";
-
-    sessionName.focus();
-
-    return;
-
-  }
-
-
-  if (!files.length) {
-
-    message.textContent =
-      "Aucun fichier à enregistrer.";
-
-    return;
-
-  }
-
-
-  message.innerHTML =
-    "<b>Essai terminé.</b><br>" +
-    files.length +
-    " fichier" +
-    (
-      files.length > 1
-      ? "s"
-      : ""
-    ) +
-    " prêt" +
-    (
-      files.length > 1
-      ? "s"
-      : ""
-    ) +
-    " à être enregistré.";
-
-
-  window.scrollTo(
-    {
-      top: document.body.scrollHeight,
-      behavior: "smooth"
-    }
-  );
-
-}
-
-
-
 /* =========================
    EFFACER
 ========================= */
@@ -1174,12 +1493,21 @@ function clearFiles() {
 
   files = [];
 
+  photoNumber = 0;
+
+  videoNumber = 0;
+
   renderFiles();
 
   message.textContent =
     "Série effacée. Tu peux commencer un nouvel essai.";
 
 }
+
+
+/* INITIALISATION */
+
+renderFiles();
 
 </script>
 
