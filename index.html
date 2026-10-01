@@ -143,10 +143,6 @@ input[type="file"] {
   margin: 0;
 }
 
-.import-button {
-  margin-top: 10px;
-}
-
 .file-count {
   display: flex;
   justify-content: space-between;
@@ -175,6 +171,7 @@ input[type="file"] {
   overflow: hidden;
   border-radius: 10px;
   background: #e5e7eb;
+  cursor: pointer;
 }
 
 .item img,
@@ -182,6 +179,10 @@ input[type="file"] {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.item video {
+  pointer-events: none;
 }
 
 .badge {
@@ -209,6 +210,19 @@ input[type="file"] {
   color: white;
   font-size: 17px;
   line-height: 27px;
+  z-index: 3;
+}
+
+.file-info {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  padding: 3px 5px;
+  border-radius: 5px;
+  background: rgba(0,0,0,.72);
+  color: white;
+  font-size: 8px;
+  z-index: 2;
 }
 
 .actions {
@@ -241,6 +255,96 @@ input[type="file"] {
 
 .hidden {
   display: none !important;
+}
+
+/* =========================
+   LECTEUR VIDÉO
+========================= */
+
+.video-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0,0,0,.96);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.video-modal video {
+  width: 100%;
+  max-height: 78vh;
+  object-fit: contain;
+  background: black;
+}
+
+.modal-top {
+  position: absolute;
+  top: max(15px, env(safe-area-inset-top));
+  left: 15px;
+  right: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+}
+
+.close-modal {
+  width: 42px;
+  height: 42px;
+  min-height: 42px;
+  padding: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,.18);
+  color: white;
+  font-size: 25px;
+}
+
+.video-details {
+  position: absolute;
+  left: 15px;
+  right: 15px;
+  bottom: max(18px, env(safe-area-inset-bottom));
+  color: white;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.video-name {
+  font-weight: 700;
+  font-size: 13px;
+  word-break: break-word;
+}
+
+.video-meta {
+  color: #d1d5db;
+  margin-top: 3px;
+}
+
+/* IMAGE FULLSCREEN */
+
+.image-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0,0,0,.96);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-modal img {
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+}
+
+.image-modal .close-modal {
+  position: absolute;
+  top: max(15px, env(safe-area-inset-top));
+  right: 15px;
+  z-index: 10;
 }
 
 @media (max-width: 360px) {
@@ -309,8 +413,6 @@ input[type="file"] {
 
   <div class="capture-grid">
 
-    <!-- PHOTO NATIVE IPHONE -->
-
     <label
       for="photoInput"
       class="action-button primary"
@@ -326,8 +428,6 @@ input[type="file"] {
       multiple
     >
 
-
-    <!-- VIDEO NATIVE IPHONE -->
 
     <label
       for="videoInput"
@@ -416,14 +516,12 @@ input[type="file"] {
       💾 Enregistrer dans Fichiers
     </button>
 
-
     <button
       class="secondary"
       onclick="openFolder()"
     >
       📂 Ouvrir Dossiers Essais
     </button>
-
 
     <button
       class="danger"
@@ -443,6 +541,70 @@ input[type="file"] {
 >
   Donne un nom à l'essai puis commence une capture.
 </div>
+
+</div>
+
+
+<!-- MODAL VIDEO -->
+
+<div
+  id="videoModal"
+  class="video-modal hidden"
+>
+
+  <div class="modal-top">
+
+    <button
+      class="close-modal"
+      onclick="closeVideo()"
+    >
+      ×
+    </button>
+
+  </div>
+
+  <video
+    id="fullVideo"
+    controls
+    playsinline
+    preload="metadata"
+  ></video>
+
+  <div class="video-details">
+
+    <div
+      id="videoName"
+      class="video-name"
+    ></div>
+
+    <div
+      id="videoMeta"
+      class="video-meta"
+    ></div>
+
+  </div>
+
+</div>
+
+
+<!-- MODAL IMAGE -->
+
+<div
+  id="imageModal"
+  class="image-modal hidden"
+>
+
+  <button
+    class="close-modal"
+    onclick="closeImage()"
+  >
+    ×
+  </button>
+
+  <img
+    id="fullImage"
+    alt=""
+  >
 
 </div>
 
@@ -552,7 +714,7 @@ function updateSession() {
 
 
 /* =========================
-   NOM DE FICHIER
+   NOM
 ========================= */
 
 function getSafeSessionName() {
@@ -593,44 +755,24 @@ function getDateString() {
     new Date();
 
 
-  const year =
-    now.getFullYear();
-
-
-  const month =
+  return (
+    now.getFullYear() +
+    "-" +
     String(
       now.getMonth() + 1
-    ).padStart(2, "0");
-
-
-  const day =
+    ).padStart(2, "0") +
+    "-" +
     String(
       now.getDate()
-    ).padStart(2, "0");
-
-
-  const hour =
+    ).padStart(2, "0") +
+    "_" +
     String(
       now.getHours()
-    ).padStart(2, "0");
-
-
-  const minute =
+    ).padStart(2, "0") +
+    "-" +
     String(
       now.getMinutes()
-    ).padStart(2, "0");
-
-
-  return (
-    year +
-    "-" +
-    month +
-    "-" +
-    day +
-    "_" +
-    hour +
-    "-" +
-    minute
+    ).padStart(2, "0")
   );
 
 }
@@ -656,10 +798,6 @@ function getImageExtension(file) {
 
   if (type.includes("webp"))
     return "webp";
-
-
-  if (type.includes("jpeg"))
-    return "jpg";
 
 
   return "jpg";
@@ -691,6 +829,33 @@ function getVideoExtension(file) {
 
 
 /* =========================
+   TAILLE
+========================= */
+
+function formatSize(bytes) {
+
+  if (bytes < 1024)
+    return bytes + " o";
+
+
+  if (bytes < 1024 * 1024)
+    return (
+      (bytes / 1024)
+        .toFixed(1) +
+      " Ko"
+    );
+
+
+  return (
+    (bytes / (1024 * 1024))
+      .toFixed(1) +
+    " Mo"
+  );
+
+}
+
+
+/* =========================
    AJOUT PHOTO
 ========================= */
 
@@ -714,9 +879,7 @@ photoInput.addEventListener(
           !file.type.startsWith(
             "image/"
           )
-        ) {
-          return;
-        }
+        ) return;
 
 
         photoNumber++;
@@ -763,17 +926,9 @@ photoInput.addEventListener(
       message.textContent =
         added +
         " photo" +
-        (
-          added > 1
-          ? "s"
-          : ""
-        ) +
+        (added > 1 ? "s" : "") +
         " ajoutée" +
-        (
-          added > 1
-          ? "s"
-          : ""
-        ) +
+        (added > 1 ? "s" : "") +
         " à la série.";
 
     }
@@ -790,31 +945,156 @@ videoInput.addEventListener(
   "change",
   function(event) {
 
-    const selected =
+    addVideos(
       Array.from(
         event.target.files
+      )
+    );
+
+    videoInput.value = "";
+
+  }
+);
+
+
+/* =========================
+   IMPORT
+========================= */
+
+fileInput.addEventListener(
+  "change",
+  function(event) {
+
+    addImportedFiles(
+      Array.from(
+        event.target.files
+      )
+    );
+
+    fileInput.value = "";
+
+  }
+);
+
+
+function addVideos(selected) {
+
+  let added = 0;
+
+
+  selected.forEach(
+    function(file) {
+
+      if (
+        !file.type.startsWith(
+          "video/"
+        )
+      ) return;
+
+
+      videoNumber++;
+
+
+      const filename =
+        getSafeSessionName() +
+        "_" +
+        getDateString() +
+        "_video_" +
+        String(videoNumber)
+          .padStart(2, "0") +
+        "." +
+        getVideoExtension(file);
+
+
+      files.push(
+        new File(
+          [file],
+          filename,
+          {
+            type: file.type,
+            lastModified:
+              file.lastModified
+          }
+        )
       );
 
 
-    let added = 0;
+      added++;
+
+    }
+  );
 
 
-    selected.forEach(
-      function(file) {
+  renderFiles();
 
-        if (
-          !file.type.startsWith(
-            "video/"
-          )
-        ) {
-          return;
-        }
 
+  if (added) {
+
+    message.textContent =
+      added +
+      " vidéo" +
+      (added > 1 ? "s" : "") +
+      " ajoutée" +
+      (added > 1 ? "s" : "") +
+      " à la série.";
+
+  }
+
+}
+
+
+function addImportedFiles(selected) {
+
+  let added = 0;
+
+
+  selected.forEach(
+    function(file) {
+
+      const isImage =
+        file.type.startsWith(
+          "image/"
+        );
+
+
+      const isVideo =
+        file.type.startsWith(
+          "video/"
+        );
+
+
+      if (
+        !isImage &&
+        !isVideo
+      ) return;
+
+
+      let filename;
+
+
+      if (isImage) {
+
+        photoNumber++;
+
+
+        filename =
+          getSafeSessionName() +
+          "_" +
+          getDateString() +
+          "_photo_" +
+          String(photoNumber)
+            .padStart(2, "0") +
+          "." +
+          getImageExtension(file);
+
+      }
+
+      else {
 
         videoNumber++;
 
 
-        const filename =
+        filename =
           getSafeSessionName() +
           "_" +
           getDateString() +
@@ -824,181 +1104,44 @@ videoInput.addEventListener(
           "." +
           getVideoExtension(file);
 
-
-        files.push(
-          new File(
-            [file],
-            filename,
-            {
-              type: file.type,
-              lastModified:
-                file.lastModified
-            }
-          )
-        );
-
-
-        added++;
-
       }
-    );
 
 
-    videoInput.value = "";
-
-
-    renderFiles();
-
-
-    if (added) {
-
-      message.textContent =
-        added +
-        " vidéo" +
-        (
-          added > 1
-          ? "s"
-          : ""
-        ) +
-        " ajoutée" +
-        (
-          added > 1
-          ? "s"
-          : ""
-        ) +
-        " à la série.";
-
-    }
-
-  }
-);
-
-
-/* =========================
-   IMPORT FICHIERS
-========================= */
-
-fileInput.addEventListener(
-  "change",
-  function(event) {
-
-    const selected =
-      Array.from(
-        event.target.files
+      files.push(
+        new File(
+          [file],
+          filename,
+          {
+            type: file.type,
+            lastModified:
+              file.lastModified
+          }
+        )
       );
 
 
-    let added = 0;
-
-
-    selected.forEach(
-      function(file) {
-
-        const isImage =
-          file.type.startsWith(
-            "image/"
-          );
-
-
-        const isVideo =
-          file.type.startsWith(
-            "video/"
-          );
-
-
-        if (
-          !isImage &&
-          !isVideo
-        ) {
-          return;
-        }
-
-
-        let filename;
-
-
-        if (isImage) {
-
-          photoNumber++;
-
-
-          filename =
-            getSafeSessionName() +
-            "_" +
-            getDateString() +
-            "_photo_" +
-            String(photoNumber)
-              .padStart(2, "0") +
-            "." +
-            getImageExtension(file);
-
-        }
-
-        else {
-
-          videoNumber++;
-
-
-          filename =
-            getSafeSessionName() +
-            "_" +
-            getDateString() +
-            "_video_" +
-            String(videoNumber)
-              .padStart(2, "0") +
-            "." +
-            getVideoExtension(file);
-
-        }
-
-
-        files.push(
-          new File(
-            [file],
-            filename,
-            {
-              type: file.type,
-              lastModified:
-                file.lastModified
-            }
-          )
-        );
-
-
-        added++;
-
-      }
-    );
-
-
-    fileInput.value = "";
-
-
-    renderFiles();
-
-
-    if (added) {
-
-      message.textContent =
-        added +
-        " fichier" +
-        (
-          added > 1
-          ? "s"
-          : ""
-        ) +
-        " importé" +
-        (
-          added > 1
-          ? "s"
-          : ""
-        ) +
-        " dans la série.";
+      added++;
 
     }
+  );
+
+
+  renderFiles();
+
+
+  if (added) {
+
+    message.textContent =
+      added +
+      " fichier" +
+      (added > 1 ? "s" : "") +
+      " importé" +
+      (added > 1 ? "s" : "") +
+      " dans la série.";
 
   }
-);
+
+}
 
 
 /* =========================
@@ -1051,6 +1194,20 @@ function renderFiles() {
         media.playsInline =
           true;
 
+
+        media.preload =
+          "metadata";
+
+
+        item.onclick =
+          function() {
+
+            openVideo(
+              file
+            );
+
+          };
+
       }
 
       else {
@@ -1065,6 +1222,16 @@ function renderFiles() {
           URL.createObjectURL(
             file
           );
+
+
+        item.onclick =
+          function() {
+
+            openImage(
+              file
+            );
+
+          };
 
       }
 
@@ -1087,6 +1254,22 @@ function renderFiles() {
         : "PHOTO";
 
 
+      const info =
+        document.createElement(
+          "div"
+        );
+
+
+      info.className =
+        "file-info";
+
+
+      info.textContent =
+        formatSize(
+          file.size
+        );
+
+
       const deleteButton =
         document.createElement(
           "button"
@@ -1102,7 +1285,10 @@ function renderFiles() {
 
 
       deleteButton.onclick =
-        function() {
+        function(event) {
+
+          event.stopPropagation();
+
 
           files.splice(
             index,
@@ -1122,6 +1308,11 @@ function renderFiles() {
 
       item.appendChild(
         badge
+      );
+
+
+      item.appendChild(
+        info
       );
 
 
@@ -1157,10 +1348,178 @@ function renderFiles() {
   count.textContent =
     total +
     " fichier" +
-    (
-      total > 1
-      ? "s"
-      : ""
+    (total > 1 ? "s" : "");
+
+}
+
+
+/* =========================
+   VIDEO PLEIN ÉCRAN
+========================= */
+
+function openVideo(file) {
+
+  const modal =
+    document.getElementById(
+      "videoModal"
+    );
+
+
+  const video =
+    document.getElementById(
+      "fullVideo"
+    );
+
+
+  const name =
+    document.getElementById(
+      "videoName"
+    );
+
+
+  const meta =
+    document.getElementById(
+      "videoMeta"
+    );
+
+
+  const url =
+    URL.createObjectURL(
+      file
+    );
+
+
+  video.src =
+    url;
+
+
+  name.textContent =
+    file.name;
+
+
+  meta.textContent =
+    formatSize(
+      file.size
+    );
+
+
+  video.onloadedmetadata =
+    function() {
+
+      let dimensions =
+        "";
+
+
+      if (
+        video.videoWidth &&
+        video.videoHeight
+      ) {
+
+        dimensions =
+          video.videoWidth +
+          " × " +
+          video.videoHeight;
+
+      }
+
+
+      if (dimensions) {
+
+        meta.textContent =
+          dimensions +
+          " · " +
+          formatSize(
+            file.size
+          );
+
+      }
+
+    };
+
+
+  modal.classList.remove(
+    "hidden"
+  );
+
+
+  video.play().catch(
+    function() {}
+  );
+
+}
+
+
+function closeVideo() {
+
+  const modal =
+    document.getElementById(
+      "videoModal"
+    );
+
+
+  const video =
+    document.getElementById(
+      "fullVideo"
+    );
+
+
+  video.pause();
+
+
+  video.removeAttribute(
+    "src"
+  );
+
+
+  video.load();
+
+
+  modal.classList.add(
+    "hidden"
+  );
+
+}
+
+
+/* =========================
+   IMAGE PLEIN ÉCRAN
+========================= */
+
+function openImage(file) {
+
+  const modal =
+    document.getElementById(
+      "imageModal"
+    );
+
+
+  const image =
+    document.getElementById(
+      "fullImage"
+    );
+
+
+  image.src =
+    URL.createObjectURL(
+      file
+    );
+
+
+  modal.classList.remove(
+    "hidden"
+  );
+
+}
+
+
+function closeImage() {
+
+  document
+    .getElementById(
+      "imageModal"
+    )
+    .classList.add(
+      "hidden"
     );
 
 }
@@ -1262,7 +1621,9 @@ function clearFiles() {
 }
 
 
-/* INITIALISATION */
+/* =========================
+   INITIALISATION
+========================= */
 
 renderFiles();
 
