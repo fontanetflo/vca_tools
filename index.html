@@ -8,434 +8,410 @@
 <title>VCA Capture</title>
 
 <style>
-* {
-    box-sizing: border-box;
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    background:#f2f3f5;
+    color:#111827;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
 }
 
-body {
-    margin: 0;
-    background: #f2f3f5;
-    color: #111827;
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
+.app{
+    max-width:520px;
+    margin:auto;
+    min-height:100vh;
+    padding:18px 16px 35px
 }
 
-.app {
-    max-width: 520px;
-    margin: auto;
-    min-height: 100vh;
-    padding: 18px 16px 35px;
+header{
+    text-align:center;
+    margin-bottom:18px;
+    position:relative
 }
 
-header {
-    text-align: center;
-    margin-bottom: 18px;
+.logo{font-size:38px}
+
+h1{
+    margin:7px 0 0;
+    font-size:25px
 }
 
-.logo {
-    font-size: 38px;
+.subtitle{
+    margin-top:4px;
+    font-size:14px;
+    color:#6b7280
 }
 
-h1 {
-    margin: 7px 0 0;
-    font-size: 25px;
+.version{
+    position:absolute;
+    right:0;
+    top:4px;
+    font-size:9px;
+    color:#9ca3af;
+    opacity:.7
 }
 
-.subtitle {
-    margin-top: 4px;
-    font-size: 14px;
-    color: #6b7280;
+.card{
+    background:white;
+    border-radius:18px;
+    padding:17px;
+    margin-bottom:13px;
+    box-shadow:0 5px 18px rgba(0,0,0,.06)
 }
 
-.card {
-    background: white;
-    border-radius: 18px;
-    padding: 17px;
-    margin-bottom: 13px;
-    box-shadow: 0 5px 18px rgba(0,0,0,.06);
+.section-title{
+    font-size:15px;
+    font-weight:750;
+    margin-bottom:11px
 }
 
-.section-title {
-    font-size: 15px;
-    font-weight: 750;
-    margin-bottom: 11px;
+input[type="text"]{
+    width:100%;
+    height:48px;
+    padding:0 13px;
+    border-radius:11px;
+    border:1px solid #d1d5db;
+    background:white;
+    font-size:16px;
+    outline:none
 }
 
-input[type="text"] {
-    width: 100%;
-    height: 48px;
-    padding: 0 13px;
-    border-radius: 11px;
-    border: 1px solid #d1d5db;
-    background: white;
-    font-size: 16px;
-    outline: none;
+button,.action-button{
+    width:100%;
+    min-height:48px;
+    border:0;
+    border-radius:12px;
+    padding:12px 14px;
+    font-size:15px;
+    font-weight:700;
+    font-family:inherit;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px
 }
 
-button,
-.action-button {
-    width: 100%;
-    min-height: 48px;
-    border: 0;
-    border-radius: 12px;
-    padding: 12px 14px;
-    font-size: 15px;
-    font-weight: 700;
-    font-family: inherit;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+.primary{background:#111827;color:white}
+.secondary{background:#eef0f3;color:#111827}
+.danger{background:#fee2e2;color:#991b1b}
+
+input[type="file"]{display:none}
+
+.capture-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px
 }
 
-.primary {
-    background: #111827;
-    color: white;
+.session{
+    margin-top:10px;
+    padding:10px 12px;
+    border-radius:10px;
+    background:#f3f4f6
 }
 
-.secondary {
-    background: #eef0f3;
-    color: #111827;
+.session-name{
+    font-weight:700;
+    font-size:14px
 }
 
-.danger {
-    background: #fee2e2;
-    color: #991b1b;
+.session-date{
+    margin-top:2px;
+    color:#6b7280;
+    font-size:12px
 }
 
-input[type="file"] {
-    display: none;
+.file-count{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px
 }
 
-.capture-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:7px
 }
 
-.session {
-    margin-top: 10px;
-    padding: 10px 12px;
-    border-radius: 10px;
-    background: #f3f4f6;
-}
-
-.session-name {
-    font-weight: 700;
-    font-size: 14px;
-}
-
-.session-date {
-    margin-top: 2px;
-    color: #6b7280;
-    font-size: 12px;
-}
-
-.file-count {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 7px;
-}
-
-.item {
-    position: relative;
-    aspect-ratio: 1;
-    overflow: hidden;
-    border-radius: 10px;
-    background: #e5e7eb;
-    cursor: pointer;
+.item{
+    position:relative;
+    aspect-ratio:1;
+    overflow:hidden;
+    border-radius:10px;
+    background:#e5e7eb
 }
 
 .item img,
-.item video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.item video{
+    width:100%;
+    height:100%;
+    object-fit:cover
 }
 
-.badge {
-    position: absolute;
-    bottom: 5px;
-    left: 5px;
-    padding: 3px 5px;
-    border-radius: 5px;
-    background: rgba(0,0,0,.72);
-    color: white;
-    font-size: 9px;
-    font-weight: 700;
+.badge{
+    position:absolute;
+    bottom:5px;
+    left:5px;
+    padding:3px 5px;
+    border-radius:5px;
+    background:rgba(0,0,0,.72);
+    color:white;
+    font-size:9px;
+    font-weight:700
 }
 
-.file-info {
-    position: absolute;
-    right: 5px;
-    bottom: 5px;
-    padding: 3px 5px;
-    border-radius: 5px;
-    background: rgba(0,0,0,.72);
-    color: white;
-    font-size: 8px;
+.file-info{
+    position:absolute;
+    right:5px;
+    bottom:5px;
+    padding:3px 5px;
+    border-radius:5px;
+    background:rgba(0,0,0,.72);
+    color:white;
+    font-size:8px
 }
 
-.delete {
-    position: absolute;
-    right: 5px;
-    top: 5px;
-    width: 27px;
-    height: 27px;
-    min-height: 27px;
-    padding: 0;
-    border-radius: 50%;
-    background: rgba(0,0,0,.72);
-    color: white;
-    z-index: 5;
+.delete{
+    position:absolute;
+    right:5px;
+    top:5px;
+    width:27px;
+    height:27px;
+    min-height:27px;
+    padding:0;
+    border-radius:50%;
+    background:rgba(0,0,0,.72);
+    color:white;
+    z-index:5
 }
 
-.actions {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 13px;
+.actions{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-top:13px
 }
 
-.info {
-    padding: 11px 13px;
-    border-radius: 11px;
-    background: #e9edf2;
-    color: #4b5563;
-    font-size: 12px;
-    text-align: center;
+.info{
+    padding:11px 13px;
+    border-radius:11px;
+    background:#e9edf2;
+    color:#4b5563;
+    font-size:12px;
+    text-align:center
 }
+
+.hidden{display:none!important}
 
 
 /* =========================
-   MODALES
+   MODAL RÉGLAGES
 ========================= */
 
-.modal {
-    position: fixed;
-    inset: 0;
-    z-index: 1000;
-    background: rgba(0,0,0,.96);
-    display: flex;
-    flex-direction: column;
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    background:rgba(0,0,0,.96);
+    display:flex;
+    flex-direction:column
 }
 
-.hidden {
-    display: none !important;
+.settings{
+    margin:auto;
+    width:calc(100% - 30px);
+    max-width:440px;
+    background:white;
+    border-radius:20px;
+    padding:20px
 }
 
-
-/* =========================
-   CHOIX VIDÉO
-========================= */
-
-.settings {
-    margin: auto;
-    width: calc(100% - 30px);
-    max-width: 440px;
-    background: white;
-    border-radius: 20px;
-    padding: 20px;
+.settings h2{
+    margin-top:0;
+    text-align:center
 }
 
-.settings h2 {
-    margin-top: 0;
-    text-align: center;
+.setting-label{
+    margin-top:18px;
+    margin-bottom:8px;
+    font-size:13px;
+    font-weight:700;
+    color:#4b5563
 }
 
-.setting-label {
-    margin-top: 18px;
-    margin-bottom: 8px;
-    font-size: 13px;
-    font-weight: 700;
-    color: #4b5563;
+.choice-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px
 }
 
-.choice-grid {
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 8px;
+.choice{
+    min-height:54px;
+    background:#eef0f3;
+    color:#111827
 }
 
-.choice {
-    min-height: 54px;
-    background: #eef0f3;
-    color: #111827;
+.choice.selected{
+    background:#111827;
+    color:white
 }
 
-.choice.selected {
-    background: #111827;
-    color: white;
-}
-
-.close-settings {
-    margin-top: 15px;
-}
+.close-settings{margin-top:15px}
 
 
 /* =========================
    CAMÉRA
 ========================= */
 
-.camera-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background: black;
-    overflow: hidden;
+.camera-container{
+    position:relative;
+    width:100%;
+    height:100%;
+    background:#000;
+    overflow:hidden
 }
 
-#cameraPreview {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    touch-action: none;
+#cameraPreview{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    touch-action:none
 }
 
-.camera-top {
-    position: absolute;
-    top: max(15px, env(safe-area-inset-top));
-    left: 15px;
-    right: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 10;
+.camera-top{
+    position:absolute;
+    top:max(15px,env(safe-area-inset-top));
+    left:15px;
+    right:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    z-index:10
 }
 
-.camera-quality {
-    padding: 7px 10px;
-    background: rgba(0,0,0,.60);
-    border-radius: 9px;
-    color: white;
-    font-size: 12px;
+.camera-quality{
+    padding:7px 10px;
+    background:rgba(0,0,0,.60);
+    border-radius:9px;
+    color:white;
+    font-size:12px
 }
 
-.close-camera {
-    width: 42px;
-    height: 42px;
-    min-height: 42px;
-    padding: 0;
-    border-radius: 50%;
-    background: rgba(255,255,255,.18);
-    color: white;
-    font-size: 25px;
+.close-camera{
+    width:42px;
+    height:42px;
+    min-height:42px;
+    padding:0;
+    border-radius:50%;
+    background:rgba(255,255,255,.18);
+    color:white;
+    font-size:25px
 }
 
-.zoom-controls {
-    position: absolute;
-    bottom: 125px;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    gap: 7px;
-    z-index: 20;
+.zoom-controls{
+    position:absolute;
+    bottom:125px;
+    left:0;
+    right:0;
+    display:flex;
+    justify-content:center;
+    gap:7px;
+    z-index:20
 }
 
-.zoom-button {
-    width: 43px;
-    height: 36px;
-    min-height: 36px;
-    padding: 0;
-    border-radius: 18px;
-    background: rgba(0,0,0,.60);
-    color: white;
-    font-size: 12px;
+.zoom-button{
+    width:43px;
+    height:36px;
+    min-height:36px;
+    padding:0;
+    border-radius:18px;
+    background:rgba(0,0,0,.60);
+    color:white;
+    font-size:12px
 }
 
-.zoom-button.active {
-    background: white;
-    color: black;
+.zoom-button.active{
+    background:white;
+    color:black
 }
 
-.camera-bottom {
-    position: absolute;
-    bottom: max(25px, env(safe-area-inset-bottom));
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    z-index: 20;
+.camera-bottom{
+    position:absolute;
+    bottom:max(25px,env(safe-area-inset-bottom));
+    left:0;
+    right:0;
+    display:flex;
+    justify-content:center;
+    z-index:20
 }
 
-.record-button {
-    width: 78px;
-    height: 78px;
-    min-height: 78px;
-    border-radius: 50%;
-    background: white;
-    border: 7px solid rgba(255,255,255,.40);
-    padding: 0;
+.record-button{
+    width:78px;
+    height:78px;
+    min-height:78px;
+    border-radius:50%;
+    background:white;
+    border:7px solid rgba(255,255,255,.40);
+    padding:0
 }
 
-.record-button.recording {
-    background: #ff3b30;
+.record-button.recording{
+    background:#ff3b30
 }
 
-.timer {
-    position: absolute;
-    bottom: 93px;
-    left: 0;
-    right: 0;
-    text-align: center;
-    color: white;
-    font-weight: 700;
-    font-size: 14px;
+.timer{
+    position:absolute;
+    bottom:93px;
+    left:0;
+    right:0;
+    text-align:center;
+    color:white;
+    font-weight:700;
+    font-size:14px
 }
 
 
 /* =========================
-   RÉSULTAT
+   RÉSULTAT VIDÉO
 ========================= */
 
-.result-video {
-    width: 100%;
-    max-height: 70vh;
-    object-fit: contain;
-    background: black;
-    margin: auto 0;
+.result-video{
+    width:100%;
+    max-height:70vh;
+    object-fit:contain;
+    background:black;
+    margin:auto 0
 }
 
-.result-info {
-    color: white;
-    text-align: center;
-    padding: 15px;
+.result-info{
+    color:white;
+    text-align:center;
+    padding:15px
 }
 
-.result-name {
-    font-weight: 700;
-    font-size: 13px;
+.result-name{
+    font-weight:700;
+    font-size:13px
 }
 
-.result-meta {
-    color: #d1d5db;
-    margin-top: 4px;
-    font-size: 12px;
+.result-meta{
+    color:#d1d5db;
+    margin-top:4px;
+    font-size:12px
 }
 
-.result-actions {
-    display: flex;
-    gap: 8px;
-    padding:
-        10px 15px
-        max(15px, env(safe-area-inset-bottom));
+.result-actions{
+    display:flex;
+    gap:8px;
+    padding:10px 15px max(15px,env(safe-area-inset-bottom))
 }
 
-.result-actions button {
-    flex: 1;
+.result-actions button{
+    flex:1
 }
 </style>
 </head>
@@ -446,13 +422,25 @@ input[type="file"] {
 <div class="app">
 
 <header>
+
     <div class="logo">🧪</div>
+
     <h1>VCA Capture</h1>
+
     <div class="subtitle">
         Photos et vidéos d'essais
     </div>
+
+    <div class="version">
+        v2.2
+    </div>
+
 </header>
 
+
+<!-- =========================
+     ESSAI
+========================= -->
 
 <div class="card">
 
@@ -470,6 +458,7 @@ input[type="file"] {
         id="sessionInfo"
         class="session hidden"
     >
+
         <div
             id="displayName"
             class="session-name"
@@ -479,10 +468,15 @@ input[type="file"] {
             id="displayDate"
             class="session-date"
         ></div>
+
     </div>
 
 </div>
 
+
+<!-- =========================
+     CAPTURE
+========================= -->
 
 <div class="card">
 
@@ -519,6 +513,10 @@ input[type="file"] {
 </div>
 
 
+<!-- =========================
+     IMPORT
+========================= -->
+
 <div class="card">
 
     <div class="section-title">
@@ -541,6 +539,10 @@ input[type="file"] {
 
 </div>
 
+
+<!-- =========================
+     FICHIERS
+========================= -->
 
 <div class="card">
 
@@ -618,95 +620,129 @@ input[type="file"] {
     class="modal hidden"
 >
 
-    <div class="settings">
+<div class="settings">
 
-        <h2>
-            🎥 Réglages vidéo
-        </h2>
-
-        <div class="setting-label">
-            Résolution
-        </div>
-
-        <div class="choice-grid">
-
-            <button
-                id="res4k"
-                class="choice"
-                onclick="selectResolution(3840,2160,'4K')"
-            >
-                4K
-            </button>
-
-            <button
-                id="res1080"
-                class="choice selected"
-                onclick="selectResolution(1920,1080,'1080p')"
-            >
-                1080p
-            </button>
-
-            <button
-                id="res720"
-                class="choice"
-                onclick="selectResolution(1280,720,'720p')"
-            >
-                HD
-            </button>
-
-        </div>
+    <h2>
+        🎥 Réglages vidéo
+    </h2>
 
 
-        <div class="setting-label">
-            Images par seconde
-        </div>
+    <div class="setting-label">
+        Résolution
+    </div>
 
-        <div class="choice-grid">
-
-            <button
-                id="fps24"
-                class="choice"
-                onclick="selectFPS(24)"
-            >
-                24
-            </button>
-
-            <button
-                id="fps30"
-                class="choice selected"
-                onclick="selectFPS(30)"
-            >
-                30
-            </button>
-
-            <button
-                id="fps60"
-                class="choice"
-                onclick="selectFPS(60)"
-            >
-                60
-            </button>
-
-        </div>
-
+    <div class="choice-grid">
 
         <button
-            class="primary"
-            style="margin-top:20px"
-            onclick="launchCamera()"
+            id="res4k"
+            class="choice"
+            onclick="selectResolution(3840,2160,'4K')"
         >
-            📷 Ouvrir la caméra
+            4K
         </button>
 
+        <button
+            id="res1080"
+            class="choice selected"
+            onclick="selectResolution(1920,1080,'1080p')"
+        >
+            1080p
+        </button>
 
         <button
-            class="secondary close-settings"
-            onclick="closeVideoSettings()"
+            id="res720"
+            class="choice"
+            onclick="selectResolution(1280,720,'HD')"
         >
-            Annuler
+            HD
         </button>
 
     </div>
+
+
+    <div class="setting-label">
+        Mode vidéo
+    </div>
+
+    <div class="choice-grid">
+
+        <button
+            id="modeNormal"
+            class="choice selected"
+            onclick="selectMode('normal')"
+        >
+            🎬 Normal
+        </button>
+
+        <button
+            id="modeSlow"
+            class="choice"
+            onclick="selectMode('slow')"
+        >
+            🐌 Ralenti
+        </button>
+
+        <button
+            id="modeFast"
+            class="choice"
+            onclick="selectMode('fast')"
+        >
+            ⚡ Accéléré
+        </button>
+
+    </div>
+
+
+    <div class="setting-label">
+        Images par seconde
+    </div>
+
+    <div class="choice-grid">
+
+        <button
+            id="fps24"
+            class="choice"
+            onclick="selectFPS(24)"
+        >
+            24
+        </button>
+
+        <button
+            id="fps30"
+            class="choice selected"
+            onclick="selectFPS(30)"
+        >
+            30
+        </button>
+
+        <button
+            id="fps60"
+            class="choice"
+            onclick="selectFPS(60)"
+        >
+            60
+        </button>
+
+    </div>
+
+
+    <button
+        class="primary"
+        style="margin-top:20px"
+        onclick="launchCamera()"
+    >
+        📷 Ouvrir la caméra
+    </button>
+
+
+    <button
+        class="secondary close-settings"
+        onclick="closeVideoSettings()"
+    >
+        Annuler
+    </button>
+
+</div>
 
 </div>
 
@@ -720,88 +756,88 @@ input[type="file"] {
     class="modal hidden"
 >
 
-    <div class="camera-container">
+<div class="camera-container">
 
-        <video
-            id="cameraPreview"
-            autoplay
-            muted
-            playsinline
-        ></video>
+    <video
+        id="cameraPreview"
+        autoplay
+        muted
+        playsinline
+    ></video>
 
 
-        <div class="camera-top">
-
-            <div
-                id="cameraQuality"
-                class="camera-quality"
-            ></div>
-
-            <button
-                class="close-camera"
-                onclick="closeCamera()"
-            >
-                ×
-            </button>
-
-        </div>
-
+    <div class="camera-top">
 
         <div
-            id="zoomControls"
-            class="zoom-controls"
+            id="cameraQuality"
+            class="camera-quality"
+        ></div>
+
+        <button
+            class="close-camera"
+            onclick="closeCamera()"
         >
-
-            <button
-                class="zoom-button"
-                onclick="setZoom(.5,this)"
-            >
-                0,5×
-            </button>
-
-            <button
-                class="zoom-button active"
-                onclick="setZoom(1,this)"
-            >
-                1×
-            </button>
-
-            <button
-                class="zoom-button"
-                onclick="setZoom(2,this)"
-            >
-                2×
-            </button>
-
-            <button
-                class="zoom-button"
-                onclick="setZoom(3,this)"
-            >
-                3×
-            </button>
-
-        </div>
-
-
-        <div
-            id="timer"
-            class="timer"
-        >
-            00:00
-        </div>
-
-
-        <div class="camera-bottom">
-
-            <button
-                id="recordButton"
-                class="record-button"
-                onclick="toggleRecording()"
-            ></button>
-
-        </div>
+            ×
+        </button>
 
     </div>
+
+
+    <div
+        id="zoomControls"
+        class="zoom-controls"
+    >
+
+        <button
+            class="zoom-button"
+            onclick="setZoom(.5,this)"
+        >
+            0,5×
+        </button>
+
+        <button
+            class="zoom-button active"
+            onclick="setZoom(1,this)"
+        >
+            1×
+        </button>
+
+        <button
+            class="zoom-button"
+            onclick="setZoom(2,this)"
+        >
+            2×
+        </button>
+
+        <button
+            class="zoom-button"
+            onclick="setZoom(3,this)"
+        >
+            3×
+        </button>
+
+    </div>
+
+
+    <div
+        id="timer"
+        class="timer"
+    >
+        00:00
+    </div>
+
+
+    <div class="camera-bottom">
+
+        <button
+            id="recordButton"
+            class="record-button"
+            onclick="toggleRecording()"
+        ></button>
+
+    </div>
+
+</div>
 
 </div>
 
@@ -815,104 +851,103 @@ input[type="file"] {
     class="modal hidden"
 >
 
-    <video
-        id="resultVideo"
-        class="result-video"
-        controls
-        playsinline
-    ></video>
+<video
+    id="resultVideo"
+    class="result-video"
+    controls
+    playsinline
+></video>
 
-    <div class="result-info">
+<div class="result-info">
 
-        <div
-            id="resultName"
-            class="result-name"
-        ></div>
+    <div
+        id="resultName"
+        class="result-name"
+    ></div>
 
-        <div
-            id="resultMeta"
-            class="result-meta"
-        ></div>
+    <div
+        id="resultMeta"
+        class="result-meta"
+    ></div>
 
-    </div>
+</div>
 
-    <div class="result-actions">
+<div class="result-actions">
 
-        <button
-            class="secondary"
-            onclick="discardLastVideo()"
-        >
-            🗑️ Supprimer
-        </button>
+    <button
+        class="secondary"
+        onclick="discardLastVideo()"
+    >
+        🗑️ Supprimer
+    </button>
 
-        <button
-            class="primary"
-            onclick="keepLastVideo()"
-        >
-            ✓ Garder
-        </button>
+    <button
+        class="primary"
+        onclick="keepLastVideo()"
+    >
+        ✓ Garder
+    </button>
 
-    </div>
+</div>
 
 </div>
 
 
 <script>
 
+/* =====================================================
+   VCA CAPTURE — VERSION
+===================================================== */
 
-/* =========================
+const APP_VERSION = "2.2";
+
+
+/* =====================================================
    VARIABLES
-========================= */
+===================================================== */
 
 let files = [];
 
 let photoNumber = 0;
-
 let videoNumber = 0;
 
 let cameraStream = null;
-
 let mediaRecorder = null;
-
 let recordedChunks = [];
 
 let currentVideoFile = null;
 
 let currentZoom = 1;
-
 let zoomMin = 1;
-
 let zoomMax = 3;
 
 let startTime = 0;
-
 let timerInterval = null;
 
 let videoSettings = {
 
-    width: 1920,
+    width:1920,
+    height:1080,
+    label:"1080p",
 
-    height: 1080,
+    fps:30,
 
-    label: "1080p",
-
-    fps: 30
+    mode:"normal"
 
 };
 
 
-/* =========================
-   SESSION
-========================= */
+/* =====================================================
+   NOM ESSAI
+===================================================== */
 
 const sessionName =
-document.getElementById(
-    "sessionName"
-);
+document.getElementById("sessionName");
+
 
 sessionName.addEventListener(
     "input",
-    function() {
+    function(){
 
         const name =
             sessionName.value.trim();
@@ -922,7 +957,7 @@ sessionName.addEventListener(
                 "sessionInfo"
             );
 
-        if (!name) {
+        if(!name){
 
             info.classList.add(
                 "hidden"
@@ -937,7 +972,8 @@ sessionName.addEventListener(
 
         document.getElementById(
             "displayName"
-        ).textContent = name;
+        ).textContent =
+            name;
 
         document.getElementById(
             "displayDate"
@@ -949,15 +985,16 @@ sessionName.addEventListener(
 );
 
 
-/* =========================
-   NOM FICHIER
-========================= */
+/* =====================================================
+   NOM DE FICHIER
+===================================================== */
 
-function safeName() {
+function safeName(){
 
     return (
         sessionName.value.trim()
-        || "Essai"
+        ||
+        "Essai"
     )
     .normalize("NFD")
     .replace(
@@ -979,31 +1016,23 @@ function safeName() {
 }
 
 
-/* =========================
+/* =====================================================
    RÉGLAGES
-========================= */
+===================================================== */
 
-function showVideoSettings() {
+function showVideoSettings(){
 
     document
-        .getElementById(
-            "settingsModal"
-        )
-        .classList.remove(
-            "hidden"
-        );
+        .getElementById("settingsModal")
+        .classList.remove("hidden");
 }
 
 
-function closeVideoSettings() {
+function closeVideoSettings(){
 
     document
-        .getElementById(
-            "settingsModal"
-        )
-        .classList.add(
-            "hidden"
-        );
+        .getElementById("settingsModal")
+        .classList.add("hidden");
 }
 
 
@@ -1011,86 +1040,110 @@ function selectResolution(
     width,
     height,
     label
-) {
+){
 
-    videoSettings.width =
-        width;
-
-    videoSettings.height =
-        height;
-
-    videoSettings.label =
-        label;
+    videoSettings.width = width;
+    videoSettings.height = height;
+    videoSettings.label = label;
 
     document
         .querySelectorAll(
             "#settingsModal .choice"
         )
         .forEach(
-            button =>
-                button.classList.remove(
+            b =>
+                b.classList.remove(
                     "selected"
                 )
         );
 
-    if (label === "4K")
+    if(label === "4K")
         document
-            .getElementById(
-                "res4k"
-            )
-            .classList.add(
-                "selected"
-            );
+            .getElementById("res4k")
+            .classList.add("selected");
 
-    if (label === "1080p")
+    if(label === "1080p")
         document
-            .getElementById(
-                "res1080"
-            )
-            .classList.add(
-                "selected"
-            );
+            .getElementById("res1080")
+            .classList.add("selected");
 
-    if (label === "720p")
+    if(label === "HD")
         document
-            .getElementById(
-                "res720"
-            )
-            .classList.add(
-                "selected"
-            );
+            .getElementById("res720")
+            .classList.add("selected");
 }
 
 
-function selectFPS(fps) {
+function selectMode(mode){
 
-    videoSettings.fps =
-        fps;
+    videoSettings.mode = mode;
 
-    document
-        .querySelectorAll(
-            "#settingsModal .choice"
-        )
+    ["modeNormal","modeSlow","modeFast"]
         .forEach(
-            button => {
-
-                if (
-                    ["fps24","fps30","fps60"]
-                    .includes(
-                        button.id
-                    )
-                ) {
-
-                    button.classList.remove(
+            id =>
+                document
+                    .getElementById(id)
+                    .classList.remove(
                         "selected"
-                    );
-                }
-            }
+                    )
+        );
+
+    if(mode === "normal")
+        document
+            .getElementById("modeNormal")
+            .classList.add("selected");
+
+    if(mode === "slow")
+        document
+            .getElementById("modeSlow")
+            .classList.add("selected");
+
+    if(mode === "fast")
+        document
+            .getElementById("modeFast")
+            .classList.add("selected");
+
+
+    /*
+       Le ralenti utilise 60 fps.
+       L'accéléré reste à 30/60 fps mais
+       sera identifié comme mode accéléré.
+    */
+
+    if(mode === "slow"){
+
+        videoSettings.fps = 60;
+
+        updateFPSButtons();
+
+    }
+}
+
+
+function selectFPS(fps){
+
+    videoSettings.fps = fps;
+
+    updateFPSButtons();
+}
+
+
+function updateFPSButtons(){
+
+    ["fps24","fps30","fps60"]
+        .forEach(
+            id =>
+                document
+                    .getElementById(id)
+                    .classList.remove(
+                        "selected"
+                    )
         );
 
     document
         .getElementById(
-            "fps" + fps
+            "fps" +
+            videoSettings.fps
         )
         .classList.add(
             "selected"
@@ -1098,40 +1151,39 @@ function selectFPS(fps) {
 }
 
 
-/* =========================
-   LANCEMENT CAMÉRA
-========================= */
+/* =====================================================
+   CAMÉRA
+===================================================== */
 
-async function launchCamera() {
+async function launchCamera(){
 
     closeVideoSettings();
 
-    try {
+    try{
 
         cameraStream =
             await navigator.mediaDevices
                 .getUserMedia({
 
-                    audio: true,
+                    audio:true,
 
-                    video: {
+                    video:{
 
-                        facingMode: {
-                            ideal:
-                                "environment"
+                        facingMode:{
+                            ideal:"environment"
                         },
 
-                        width: {
+                        width:{
                             ideal:
                                 videoSettings.width
                         },
 
-                        height: {
+                        height:{
                             ideal:
                                 videoSettings.height
                         },
 
-                        frameRate: {
+                        frameRate:{
                             ideal:
                                 videoSettings.fps
                         }
@@ -1149,12 +1201,12 @@ async function launchCamera() {
         video.srcObject =
             cameraStream;
 
-
         await video.play();
 
 
         const track =
-            cameraStream.getVideoTracks()[0];
+            cameraStream
+                .getVideoTracks()[0];
 
 
         const capabilities =
@@ -1163,30 +1215,21 @@ async function launchCamera() {
                 : {};
 
 
-        if (
-            capabilities.zoom
-        ) {
+        if(capabilities.zoom){
 
             zoomMin =
-                capabilities.zoom.min
-                || 1;
+                capabilities.zoom.min || 1;
 
             zoomMax =
-                capabilities.zoom.max
-                || 3;
+                capabilities.zoom.max || 3;
 
             currentZoom =
-                capabilities.zoom.min
-                || 1;
+                zoomMin;
 
             updateZoomButtons();
 
         }
-        else {
-
-            zoomMin = 1;
-
-            zoomMax = 1;
+        else{
 
             document
                 .getElementById(
@@ -1204,16 +1247,16 @@ async function launchCamera() {
 
 
         const actualWidth =
-            settings.width
-            || videoSettings.width;
+            settings.width ||
+            videoSettings.width;
 
         const actualHeight =
-            settings.height
-            || videoSettings.height;
+            settings.height ||
+            videoSettings.height;
 
         const actualFPS =
-            settings.frameRate
-            || videoSettings.fps;
+            settings.frameRate ||
+            videoSettings.fps;
 
 
         document.getElementById(
@@ -1223,9 +1266,7 @@ async function launchCamera() {
             "×" +
             actualHeight +
             " · " +
-            Math.round(
-                actualFPS
-            ) +
+            Math.round(actualFPS) +
             " fps";
 
 
@@ -1238,10 +1279,12 @@ async function launchCamera() {
             );
 
 
+        fixCameraSize();
+
         enablePinchZoom();
 
     }
-    catch(error) {
+    catch(error){
 
         alert(
             "Impossible d'accéder à la caméra.\n\n" +
@@ -1252,25 +1295,77 @@ async function launchCamera() {
 }
 
 
-/* =========================
+/* =====================================================
+   CORRECTION ORIENTATION
+===================================================== */
+
+function fixCameraSize(){
+
+    const container =
+        document.querySelector(
+            ".camera-container"
+        );
+
+    const video =
+        document.getElementById(
+            "cameraPreview"
+        );
+
+    if(!container || !video)
+        return;
+
+    video.style.width = "100%";
+    video.style.height = "100%";
+
+    void video.offsetHeight;
+}
+
+
+window.addEventListener(
+    "resize",
+    function(){
+
+        if(cameraStream)
+            setTimeout(
+                fixCameraSize,
+                150
+            );
+
+    }
+);
+
+
+window.addEventListener(
+    "orientationchange",
+    function(){
+
+        if(cameraStream)
+            setTimeout(
+                fixCameraSize,
+                300
+            );
+
+    }
+);
+
+
+/* =====================================================
    ZOOM
-========================= */
+===================================================== */
 
 async function setZoom(
     requestedZoom,
     button
-) {
+){
 
-    if (!cameraStream)
+    if(!cameraStream)
         return;
 
     const track =
         cameraStream
             .getVideoTracks()[0];
 
-    if (
-        !track.applyConstraints
-    )
+    if(!track.applyConstraints)
         return;
 
     const value =
@@ -1282,20 +1377,22 @@ async function setZoom(
             )
         );
 
-    try {
+
+    try{
 
         await track.applyConstraints({
 
-            advanced: [
+            advanced:[
                 {
-                    zoom: value
+                    zoom:value
                 }
             ]
 
         });
 
-        currentZoom =
-            value;
+
+        currentZoom = value;
+
 
         document
             .querySelectorAll(
@@ -1308,13 +1405,14 @@ async function setZoom(
                     )
             );
 
-        if (button)
+
+        if(button)
             button.classList.add(
                 "active"
             );
 
     }
-    catch(error) {
+    catch(error){
 
         console.log(
             "Zoom non disponible",
@@ -1325,7 +1423,7 @@ async function setZoom(
 }
 
 
-function updateZoomButtons() {
+function updateZoomButtons(){
 
     document
         .querySelectorAll(
@@ -1334,19 +1432,12 @@ function updateZoomButtons() {
         .forEach(
             button => {
 
-                const text =
-                    button.textContent
-                        .replace(
-                            ",",
-                            "."
-                        )
-                        .replace(
-                            "×",
-                            ""
-                        );
-
                 const value =
-                    parseFloat(text);
+                    parseFloat(
+                        button.textContent
+                            .replace(",","." )
+                            .replace("×","")
+                    );
 
                 button.style.display =
                     value >= zoomMin &&
@@ -1359,30 +1450,27 @@ function updateZoomButtons() {
 }
 
 
-/* =========================
-   PINCH ZOOM
-========================= */
+/* =====================================================
+   PINCH
+===================================================== */
 
-function enablePinchZoom() {
+function enablePinchZoom(){
 
     const video =
         document.getElementById(
             "cameraPreview"
         );
 
-    let startDistance =
-        null;
-
-    let startZoom =
-        currentZoom;
+    let startDistance = null;
+    let startZoom = currentZoom;
 
 
     video.ontouchstart =
-        function(event) {
+        function(event){
 
-            if (
+            if(
                 event.touches.length === 2
-            ) {
+            ){
 
                 startDistance =
                     distance(
@@ -1398,14 +1486,15 @@ function enablePinchZoom() {
 
 
     video.ontouchmove =
-        function(event) {
+        function(event){
 
-            if (
+            if(
                 event.touches.length !== 2
             )
                 return;
 
             event.preventDefault();
+
 
             const currentDistance =
                 distance(
@@ -1413,12 +1502,15 @@ function enablePinchZoom() {
                     event.touches[1]
                 );
 
-            if (!startDistance)
+
+            if(!startDistance)
                 return;
+
 
             const ratio =
                 currentDistance /
                 startDistance;
+
 
             const newZoom =
                 Math.max(
@@ -1428,6 +1520,7 @@ function enablePinchZoom() {
                         startZoom * ratio
                     )
                 );
+
 
             setZoom(
                 newZoom,
@@ -1439,38 +1532,30 @@ function enablePinchZoom() {
 }
 
 
-function distance(
-    touch1,
-    touch2
-) {
+function distance(a,b){
 
     const dx =
-        touch1.clientX -
-        touch2.clientX;
+        a.clientX - b.clientX;
 
     const dy =
-        touch1.clientY -
-        touch2.clientY;
+        a.clientY - b.clientY;
 
     return Math.sqrt(
-        dx * dx +
-        dy * dy
+        dx*dx + dy*dy
     );
-
 }
 
 
-/* =========================
+/* =====================================================
    ENREGISTREMENT
-========================= */
+===================================================== */
 
-function toggleRecording() {
+function toggleRecording(){
 
-    if (
+    if(
         mediaRecorder &&
-        mediaRecorder.state ===
-            "recording"
-    ) {
+        mediaRecorder.state === "recording"
+    ){
 
         mediaRecorder.stop();
 
@@ -1497,48 +1582,45 @@ function toggleRecording() {
     ];
 
 
-    for (
+    for(
         const type of types
-    ) {
+    ){
 
-        if (
+        if(
             MediaRecorder.isTypeSupported(
                 type
             )
-        ) {
+        ){
 
-            mimeType =
-                type;
+            mimeType = type;
 
             break;
         }
     }
 
 
-    try {
+    try{
 
         mediaRecorder =
             new MediaRecorder(
+
                 cameraStream,
+
                 mimeType
                     ? {
-                        mimeType:
-                            mimeType,
-
+                        mimeType,
                         videoBitsPerSecond:
-                            videoSettings.label
-                                === "4K"
-                                ? 12000000
-                                : videoSettings.label
-                                    === "1080p"
-                                    ? 6000000
-                                    : 3000000
+                            videoSettings.label === "4K"
+                            ? 12000000
+                            : videoSettings.label === "1080p"
+                            ? 6000000
+                            : 3000000
                     }
                     : undefined
             );
 
     }
-    catch(error) {
+    catch(error){
 
         alert(
             "Impossible de démarrer la vidéo."
@@ -1549,17 +1631,18 @@ function toggleRecording() {
 
 
     mediaRecorder.ondataavailable =
-        function(event) {
+        function(event){
 
-            if (
+            if(
                 event.data &&
                 event.data.size > 0
-            ) {
+            ){
 
                 recordedChunks.push(
                     event.data
                 );
             }
+
         };
 
 
@@ -1580,22 +1663,21 @@ function toggleRecording() {
 
 
     startTimer();
-
 }
 
 
-/* =========================
+/* =====================================================
    TIMER
-========================= */
+===================================================== */
 
-function startTimer() {
+function startTimer(){
 
-    startTime =
-        Date.now();
+    startTime = Date.now();
+
 
     timerInterval =
         setInterval(
-            function() {
+            function(){
 
                 const seconds =
                     Math.floor(
@@ -1605,10 +1687,12 @@ function startTimer() {
                         ) / 1000
                     );
 
+
                 const minutes =
                     Math.floor(
                         seconds / 60
                     );
+
 
                 const rest =
                     seconds % 60;
@@ -1628,18 +1712,17 @@ function startTimer() {
             },
             500
         );
-
 }
 
 
-function stopTimer() {
+function stopTimer(){
 
     clearInterval(
         timerInterval
     );
 
-    timerInterval =
-        null;
+    timerInterval = null;
+
 
     document.getElementById(
         "timer"
@@ -1648,11 +1731,11 @@ function stopTimer() {
 }
 
 
-/* =========================
-   FIN VIDÉO
-========================= */
+/* =====================================================
+   FIN ENREGISTREMENT
+===================================================== */
 
-function finishRecording() {
+function finishRecording(){
 
     stopTimer();
 
@@ -1667,14 +1750,14 @@ function finishRecording() {
 
 
     const type =
-        mediaRecorder.mimeType
-        || "video/mp4";
+        mediaRecorder.mimeType ||
+        "video/mp4";
 
 
     const extension =
         type.includes("mp4")
-            ? "mp4"
-            : "webm";
+        ? "mp4"
+        : "webm";
 
 
     const blob =
@@ -1686,24 +1769,40 @@ function finishRecording() {
         );
 
 
+    /*
+       IMPORTANT :
+       le nom de l'essai est récupéré ici,
+       au moment de créer le fichier.
+    */
+
+    const baseName =
+        safeName();
+
+
     currentVideoFile =
         new File(
+
             [blob],
-            safeName() +
-                "_video_" +
-                String(
-                    videoNumber + 1
-                ).padStart(
-                    2,
-                    "0"
-                ) +
-                "." +
-                extension,
+
+            baseName +
+            "_video_" +
+            String(
+                videoNumber + 1
+            ).padStart(
+                2,
+                "0"
+            ) +
+            "_" +
+            videoSettings.mode +
+            "." +
+            extension,
+
             {
                 type,
                 lastModified:
                     Date.now()
             }
+
         );
 
 
@@ -1714,11 +1813,11 @@ function finishRecording() {
 }
 
 
-/* =========================
-   RÉSULTAT
-========================= */
+/* =====================================================
+   RÉSULTAT VIDÉO
+===================================================== */
 
-function showVideoResult() {
+function showVideoResult(){
 
     const video =
         document.getElementById(
@@ -1756,7 +1855,7 @@ function showVideoResult() {
 }
 
 
-function keepLastVideo() {
+function keepLastVideo(){
 
     videoNumber++;
 
@@ -1767,19 +1866,32 @@ function keepLastVideo() {
             .pop();
 
 
+    /*
+       On renumérote proprement le fichier.
+    */
+
+    const mode =
+        videoSettings.mode;
+
+
     currentVideoFile =
         new File(
+
             [currentVideoFile],
+
             safeName() +
-                "_video_" +
-                String(
-                    videoNumber
-                ).padStart(
-                    2,
-                    "0"
-                ) +
-                "." +
-                extension,
+            "_video_" +
+            String(
+                videoNumber
+            ).padStart(
+                2,
+                "0"
+            ) +
+            "_" +
+            mode +
+            "." +
+            extension,
+
             {
                 type:
                     currentVideoFile.type,
@@ -1787,6 +1899,7 @@ function keepLastVideo() {
                 lastModified:
                     Date.now()
             }
+
         );
 
 
@@ -1808,10 +1921,9 @@ function keepLastVideo() {
 }
 
 
-function discardLastVideo() {
+function discardLastVideo(){
 
-    currentVideoFile =
-        null;
+    currentVideoFile = null;
 
 
     document
@@ -1824,16 +1936,16 @@ function discardLastVideo() {
 }
 
 
-/* =========================
+/* =====================================================
    FERMETURE CAMÉRA
-========================= */
+===================================================== */
 
-function closeCamera() {
+function closeCamera(){
 
     stopTimer();
 
 
-    if (cameraStream) {
+    if(cameraStream){
 
         cameraStream
             .getTracks()
@@ -1842,15 +1954,13 @@ function closeCamera() {
                     track.stop()
             );
 
-        cameraStream =
-            null;
+        cameraStream = null;
     }
 
 
     document.getElementById(
         "cameraPreview"
-    ).srcObject =
-        null;
+    ).srcObject = null;
 
 
     document
@@ -1863,9 +1973,9 @@ function closeCamera() {
 }
 
 
-/* =========================
+/* =====================================================
    PHOTO
-========================= */
+===================================================== */
 
 document
     .getElementById(
@@ -1873,7 +1983,7 @@ document
     )
     .addEventListener(
         "change",
-        function(event) {
+        function(event){
 
             Array.from(
                 event.target.files
@@ -1883,31 +1993,32 @@ document
                     photoNumber++;
 
 
-                    const filename =
-                        safeName() +
-                        "_photo_" +
-                        String(
-                            photoNumber
-                        ).padStart(
-                            2,
-                            "0"
-                        ) +
-                        ".jpg";
-
-
                     files.push(
-                        new File(
-                            [file],
-                            filename,
-                            {
-                                type:
-                                    file.type,
 
+                        new File(
+
+                            [file],
+
+                            safeName() +
+                            "_photo_" +
+                            String(
+                                photoNumber
+                            ).padStart(
+                                2,
+                                "0"
+                            ) +
+                            ".jpg",
+
+                            {
+                                type:file.type,
                                 lastModified:
                                     Date.now()
                             }
+
                         )
+
                     );
+
                 }
             );
 
@@ -1915,13 +2026,14 @@ document
             event.target.value = "";
 
             renderFiles();
+
         }
     );
 
 
-/* =========================
+/* =====================================================
    IMPORT
-========================= */
+===================================================== */
 
 document
     .getElementById(
@@ -1929,36 +2041,35 @@ document
     )
     .addEventListener(
         "change",
-        function(event) {
+        function(event){
 
             Array.from(
                 event.target.files
             ).forEach(
                 file => {
 
-                    if (
+                    if(
                         file.type.startsWith(
                             "image/"
                         )
-                    ) {
+                    ){
 
                         photoNumber++;
 
                     }
-                    else if (
+                    else if(
                         file.type.startsWith(
                             "video/"
                         )
-                    ) {
+                    ){
 
                         videoNumber++;
 
                     }
 
 
-                    files.push(
-                        file
-                    );
+                    files.push(file);
+
                 }
             );
 
@@ -1966,20 +2077,22 @@ document
             event.target.value = "";
 
             renderFiles();
+
         }
     );
 
 
-/* =========================
+/* =====================================================
    AFFICHAGE
-========================= */
+===================================================== */
 
-function renderFiles() {
+function renderFiles(){
 
     const grid =
         document.getElementById(
             "grid"
         );
+
 
     grid.innerHTML = "";
 
@@ -1992,18 +2105,17 @@ function renderFiles() {
                     "div"
                 );
 
-            item.className =
-                "item";
+            item.className = "item";
 
 
             let media;
 
 
-            if (
+            if(
                 file.type.startsWith(
                     "video/"
                 )
-            ) {
+            ){
 
                 media =
                     document.createElement(
@@ -2015,20 +2127,15 @@ function renderFiles() {
                         file
                     );
 
-                media.muted =
-                    true;
-
-                media.playsInline =
-                    true;
+                media.muted = true;
+                media.playsInline = true;
 
                 item.onclick =
                     () =>
-                        openVideo(
-                            file
-                        );
+                        openVideo(file);
 
             }
-            else {
+            else{
 
                 media =
                     document.createElement(
@@ -2039,6 +2146,7 @@ function renderFiles() {
                     URL.createObjectURL(
                         file
                     );
+
             }
 
 
@@ -2047,8 +2155,7 @@ function renderFiles() {
                     "div"
                 );
 
-            badge.className =
-                "badge";
+            badge.className = "badge";
 
             badge.textContent =
                 file.type.startsWith(
@@ -2077,15 +2184,13 @@ function renderFiles() {
                     "button"
                 );
 
-            del.className =
-                "delete";
+            del.className = "delete";
 
-            del.textContent =
-                "×";
+            del.textContent = "×";
 
 
             del.onclick =
-                event => {
+                function(event){
 
                     event.stopPropagation();
 
@@ -2098,26 +2203,13 @@ function renderFiles() {
                 };
 
 
-            item.appendChild(
-                media
-            );
+            item.appendChild(media);
+            item.appendChild(badge);
+            item.appendChild(info);
+            item.appendChild(del);
 
-            item.appendChild(
-                badge
-            );
+            grid.appendChild(item);
 
-            item.appendChild(
-                info
-            );
-
-            item.appendChild(
-                del
-            );
-
-
-            grid.appendChild(
-                item
-            );
         }
     );
 
@@ -2129,8 +2221,8 @@ function renderFiles() {
         " fichier" +
         (
             files.length > 1
-                ? "s"
-                : ""
+            ? "s"
+            : ""
         );
 
 
@@ -2151,11 +2243,11 @@ function renderFiles() {
 }
 
 
-/* =========================
-   LECTEUR
-========================= */
+/* =====================================================
+   LECTURE VIDÉO
+===================================================== */
 
-function openVideo(file) {
+function openVideo(file){
 
     const video =
         document.getElementById(
@@ -2193,63 +2285,54 @@ function openVideo(file) {
 }
 
 
-/* =========================
+/* =====================================================
    TAILLE
-========================= */
+===================================================== */
 
-function formatSize(
-    bytes
-) {
+function formatSize(bytes){
 
-    if (
-        bytes < 1024
-    )
+    if(bytes < 1024)
         return bytes + " o";
 
-
-    if (
-        bytes < 1024 * 1024
-    )
+    if(bytes < 1024 * 1024)
         return (
             bytes / 1024
-        ).toFixed(1)
-        + " Ko";
-
+        ).toFixed(1) +
+        " Ko";
 
     return (
         bytes /
         (1024 * 1024)
-    ).toFixed(1)
-    + " Mo";
+    ).toFixed(1) +
+    " Mo";
 }
 
 
-/* =========================
+/* =====================================================
    EXPORT
-========================= */
+===================================================== */
 
-async function shareFiles() {
+async function shareFiles(){
 
-    if (!files.length)
+    if(!files.length)
         return;
 
 
-    if (
+    if(
         navigator.canShare &&
         navigator.canShare({
             files
         })
-    ) {
+    ){
 
-        try {
+        try{
 
             await navigator.share({
 
                 files,
 
                 title:
-                    sessionName.value
-                    ||
+                    sessionName.value ||
                     "Essai",
 
                 text:
@@ -2258,53 +2341,52 @@ async function shareFiles() {
             });
 
         }
-        catch(error) {
+        catch(error){
 
-            console.log(
-                error
-            );
+            console.log(error);
+
         }
 
     }
-    else {
+    else{
 
         alert(
             "Le partage de fichiers n'est pas disponible."
         );
+
     }
 }
 
 
-/* =========================
+/* =====================================================
    SHAREPOINT
-========================= */
+===================================================== */
 
-function openFolder() {
+function openFolder(){
 
     window.location.href =
         "https://richemont.sharepoint.com/sites/VCAlab/Dossiers%20Essais/";
 }
 
 
-/* =========================
+/* =====================================================
    EFFACER
-========================= */
+===================================================== */
 
-function clearFiles() {
+function clearFiles(){
 
     files = [];
 
     photoNumber = 0;
-
     videoNumber = 0;
 
     renderFiles();
 }
 
 
-/* =========================
-   INIT
-========================= */
+/* =====================================================
+   INITIALISATION
+===================================================== */
 
 renderFiles();
 
