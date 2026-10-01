@@ -2,12 +2,21 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#111827">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+>
+
+<meta
+  name="theme-color"
+  content="#111827"
+>
 
 <title>VCA Capture</title>
 
 <style>
+
 * {
   box-sizing: border-box;
 }
@@ -16,7 +25,11 @@ body {
   margin: 0;
   background: #f2f3f5;
   color: #111827;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
 }
 
 .app {
@@ -34,7 +47,6 @@ header {
 
 .logo {
   font-size: 38px;
-  line-height: 1;
 }
 
 h1 {
@@ -68,31 +80,9 @@ input[type="text"] {
   padding: 0 13px;
   border-radius: 11px;
   border: 1px solid #d1d5db;
-  background: #fff;
+  background: white;
   font-size: 16px;
   outline: none;
-}
-
-input[type="text"]:focus {
-  border-color: #111827;
-}
-
-.session {
-  margin-top: 10px;
-  padding: 10px 12px;
-  border-radius: 10px;
-  background: #f3f4f6;
-}
-
-.session-name {
-  font-weight: 700;
-  font-size: 14px;
-}
-
-.session-date {
-  margin-top: 2px;
-  color: #6b7280;
-  font-size: 12px;
 }
 
 button,
@@ -110,8 +100,6 @@ button,
   align-items: center;
   justify-content: center;
   gap: 8px;
-  text-align: center;
-  text-decoration: none;
 }
 
 .primary {
@@ -139,29 +127,33 @@ input[type="file"] {
   gap: 10px;
 }
 
-.capture-grid .action-button {
-  margin: 0;
+.session {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #f3f4f6;
+}
+
+.session-name {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.session-date {
+  margin-top: 2px;
+  color: #6b7280;
+  font-size: 12px;
 }
 
 .file-count {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   margin-bottom: 10px;
-}
-
-.file-count strong {
-  font-size: 15px;
-}
-
-.file-count span {
-  color: #6b7280;
-  font-size: 13px;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3,1fr);
   gap: 7px;
 }
 
@@ -181,10 +173,6 @@ input[type="file"] {
   object-fit: cover;
 }
 
-.item video {
-  pointer-events: none;
-}
-
 .badge {
   position: absolute;
   bottom: 5px;
@@ -197,32 +185,29 @@ input[type="file"] {
   font-weight: 700;
 }
 
-.delete {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 27px;
-  min-height: 27px;
-  height: 27px;
-  padding: 0;
-  border-radius: 50%;
-  background: rgba(0,0,0,.72);
-  color: white;
-  font-size: 17px;
-  line-height: 27px;
-  z-index: 3;
-}
-
 .file-info {
   position: absolute;
-  bottom: 5px;
   right: 5px;
+  bottom: 5px;
   padding: 3px 5px;
   border-radius: 5px;
   background: rgba(0,0,0,.72);
   color: white;
   font-size: 8px;
-  z-index: 2;
+}
+
+.delete {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 27px;
+  height: 27px;
+  min-height: 27px;
+  padding: 0;
+  border-radius: 50%;
+  background: rgba(0,0,0,.72);
+  color: white;
+  z-index: 5;
 }
 
 .actions {
@@ -232,64 +217,135 @@ input[type="file"] {
   margin-top: 13px;
 }
 
-.actions button {
-  margin: 0;
-}
-
 .info {
   padding: 11px 13px;
   border-radius: 11px;
   background: #e9edf2;
   color: #4b5563;
   font-size: 12px;
-  line-height: 1.4;
   text-align: center;
 }
 
-.empty {
-  padding: 22px 10px;
-  text-align: center;
-  color: #9ca3af;
-  font-size: 14px;
-}
-
-.hidden {
-  display: none !important;
-}
 
 /* =========================
-   LECTEUR VIDÉO
+   MODAL GENERAL
 ========================= */
 
-.video-modal {
+.modal {
   position: fixed;
   inset: 0;
   z-index: 1000;
   background: rgba(0,0,0,.96);
   display: flex;
   flex-direction: column;
+}
+
+.hidden {
+  display: none !important;
+}
+
+
+/* =========================
+   CHOIX QUALITÉ
+========================= */
+
+.quality-content {
+  margin: auto;
+  width: calc(100% - 30px);
+  max-width: 430px;
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.quality-title {
+  font-size: 21px;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.quality-button {
+  margin-bottom: 10px;
+  min-height: 65px;
+  background: #f1f3f5;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.quality-button strong {
+  font-size: 17px;
+}
+
+.quality-button span {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+
+/* =========================
+   CAMÉRA
+========================= */
+
+.camera-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: black;
+  display: flex;
+  align-items: center;
   justify-content: center;
 }
 
-.video-modal video {
+#cameraPreview {
   width: 100%;
-  max-height: 78vh;
+  height: 100%;
   object-fit: contain;
-  background: black;
 }
 
-.modal-top {
+.camera-top {
   position: absolute;
   top: max(15px, env(safe-area-inset-top));
   left: 15px;
   right: 15px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  color: white;
   z-index: 10;
 }
 
-.close-modal {
+.camera-quality {
+  padding: 7px 10px;
+  background: rgba(0,0,0,.55);
+  border-radius: 9px;
+  font-size: 12px;
+}
+
+.camera-bottom {
+  position: absolute;
+  bottom: max(25px, env(safe-area-inset-bottom));
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+}
+
+.record-button {
+  width: 76px;
+  height: 76px;
+  min-height: 76px;
+  border-radius: 50%;
+  background: white;
+  border: 7px solid rgba(255,255,255,.45);
+  padding: 0;
+}
+
+.record-button.recording {
+  background: #ff3b30;
+}
+
+.close-camera {
   width: 42px;
   height: 42px;
   min-height: 42px;
@@ -300,54 +356,50 @@ input[type="file"] {
   font-size: 25px;
 }
 
-.video-details {
-  position: absolute;
-  left: 15px;
-  right: 15px;
-  bottom: max(18px, env(safe-area-inset-bottom));
+
+/* =========================
+   VIDEO RESULTAT
+========================= */
+
+.result-video {
+  width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  background: black;
+  margin: auto 0;
+}
+
+.result-info {
   color: white;
   text-align: center;
-  font-size: 12px;
-  line-height: 1.5;
+  padding: 15px;
 }
 
-.video-name {
+.result-name {
   font-weight: 700;
   font-size: 13px;
-  word-break: break-word;
 }
 
-.video-meta {
+.result-meta {
   color: #d1d5db;
-  margin-top: 3px;
+  margin-top: 4px;
+  font-size: 12px;
 }
 
-/* IMAGE FULLSCREEN */
-
-.image-modal {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  background: rgba(0,0,0,.96);
+.result-actions {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  gap: 8px;
+  padding:
+    10px 15px
+    max(15px, env(safe-area-inset-bottom));
 }
 
-.image-modal img {
-  max-width: 100%;
-  max-height: 90vh;
-  object-fit: contain;
+.result-actions button {
+  flex: 1;
 }
 
-.image-modal .close-modal {
-  position: absolute;
-  top: max(15px, env(safe-area-inset-top));
-  right: 15px;
-  z-index: 10;
-}
+@media(max-width:360px) {
 
-@media (max-width: 360px) {
   .capture-grid {
     grid-template-columns: 1fr;
   }
@@ -356,18 +408,27 @@ input[type="file"] {
     padding-left: 12px;
     padding-right: 12px;
   }
+
 }
+
 </style>
 </head>
+
 
 <body>
 
 <div class="app">
 
 <header>
-  <div class="logo">🧪</div>
-  <h1>VCA Capture</h1>
-  <div class="subtitle">Photos et vidéos d'essais</div>
+
+<div class="logo">🧪</div>
+
+<h1>VCA Capture</h1>
+
+<div class="subtitle">
+Photos et vidéos d'essais
+</div>
+
 </header>
 
 
@@ -375,30 +436,32 @@ input[type="file"] {
 
 <div class="card">
 
-  <div class="section-title">
-    🏷️ Essai
-  </div>
+<div class="section-title">
+🏷️ Essai
+</div>
 
-  <input
-    id="sessionName"
-    type="text"
-    placeholder="Nom de l'essai"
-  >
+<input
+id="sessionName"
+type="text"
+placeholder="Nom de l'essai"
+>
 
-  <div
-    id="sessionInfo"
-    class="session hidden"
-  >
-    <div
-      id="displayName"
-      class="session-name"
-    ></div>
+<div
+id="sessionInfo"
+class="session hidden"
+>
 
-    <div
-      id="displayDate"
-      class="session-date"
-    ></div>
-  </div>
+<div
+id="displayName"
+class="session-name"
+></div>
+
+<div
+id="displayDate"
+class="session-date"
+></div>
+
+</div>
 
 </div>
 
@@ -407,43 +470,36 @@ input[type="file"] {
 
 <div class="card">
 
-  <div class="section-title">
-    📸 Capture
-  </div>
+<div class="section-title">
+📸 Capture
+</div>
 
-  <div class="capture-grid">
+<div class="capture-grid">
 
-    <label
-      for="photoInput"
-      class="action-button primary"
-    >
-      📷 Photo
-    </label>
+<label
+for="photoInput"
+class="action-button primary"
+>
+📷 Photo
+</label>
 
-    <input
-      id="photoInput"
-      type="file"
-      accept="image/*"
-      capture="environment"
-      multiple
-    >
+<input
+id="photoInput"
+type="file"
+accept="image/*"
+capture="environment"
+multiple
+>
 
 
-    <label
-      for="videoInput"
-      class="action-button secondary"
-    >
-      🎥 Vidéo
-    </label>
+<button
+class="secondary"
+onclick="showQuality()"
+>
+🎥 Vidéo
+</button>
 
-    <input
-      id="videoInput"
-      type="file"
-      accept="video/*"
-      capture="environment"
-    >
-
-  </div>
+</div>
 
 </div>
 
@@ -452,23 +508,23 @@ input[type="file"] {
 
 <div class="card">
 
-  <div class="section-title">
-    📁 Import
-  </div>
+<div class="section-title">
+📁 Import
+</div>
 
-  <label
-    for="fileInput"
-    class="action-button secondary"
-  >
-    📁 Importer depuis Fichiers
-  </label>
+<label
+for="fileInput"
+class="action-button secondary"
+>
+📁 Importer depuis Fichiers
+</label>
 
-  <input
-    id="fileInput"
-    type="file"
-    accept="image/*,video/*"
-    multiple
-  >
+<input
+id="fileInput"
+type="file"
+accept="image/*,video/*"
+multiple
+>
 
 </div>
 
@@ -477,143 +533,266 @@ input[type="file"] {
 
 <div class="card">
 
-  <div class="file-count">
+<div class="file-count">
 
-    <strong>
-      Fichiers de la série
-    </strong>
+<strong>
+Fichiers de la série
+</strong>
 
-    <span id="count">
-      0 fichier
-    </span>
-
-  </div>
-
-
-  <div
-    id="empty"
-    class="empty"
-  >
-    Aucun fichier pour le moment
-  </div>
-
-
-  <div
-    id="grid"
-    class="grid"
-  ></div>
-
-
-  <div
-    id="actions"
-    class="actions hidden"
-  >
-
-    <button
-      class="primary"
-      onclick="shareFiles()"
-    >
-      💾 Enregistrer dans Fichiers
-    </button>
-
-    <button
-      class="secondary"
-      onclick="openFolder()"
-    >
-      📂 Ouvrir Dossiers Essais
-    </button>
-
-    <button
-      class="danger"
-      onclick="clearFiles()"
-    >
-      🗑️ Effacer la série
-    </button>
-
-  </div>
+<span id="count">
+0 fichier
+</span>
 
 </div>
 
 
 <div
-  id="message"
-  class="info"
+id="empty"
+class="info"
 >
-  Donne un nom à l'essai puis commence une capture.
+Aucun fichier pour le moment
 </div>
 
-</div>
-
-
-<!-- MODAL VIDEO -->
 
 <div
-  id="videoModal"
-  class="video-modal hidden"
+id="grid"
+class="grid"
+></div>
+
+
+<div
+id="actions"
+class="actions hidden"
 >
 
-  <div class="modal-top">
+<button
+class="primary"
+onclick="shareFiles()"
+>
+💾 Enregistrer dans Fichiers
+</button>
 
-    <button
-      class="close-modal"
-      onclick="closeVideo()"
-    >
-      ×
-    </button>
 
-  </div>
+<button
+class="secondary"
+onclick="openFolder()"
+>
+📂 Ouvrir Dossiers Essais
+</button>
 
-  <video
-    id="fullVideo"
-    controls
-    playsinline
-    preload="metadata"
-  ></video>
 
-  <div class="video-details">
+<button
+class="danger"
+onclick="clearFiles()"
+>
+🗑️ Effacer la série
+</button>
 
-    <div
-      id="videoName"
-      class="video-name"
-    ></div>
-
-    <div
-      id="videoMeta"
-      class="video-meta"
-    ></div>
-
-  </div>
+</div>
 
 </div>
 
 
-<!-- MODAL IMAGE -->
+<div
+id="message"
+class="info"
+>
+Donne un nom à l'essai puis commence une capture.
+</div>
+
+</div>
+
+
+<!-- =========================
+     CHOIX QUALITÉ
+========================= -->
 
 <div
-  id="imageModal"
-  class="image-modal hidden"
+id="qualityModal"
+class="modal hidden"
 >
 
-  <button
-    class="close-modal"
-    onclick="closeImage()"
-  >
-    ×
-  </button>
+<div class="quality-content">
 
-  <img
-    id="fullImage"
-    alt=""
-  >
+<div class="quality-title">
+🎥 Qualité vidéo
+</div>
+
+
+<button
+class="quality-button"
+onclick="startCamera(3840,2160,30,'4K')"
+>
+
+<strong>
+4K
+</strong>
+
+<span>
+3840 × 2160 · 30 fps
+</span>
+
+</button>
+
+
+<button
+class="quality-button"
+onclick="startCamera(1920,1080,30,'1080p')"
+>
+
+<strong>
+1080p
+</strong>
+
+<span>
+1920 × 1080 · 30 fps
+</span>
+
+</button>
+
+
+<button
+class="quality-button"
+onclick="startCamera(1280,720,30,'720p')"
+>
+
+<strong>
+720p
+</strong>
+
+<span>
+1280 × 720 · 30 fps
+</span>
+
+</button>
+
+
+<button
+class="secondary"
+onclick="closeQuality()"
+>
+Annuler
+</button>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     CAMÉRA
+========================= -->
+
+<div
+id="cameraModal"
+class="modal hidden"
+>
+
+<div class="camera-container">
+
+<video
+id="cameraPreview"
+autoplay
+muted
+playsinline
+></video>
+
+
+<div class="camera-top">
+
+<div
+id="cameraQuality"
+class="camera-quality"
+>
+</div>
+
+
+<button
+class="close-camera"
+onclick="closeCamera()"
+>
+×
+</button>
+
+</div>
+
+
+<div class="camera-bottom">
+
+<button
+id="recordButton"
+class="record-button"
+onclick="toggleRecording()"
+>
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     RÉSULTAT VIDÉO
+========================= -->
+
+<div
+id="resultModal"
+class="modal hidden"
+>
+
+<video
+id="resultVideo"
+class="result-video"
+controls
+playsinline
+></video>
+
+
+<div class="result-info">
+
+<div
+id="resultName"
+class="result-name"
+></div>
+
+<div
+id="resultMeta"
+class="result-meta"
+></div>
+
+</div>
+
+
+<div class="result-actions">
+
+<button
+class="secondary"
+onclick="discardLastVideo()"
+>
+🗑️ Supprimer
+</button>
+
+
+<button
+class="primary"
+onclick="keepLastVideo()"
+>
+✓ Garder
+</button>
+
+</div>
 
 </div>
 
 
 <script>
 
-const SHAREPOINT_FOLDER =
-"https://richemont.sharepoint.com/sites/VCAlab/Dossiers%20Essais/";
 
+/* =========================
+   VARIABLES
+========================= */
 
 let files = [];
 
@@ -621,42 +800,21 @@ let photoNumber = 0;
 
 let videoNumber = 0;
 
+let cameraStream = null;
 
-const photoInput =
-document.getElementById("photoInput");
+let mediaRecorder = null;
 
-const videoInput =
-document.getElementById("videoInput");
+let recordedChunks = [];
 
-const fileInput =
-document.getElementById("fileInput");
+let currentVideoFile = null;
+
+let selectedQuality = null;
+
 
 const sessionName =
-document.getElementById("sessionName");
-
-const sessionInfo =
-document.getElementById("sessionInfo");
-
-const displayName =
-document.getElementById("displayName");
-
-const displayDate =
-document.getElementById("displayDate");
-
-const grid =
-document.getElementById("grid");
-
-const empty =
-document.getElementById("empty");
-
-const count =
-document.getElementById("count");
-
-const actions =
-document.getElementById("actions");
-
-const message =
-document.getElementById("message");
+document.getElementById(
+  "sessionName"
+);
 
 
 /* =========================
@@ -664,166 +822,871 @@ document.getElementById("message");
 ========================= */
 
 sessionName.addEventListener(
-  "input",
-  updateSession
+"input",
+function() {
+
+const name =
+sessionName.value.trim();
+
+const info =
+document.getElementById(
+"sessionInfo"
+);
+
+if (!name) {
+
+info.classList.add(
+"hidden"
+);
+
+return;
+
+}
+
+info.classList.remove(
+"hidden"
+);
+
+document.getElementById(
+"displayName"
+).textContent =
+name;
+
+document.getElementById(
+"displayDate"
+).textContent =
+new Date().toLocaleString(
+"fr-FR"
+);
+
+}
 );
 
 
-function updateSession() {
+/* =========================
+   NOM FICHIER
+========================= */
 
-  const name =
-    sessionName.value.trim();
+function safeName() {
 
-
-  if (!name) {
-
-    sessionInfo.classList.add(
-      "hidden"
-    );
-
-    message.textContent =
-      "Donne un nom à l'essai puis commence une capture.";
-
-    return;
-  }
-
-
-  sessionInfo.classList.remove(
-    "hidden"
-  );
-
-
-  displayName.textContent =
-    name;
-
-
-  displayDate.textContent =
-    new Date().toLocaleString(
-      "fr-FR",
-      {
-        dateStyle: "short",
-        timeStyle: "short"
-      }
-    );
-
-
-  message.textContent =
-    "Essai prêt. Tu peux commencer.";
+return (
+sessionName.value.trim()
+||
+"Essai"
+)
+.normalize("NFD")
+.replace(
+/[\u0300-\u036f]/g,
+""
+)
+.replace(
+/[^a-zA-Z0-9_-]+/g,
+"-"
+)
+.replace(
+/-+/g,
+"-"
+)
+.replace(
+/^-|-$/g,
+""
+);
 
 }
 
 
 /* =========================
-   NOM
+   CHOIX QUALITÉ
 ========================= */
 
-function getSafeSessionName() {
+function showQuality() {
 
-  const name =
-    sessionName.value.trim() ||
-    "Essai";
+document
+.getElementById(
+"qualityModal"
+)
+.classList.remove(
+"hidden"
+);
+
+}
 
 
-  return name
-    .normalize("NFD")
-    .replace(
-      /[\u0300-\u036f]/g,
-      ""
-    )
-    .replace(
-      /[^a-zA-Z0-9_-]+/g,
-      "-"
-    )
-    .replace(
-      /-+/g,
-      "-"
-    )
-    .replace(
-      /^-|-$/g,
-      "");
+function closeQuality() {
+
+document
+.getElementById(
+"qualityModal"
+)
+.classList.add(
+"hidden"
+);
 
 }
 
 
 /* =========================
-   DATE
+   CAMÉRA
 ========================= */
 
-function getDateString() {
+async function startCamera(
+width,
+height,
+fps,
+label
+) {
 
-  const now =
-    new Date();
+selectedQuality = {
+width,
+height,
+fps,
+label
+};
 
 
-  return (
-    now.getFullYear() +
-    "-" +
-    String(
-      now.getMonth() + 1
-    ).padStart(2, "0") +
-    "-" +
-    String(
-      now.getDate()
-    ).padStart(2, "0") +
-    "_" +
-    String(
-      now.getHours()
-    ).padStart(2, "0") +
-    "-" +
-    String(
-      now.getMinutes()
-    ).padStart(2, "0")
-  );
+closeQuality();
+
+
+try {
+
+cameraStream =
+await navigator.mediaDevices.getUserMedia({
+
+audio: true,
+
+video: {
+
+facingMode: {
+ideal: "environment"
+},
+
+width: {
+ideal: width
+},
+
+height: {
+ideal: height
+},
+
+frameRate: {
+ideal: fps
+}
+
+}
+
+});
+
+
+const video =
+document.getElementById(
+"cameraPreview"
+);
+
+video.srcObject =
+cameraStream;
+
+
+document
+.getElementById(
+"cameraQuality"
+)
+.textContent =
+label +
+" · " +
+width +
+"×" +
+height;
+
+
+document
+.getElementById(
+"cameraModal"
+)
+.classList.remove(
+"hidden"
+);
+
+
+}
+
+catch(error) {
+
+alert(
+"Impossible d'accéder à la caméra.\n\n" +
+error.message
+);
+
+}
 
 }
 
 
 /* =========================
-   EXTENSIONS
+   ENREGISTREMENT
 ========================= */
 
-function getImageExtension(file) {
+function toggleRecording() {
 
-  const type =
-    file.type.toLowerCase();
+if (
+mediaRecorder &&
+mediaRecorder.state ===
+"recording"
+) {
 
+mediaRecorder.stop();
 
-  if (type.includes("png"))
-    return "png";
-
-
-  if (type.includes("heic"))
-    return "heic";
-
-
-  if (type.includes("webp"))
-    return "webp";
-
-
-  return "jpg";
+return;
 
 }
 
 
-function getVideoExtension(file) {
-
-  const type =
-    file.type.toLowerCase();
+recordedChunks = [];
 
 
-  if (type.includes("mp4"))
-    return "mp4";
+const stream =
+cameraStream;
 
 
-  if (type.includes("quicktime"))
-    return "mov";
+let mimeType =
+"";
 
 
-  if (type.includes("webm"))
-    return "webm";
+const possibleTypes = [
+
+"video/mp4",
+
+"video/mp4;codecs=h264",
+
+"video/webm;codecs=vp9",
+
+"video/webm"
+
+];
 
 
-  return "mp4";
+for (
+const type of possibleTypes
+) {
+
+if (
+MediaRecorder.isTypeSupported(
+type
+)
+) {
+
+mimeType =
+type;
+
+break;
+
+}
+
+}
+
+
+try {
+
+mediaRecorder =
+new MediaRecorder(
+stream,
+mimeType
+? {
+mimeType:
+mimeType,
+
+videoBitsPerSecond:
+selectedQuality.label === "4K"
+? 12000000
+: selectedQuality.label === "1080p"
+? 6000000
+: 3000000
+
+}
+: undefined
+);
+
+}
+
+catch(error) {
+
+alert(
+"Impossible de démarrer l'enregistrement vidéo."
+);
+
+return;
+
+}
+
+
+mediaRecorder.ondataavailable =
+function(event) {
+
+if (
+event.data &&
+event.data.size > 0
+) {
+
+recordedChunks.push(
+event.data
+);
+
+}
+
+};
+
+
+mediaRecorder.onstop =
+finishRecording;
+
+
+mediaRecorder.start();
+
+
+document
+.getElementById(
+"recordButton"
+)
+.classList.add(
+"recording"
+);
+
+}
+
+
+/* =========================
+   FIN ENREGISTREMENT
+========================= */
+
+function finishRecording() {
+
+document
+.getElementById(
+"recordButton"
+)
+.classList.remove(
+"recording"
+);
+
+
+const type =
+mediaRecorder.mimeType
+||
+"video/mp4";
+
+
+const extension =
+type.includes("mp4")
+? "mp4"
+: "webm";
+
+
+const blob =
+new Blob(
+recordedChunks,
+{
+type
+}
+);
+
+
+const filename =
+safeName() +
+"_video_" +
+String(
+videoNumber + 1
+)
+.padStart(2,"0") +
+"." +
+extension;
+
+
+currentVideoFile =
+new File(
+[blob],
+filename,
+{
+type,
+lastModified:
+Date.now()
+}
+);
+
+
+closeCamera();
+
+
+showVideoResult();
+
+}
+
+
+/* =========================
+   RÉSULTAT
+========================= */
+
+function showVideoResult() {
+
+const video =
+document.getElementById(
+"resultVideo"
+);
+
+
+video.src =
+URL.createObjectURL(
+currentVideoFile
+);
+
+
+document.getElementById(
+"resultName"
+).textContent =
+currentVideoFile.name;
+
+
+document.getElementById(
+"resultMeta"
+).textContent =
+formatSize(
+currentVideoFile.size
+);
+
+
+document
+.getElementById(
+"resultModal"
+)
+.classList.remove(
+"hidden"
+);
+
+}
+
+
+function keepLastVideo() {
+
+videoNumber++;
+
+
+const newName =
+safeName() +
+"_video_" +
+String(videoNumber)
+.padStart(2,"0") +
+".mp4";
+
+
+currentVideoFile =
+new File(
+[
+currentVideoFile
+],
+newName,
+{
+type:
+currentVideoFile.type,
+
+lastModified:
+Date.now()
+}
+);
+
+
+files.push(
+currentVideoFile
+);
+
+
+document
+.getElementById(
+"resultModal"
+)
+.classList.add(
+"hidden"
+);
+
+
+renderFiles();
+
+
+document.getElementById(
+"message"
+).textContent =
+"Vidéo ajoutée à la série.";
+
+}
+
+
+function discardLastVideo() {
+
+currentVideoFile =
+null;
+
+
+document
+.getElementById(
+"resultModal"
+)
+.classList.add(
+"hidden"
+);
+
+}
+
+
+/* =========================
+   FERMER CAMÉRA
+========================= */
+
+function closeCamera() {
+
+if (cameraStream) {
+
+cameraStream
+.getTracks()
+.forEach(
+track =>
+track.stop()
+);
+
+cameraStream =
+null;
+
+}
+
+
+document
+.getElementById(
+"cameraPreview"
+)
+.srcObject =
+null;
+
+
+document
+.getElementById(
+"cameraModal"
+)
+.classList.add(
+"hidden"
+);
+
+}
+
+
+/* =========================
+   PHOTOS
+========================= */
+
+document
+.getElementById(
+"photoInput"
+)
+.addEventListener(
+"change",
+function(event) {
+
+Array.from(
+event.target.files
+).forEach(
+file => {
+
+photoNumber++;
+
+
+const filename =
+safeName() +
+"_photo_" +
+String(
+photoNumber
+).padStart(2,"0") +
+".jpg";
+
+
+files.push(
+new File(
+[file],
+filename,
+{
+type:
+file.type
+}
+)
+);
+
+});
+
+
+event.target.value = "";
+
+renderFiles();
+
+}
+);
+
+
+/* =========================
+   IMPORT
+========================= */
+
+document
+.getElementById(
+"fileInput"
+)
+.addEventListener(
+"change",
+function(event) {
+
+Array.from(
+event.target.files
+).forEach(
+file => {
+
+if (
+file.type.startsWith(
+"image/"
+)
+) {
+
+photoNumber++;
+
+
+files.push(
+file
+);
+
+}
+
+else if (
+file.type.startsWith(
+"video/"
+)
+) {
+
+videoNumber++;
+
+
+files.push(
+file
+);
+
+}
+
+});
+
+
+event.target.value = "";
+
+renderFiles();
+
+}
+);
+
+
+/* =========================
+   AFFICHAGE
+========================= */
+
+function renderFiles() {
+
+const grid =
+document.getElementById(
+"grid"
+);
+
+grid.innerHTML = "";
+
+
+files.forEach(
+(file,index) => {
+
+const item =
+document.createElement(
+"div"
+);
+
+item.className =
+"item";
+
+
+let media;
+
+
+if (
+file.type.startsWith(
+"video/"
+)
+) {
+
+media =
+document.createElement(
+"video"
+);
+
+media.src =
+URL.createObjectURL(
+file
+);
+
+media.muted =
+true;
+
+media.playsInline =
+true;
+
+item.onclick =
+() =>
+openVideo(file);
+
+}
+
+else {
+
+media =
+document.createElement(
+"img"
+);
+
+media.src =
+URL.createObjectURL(
+file
+);
+
+}
+
+
+const badge =
+document.createElement(
+"div"
+);
+
+badge.className =
+"badge";
+
+badge.textContent =
+file.type.startsWith(
+"video/"
+)
+? "VIDÉO"
+: "PHOTO";
+
+
+const info =
+document.createElement(
+"div"
+);
+
+info.className =
+"file-info";
+
+info.textContent =
+formatSize(
+file.size
+);
+
+
+const del =
+document.createElement(
+"button"
+);
+
+del.className =
+"delete";
+
+del.textContent =
+"×";
+
+del.onclick =
+event => {
+
+event.stopPropagation();
+
+files.splice(
+index,
+1
+);
+
+renderFiles();
+
+};
+
+
+item.appendChild(media);
+
+item.appendChild(badge);
+
+item.appendChild(info);
+
+item.appendChild(del);
+
+grid.appendChild(item);
+
+});
+
+
+document.getElementById(
+"count"
+).textContent =
+files.length +
+" fichier" +
+(files.length > 1
+? "s"
+: "");
+
+
+document.getElementById(
+"empty"
+).classList.toggle(
+"hidden",
+files.length > 0
+);
+
+
+document.getElementById(
+"actions"
+).classList.toggle(
+"hidden",
+files.length === 0
+);
+
+}
+
+
+/* =========================
+   LECTEUR
+========================= */
+
+function openVideo(file) {
+
+const video =
+document.getElementById(
+"resultVideo"
+);
+
+video.src =
+URL.createObjectURL(
+file
+);
+
+document.getElementById(
+"resultName"
+).textContent =
+file.name;
+
+document.getElementById(
+"resultMeta"
+).textContent =
+formatSize(
+file.size
+);
+
+document
+.getElementById(
+"resultModal"
+)
+.classList.remove(
+"hidden"
+);
 
 }
 
@@ -834,693 +1697,35 @@ function getVideoExtension(file) {
 
 function formatSize(bytes) {
 
-  if (bytes < 1024)
-    return bytes + " o";
+if (
+bytes <
+1024
+) {
 
-
-  if (bytes < 1024 * 1024)
-    return (
-      (bytes / 1024)
-        .toFixed(1) +
-      " Ko"
-    );
-
-
-  return (
-    (bytes / (1024 * 1024))
-      .toFixed(1) +
-    " Mo"
-  );
+return bytes +
+" o";
 
 }
 
+if (
+bytes <
+1024*1024
+) {
 
-/* =========================
-   AJOUT PHOTO
-========================= */
-
-photoInput.addEventListener(
-  "change",
-  function(event) {
-
-    const selected =
-      Array.from(
-        event.target.files
-      );
-
-
-    let added = 0;
-
-
-    selected.forEach(
-      function(file) {
-
-        if (
-          !file.type.startsWith(
-            "image/"
-          )
-        ) return;
-
-
-        photoNumber++;
-
-
-        const filename =
-          getSafeSessionName() +
-          "_" +
-          getDateString() +
-          "_photo_" +
-          String(photoNumber)
-            .padStart(2, "0") +
-          "." +
-          getImageExtension(file);
-
-
-        files.push(
-          new File(
-            [file],
-            filename,
-            {
-              type: file.type,
-              lastModified:
-                file.lastModified
-            }
-          )
-        );
-
-
-        added++;
-
-      }
-    );
-
-
-    photoInput.value = "";
-
-
-    renderFiles();
-
-
-    if (added) {
-
-      message.textContent =
-        added +
-        " photo" +
-        (added > 1 ? "s" : "") +
-        " ajoutée" +
-        (added > 1 ? "s" : "") +
-        " à la série.";
-
-    }
-
-  }
-);
-
-
-/* =========================
-   AJOUT VIDEO
-========================= */
-
-videoInput.addEventListener(
-  "change",
-  function(event) {
-
-    addVideos(
-      Array.from(
-        event.target.files
-      )
-    );
-
-    videoInput.value = "";
-
-  }
-);
-
-
-/* =========================
-   IMPORT
-========================= */
-
-fileInput.addEventListener(
-  "change",
-  function(event) {
-
-    addImportedFiles(
-      Array.from(
-        event.target.files
-      )
-    );
-
-    fileInput.value = "";
-
-  }
-);
-
-
-function addVideos(selected) {
-
-  let added = 0;
-
-
-  selected.forEach(
-    function(file) {
-
-      if (
-        !file.type.startsWith(
-          "video/"
-        )
-      ) return;
-
-
-      videoNumber++;
-
-
-      const filename =
-        getSafeSessionName() +
-        "_" +
-        getDateString() +
-        "_video_" +
-        String(videoNumber)
-          .padStart(2, "0") +
-        "." +
-        getVideoExtension(file);
-
-
-      files.push(
-        new File(
-          [file],
-          filename,
-          {
-            type: file.type,
-            lastModified:
-              file.lastModified
-          }
-        )
-      );
-
-
-      added++;
-
-    }
-  );
-
-
-  renderFiles();
-
-
-  if (added) {
-
-    message.textContent =
-      added +
-      " vidéo" +
-      (added > 1 ? "s" : "") +
-      " ajoutée" +
-      (added > 1 ? "s" : "") +
-      " à la série.";
-
-  }
+return (
+bytes/1024
+).toFixed(1)
++
+" Ko";
 
 }
 
-
-function addImportedFiles(selected) {
-
-  let added = 0;
-
-
-  selected.forEach(
-    function(file) {
-
-      const isImage =
-        file.type.startsWith(
-          "image/"
-        );
-
-
-      const isVideo =
-        file.type.startsWith(
-          "video/"
-        );
-
-
-      if (
-        !isImage &&
-        !isVideo
-      ) return;
-
-
-      let filename;
-
-
-      if (isImage) {
-
-        photoNumber++;
-
-
-        filename =
-          getSafeSessionName() +
-          "_" +
-          getDateString() +
-          "_photo_" +
-          String(photoNumber)
-            .padStart(2, "0") +
-          "." +
-          getImageExtension(file);
-
-      }
-
-      else {
-
-        videoNumber++;
-
-
-        filename =
-          getSafeSessionName() +
-          "_" +
-          getDateString() +
-          "_video_" +
-          String(videoNumber)
-            .padStart(2, "0") +
-          "." +
-          getVideoExtension(file);
-
-      }
-
-
-      files.push(
-        new File(
-          [file],
-          filename,
-          {
-            type: file.type,
-            lastModified:
-              file.lastModified
-          }
-        )
-      );
-
-
-      added++;
-
-    }
-  );
-
-
-  renderFiles();
-
-
-  if (added) {
-
-    message.textContent =
-      added +
-      " fichier" +
-      (added > 1 ? "s" : "") +
-      " importé" +
-      (added > 1 ? "s" : "") +
-      " dans la série.";
-
-  }
-
-}
-
-
-/* =========================
-   AFFICHAGE
-========================= */
-
-function renderFiles() {
-
-  grid.innerHTML = "";
-
-
-  files.forEach(
-    function(file, index) {
-
-      const item =
-        document.createElement(
-          "div"
-        );
-
-
-      item.className =
-        "item";
-
-
-      let media;
-
-
-      if (
-        file.type.startsWith(
-          "video/"
-        )
-      ) {
-
-        media =
-          document.createElement(
-            "video"
-          );
-
-
-        media.src =
-          URL.createObjectURL(
-            file
-          );
-
-
-        media.muted =
-          true;
-
-
-        media.playsInline =
-          true;
-
-
-        media.preload =
-          "metadata";
-
-
-        item.onclick =
-          function() {
-
-            openVideo(
-              file
-            );
-
-          };
-
-      }
-
-      else {
-
-        media =
-          document.createElement(
-            "img"
-          );
-
-
-        media.src =
-          URL.createObjectURL(
-            file
-          );
-
-
-        item.onclick =
-          function() {
-
-            openImage(
-              file
-            );
-
-          };
-
-      }
-
-
-      const badge =
-        document.createElement(
-          "div"
-        );
-
-
-      badge.className =
-        "badge";
-
-
-      badge.textContent =
-        file.type.startsWith(
-          "video/"
-        )
-        ? "VIDÉO"
-        : "PHOTO";
-
-
-      const info =
-        document.createElement(
-          "div"
-        );
-
-
-      info.className =
-        "file-info";
-
-
-      info.textContent =
-        formatSize(
-          file.size
-        );
-
-
-      const deleteButton =
-        document.createElement(
-          "button"
-        );
-
-
-      deleteButton.className =
-        "delete";
-
-
-      deleteButton.textContent =
-        "×";
-
-
-      deleteButton.onclick =
-        function(event) {
-
-          event.stopPropagation();
-
-
-          files.splice(
-            index,
-            1
-          );
-
-
-          renderFiles();
-
-        };
-
-
-      item.appendChild(
-        media
-      );
-
-
-      item.appendChild(
-        badge
-      );
-
-
-      item.appendChild(
-        info
-      );
-
-
-      item.appendChild(
-        deleteButton
-      );
-
-
-      grid.appendChild(
-        item
-      );
-
-    }
-  );
-
-
-  const total =
-    files.length;
-
-
-  empty.classList.toggle(
-    "hidden",
-    total !== 0
-  );
-
-
-  actions.classList.toggle(
-    "hidden",
-    total === 0
-  );
-
-
-  count.textContent =
-    total +
-    " fichier" +
-    (total > 1 ? "s" : "");
-
-}
-
-
-/* =========================
-   VIDEO PLEIN ÉCRAN
-========================= */
-
-function openVideo(file) {
-
-  const modal =
-    document.getElementById(
-      "videoModal"
-    );
-
-
-  const video =
-    document.getElementById(
-      "fullVideo"
-    );
-
-
-  const name =
-    document.getElementById(
-      "videoName"
-    );
-
-
-  const meta =
-    document.getElementById(
-      "videoMeta"
-    );
-
-
-  const url =
-    URL.createObjectURL(
-      file
-    );
-
-
-  video.src =
-    url;
-
-
-  name.textContent =
-    file.name;
-
-
-  meta.textContent =
-    formatSize(
-      file.size
-    );
-
-
-  video.onloadedmetadata =
-    function() {
-
-      let dimensions =
-        "";
-
-
-      if (
-        video.videoWidth &&
-        video.videoHeight
-      ) {
-
-        dimensions =
-          video.videoWidth +
-          " × " +
-          video.videoHeight;
-
-      }
-
-
-      if (dimensions) {
-
-        meta.textContent =
-          dimensions +
-          " · " +
-          formatSize(
-            file.size
-          );
-
-      }
-
-    };
-
-
-  modal.classList.remove(
-    "hidden"
-  );
-
-
-  video.play().catch(
-    function() {}
-  );
-
-}
-
-
-function closeVideo() {
-
-  const modal =
-    document.getElementById(
-      "videoModal"
-    );
-
-
-  const video =
-    document.getElementById(
-      "fullVideo"
-    );
-
-
-  video.pause();
-
-
-  video.removeAttribute(
-    "src"
-  );
-
-
-  video.load();
-
-
-  modal.classList.add(
-    "hidden"
-  );
-
-}
-
-
-/* =========================
-   IMAGE PLEIN ÉCRAN
-========================= */
-
-function openImage(file) {
-
-  const modal =
-    document.getElementById(
-      "imageModal"
-    );
-
-
-  const image =
-    document.getElementById(
-      "fullImage"
-    );
-
-
-  image.src =
-    URL.createObjectURL(
-      file
-    );
-
-
-  modal.classList.remove(
-    "hidden"
-  );
-
-}
-
-
-function closeImage() {
-
-  document
-    .getElementById(
-      "imageModal"
-    )
-    .classList.add(
-      "hidden"
-    );
+return (
+bytes/
+(1024*1024)
+).toFixed(1)
++
+" Mo";
 
 }
 
@@ -1531,60 +1736,49 @@ function closeImage() {
 
 async function shareFiles() {
 
-  if (!files.length)
-    return;
+if (!files.length)
+return;
 
 
-  try {
+if (
+navigator.canShare &&
+navigator.canShare({
+files
+})
+) {
 
-    if (
-      navigator.canShare &&
-      navigator.canShare({
-        files: files
-      })
-    ) {
+try {
 
-      await navigator.share(
-        {
-          files: files,
+await navigator.share({
 
-          title:
-            sessionName.value ||
-            "Essai",
+files,
 
-          text:
-            "Photos et vidéos d'essai"
-        }
-      );
+title:
+sessionName.value ||
+"Essai",
 
+text:
+"VCA Capture"
 
-      message.innerHTML =
-        "✓ Choisis <b>Enregistrer dans Fichiers</b>, puis ton emplacement OneDrive/SharePoint.";
+});
 
-    }
+}
 
-    else {
+catch(error) {
 
-      message.textContent =
-        "Le partage de fichiers n'est pas disponible sur ce navigateur.";
+console.log(error);
 
-    }
+}
 
-  }
+}
 
-  catch (error) {
+else {
 
-    if (
-      error.name !==
-      "AbortError"
-    ) {
+alert(
+"Le partage de fichiers n'est pas disponible."
+);
 
-      message.textContent =
-        "Le partage n'a pas pu être lancé.";
-
-    }
-
-  }
+}
 
 }
 
@@ -1595,8 +1789,8 @@ async function shareFiles() {
 
 function openFolder() {
 
-  window.location.href =
-    SHAREPOINT_FOLDER;
+window.location.href =
+"https://richemont.sharepoint.com/sites/VCAlab/Dossiers%20Essais/";
 
 }
 
@@ -1607,22 +1801,19 @@ function openFolder() {
 
 function clearFiles() {
 
-  files = [];
+files = [];
 
-  photoNumber = 0;
+photoNumber = 0;
 
-  videoNumber = 0;
+videoNumber = 0;
 
-  renderFiles();
-
-  message.textContent =
-    "Série effacée. Tu peux commencer un nouvel essai.";
+renderFiles();
 
 }
 
 
 /* =========================
-   INITIALISATION
+   INIT
 ========================= */
 
 renderFiles();
