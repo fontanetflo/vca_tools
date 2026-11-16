@@ -1,0 +1,2457 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#111827">
+
+<title>VCA Capture</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    background:#f2f3f5;
+    color:#111827;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
+}
+
+.app{
+    max-width:520px;
+    margin:auto;
+    min-height:100vh;
+    padding:18px 16px 35px
+}
+
+header{
+    text-align:center;
+    margin-bottom:18px;
+    position:relative
+}
+
+.logo{font-size:38px}
+
+h1{
+    margin:7px 0 0;
+    font-size:25px
+}
+
+.subtitle{
+    margin-top:4px;
+    font-size:14px;
+    color:#6b7280
+}
+
+.version{
+    position:absolute;
+    right:0;
+    top:4px;
+    font-size:9px;
+    color:#9ca3af;
+    opacity:.7
+}
+
+.card{
+    background:white;
+    border-radius:18px;
+    padding:17px;
+    margin-bottom:13px;
+    box-shadow:0 5px 18px rgba(0,0,0,.06)
+}
+
+.section-title{
+    font-size:15px;
+    font-weight:750;
+    margin-bottom:11px
+}
+
+input[type="text"]{
+    width:100%;
+    height:48px;
+    padding:0 13px;
+    border-radius:11px;
+    border:1px solid #d1d5db;
+    background:white;
+    font-size:16px;
+    outline:none
+}
+
+button,.action-button{
+    width:100%;
+    min-height:48px;
+    border:0;
+    border-radius:12px;
+    padding:12px 14px;
+    font-size:15px;
+    font-weight:700;
+    font-family:inherit;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px
+}
+
+.primary{background:#111827;color:white}
+.secondary{background:#eef0f3;color:#111827}
+.danger{background:#fee2e2;color:#991b1b}
+
+input[type="file"]{display:none}
+
+.capture-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px
+}
+
+select.photo-label-select{
+    width:100%;
+    min-height:46px;
+    padding:0 12px;
+    border:1px solid #d1d5db;
+    border-radius:11px;
+    background:white;
+    color:#111827;
+    font:inherit;
+    font-size:16px
+}
+
+.photo-label{
+    margin-top:14px
+}
+
+.session{
+    margin-top:10px;
+    padding:10px 12px;
+    border-radius:10px;
+    background:#f3f4f6
+}
+
+.session-name{
+    font-weight:700;
+    font-size:14px
+}
+
+.session-date{
+    margin-top:2px;
+    color:#6b7280;
+    font-size:12px
+}
+
+.file-count{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:7px
+}
+
+.item{
+    position:relative;
+    aspect-ratio:1;
+    overflow:hidden;
+    border-radius:10px;
+    background:#e5e7eb
+}
+
+.item img,
+.item video{
+    width:100%;
+    height:100%;
+    object-fit:cover
+}
+
+.badge{
+    position:absolute;
+    bottom:5px;
+    left:5px;
+    padding:3px 5px;
+    border-radius:5px;
+    background:rgba(0,0,0,.72);
+    color:white;
+    font-size:9px;
+    font-weight:700
+}
+
+.file-info{
+    position:absolute;
+    right:5px;
+    bottom:5px;
+    padding:3px 5px;
+    border-radius:5px;
+    background:rgba(0,0,0,.72);
+    color:white;
+    font-size:8px
+}
+
+.delete{
+    position:absolute;
+    right:5px;
+    top:5px;
+    width:27px;
+    height:27px;
+    min-height:27px;
+    padding:0;
+    border-radius:50%;
+    background:rgba(0,0,0,.72);
+    color:white;
+    z-index:5
+}
+
+.actions{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-top:13px
+}
+
+.info{
+    padding:11px 13px;
+    border-radius:11px;
+    background:#e9edf2;
+    color:#4b5563;
+    font-size:12px;
+    text-align:center
+}
+
+.hidden{display:none!important}
+
+
+/* =========================
+   MODAL RÉGLAGES
+========================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    background:rgba(0,0,0,.96);
+    display:flex;
+    flex-direction:column
+}
+
+.settings{
+    margin:auto;
+    width:calc(100% - 30px);
+    max-width:440px;
+    background:white;
+    border-radius:20px;
+    padding:20px
+}
+
+.settings h2{
+    margin-top:0;
+    text-align:center
+}
+
+.setting-label{
+    margin-top:18px;
+    margin-bottom:8px;
+    font-size:13px;
+    font-weight:700;
+    color:#4b5563
+}
+
+.choice-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px
+}
+
+.choice{
+    min-height:54px;
+    background:#eef0f3;
+    color:#111827
+}
+
+.choice.selected{
+    background:#111827;
+    color:white
+}
+
+.close-settings{margin-top:15px}
+
+
+/* =========================
+   CAMÉRA
+========================= */
+
+.camera-container{
+    position:relative;
+    width:100%;
+    height:100%;
+    background:#000;
+    overflow:hidden
+}
+
+#cameraPreview{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    touch-action:none
+}
+
+.camera-top{
+    position:absolute;
+    top:max(15px,env(safe-area-inset-top));
+    left:15px;
+    right:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    z-index:10
+}
+
+.camera-quality{
+    padding:7px 10px;
+    background:rgba(0,0,0,.60);
+    border-radius:9px;
+    color:white;
+    font-size:12px
+}
+
+.close-camera{
+    width:42px;
+    height:42px;
+    min-height:42px;
+    padding:0;
+    border-radius:50%;
+    background:rgba(255,255,255,.18);
+    color:white;
+    font-size:25px
+}
+
+.zoom-controls{
+    position:absolute;
+    bottom:125px;
+    left:0;
+    right:0;
+    display:flex;
+    justify-content:center;
+    gap:7px;
+    z-index:20
+}
+
+.zoom-button{
+    width:43px;
+    height:36px;
+    min-height:36px;
+    padding:0;
+    border-radius:18px;
+    background:rgba(0,0,0,.60);
+    color:white;
+    font-size:12px
+}
+
+.zoom-button.active{
+    background:white;
+    color:black
+}
+
+.camera-bottom{
+    position:absolute;
+    bottom:max(25px,env(safe-area-inset-bottom));
+    left:0;
+    right:0;
+    display:flex;
+    justify-content:center;
+    z-index:20
+}
+
+.record-button{
+    width:78px;
+    height:78px;
+    min-height:78px;
+    border-radius:50%;
+    background:white;
+    border:7px solid rgba(255,255,255,.40);
+    padding:0
+}
+
+.record-button.recording{
+    background:#ff3b30
+}
+
+.timer{
+    position:absolute;
+    bottom:101px;
+    left:50%;
+    transform:translateX(-50%);
+    min-width:104px;
+    padding:8px 16px;
+    border-radius:22px;
+    background:rgba(0,0,0,.62);
+    text-align:center;
+    color:white;
+    font-weight:800;
+    font-size:22px;
+    font-variant-numeric:tabular-nums;
+    letter-spacing:1px;
+    z-index:21
+}
+.recording-status{
+    position:absolute;
+    bottom:151px;
+    left:50%;
+    transform:translateX(-50%);
+    padding:6px 12px;
+    border-radius:16px;
+    background:rgba(0,0,0,.58);
+    color:white;
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:.8px;
+    white-space:nowrap;
+    z-index:21
+}
+.recording-status.is-recording{background:#b91c1c}
+
+
+/* =========================
+   RÉSULTAT VIDÉO
+========================= */
+
+.result-video{
+    width:100%;
+    max-height:70vh;
+    object-fit:contain;
+    background:black;
+    margin:auto 0
+}
+
+.result-info{
+    color:white;
+    text-align:center;
+    padding:15px
+}
+
+.result-name{
+    font-weight:700;
+    font-size:13px
+}
+
+.result-meta{
+    color:#d1d5db;
+    margin-top:4px;
+    font-size:12px
+}
+
+.result-actions{
+    display:flex;
+    gap:8px;
+    padding:10px 15px max(15px,env(safe-area-inset-bottom))
+}
+
+.result-actions button{
+    flex:1
+}
+</style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+<header>
+
+    <div class="logo">🧪</div>
+
+    <h1>VCA Capture</h1>
+
+    <div class="subtitle">
+        Photos et vidéos d'essais
+    </div>
+
+    <div class="version">
+        v2.6
+    </div>
+
+</header>
+
+
+<!-- =========================
+     ESSAI
+========================= -->
+
+<div class="card">
+
+    <div class="section-title">
+        🏷️ Essai
+    </div>
+
+    <input
+        id="sessionName"
+        type="text"
+        placeholder="Nom de l'essai"
+    >
+
+    <div
+        id="sessionInfo"
+        class="session hidden"
+    >
+
+        <div
+            id="displayName"
+            class="session-name"
+        ></div>
+
+        <div
+            id="displayDate"
+            class="session-date"
+        ></div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     CAPTURE
+========================= -->
+
+<div class="card">
+
+    <div class="section-title">
+        📸 Capture
+    </div>
+
+    <div class="capture-grid">
+
+        <label
+            for="photoInput"
+            class="action-button primary"
+        >
+            📷 Photo
+        </label>
+
+        <input
+            id="photoInput"
+            type="file"
+            accept="image/*"
+            capture="environment"
+            multiple
+        >
+
+        <button
+            class="secondary"
+            onclick="showVideoSettings()"
+        >
+            🎥 Vidéo
+        </button>
+
+    </div>
+
+    <div class="photo-label">
+        <div class="setting-label">Type d’essai</div>
+        <select id="photoLabel" class="photo-label-select">
+            <option value="EI" selected>EI</option>
+            <option value="EF">EF</option>
+            <option value="KO">KO</option>
+            <option value="Test Rupture">Test Rupture</option>
+            <option value="Arrachement">Arrachement</option>
+            <option value="Contrôle intermédiaire">Contrôle intermédiaire</option>
+            <option value="Contrôle">Contrôle</option>
+            <option value="Commentaire">Commentaire</option>
+            <option value="Chocs 450g">Chocs 450g</option>
+            <option value="Chocs 550g">Chocs 550g</option>
+            <option value="Chute accidentelle">Chute accidentelle</option>
+            <option value="Reese">Reese</option>
+            <option value="Vieillissement">Vieillissement</option>
+        </select>
+
+        <div class="setting-label" style="margin-top:12px">Résultat</div>
+        <select id="photoResult" class="photo-label-select">
+            <option value="" selected>Non renseigné</option>
+            <option value="OK">OK</option>
+            <option value="KO">KO</option>
+        </select>
+
+        <div class="setting-label" style="margin-top:12px">Numéro de pièce</div>
+        <select id="pieceNumber" class="photo-label-select">
+            <option value="1" selected>Pièce 1</option>
+            <option value="2">Pièce 2</option>
+            <option value="3">Pièce 3</option>
+            <option value="4">Pièce 4</option>
+            <option value="5">Pièce 5</option>
+            <option value="6">Pièce 6</option>
+            <option value="7">Pièce 7</option>
+            <option value="8">Pièce 8</option>
+            <option value="9">Pièce 9</option>
+            <option value="10">Pièce 10</option>
+        </select>
+
+        <div class="setting-label" style="margin-top:12px">Commentaire (facultatif)</div>
+        <textarea id="photoComment" rows="2"
+            placeholder="Commentaire ajouté à la fin du nom du fichier"
+            style="width:100%;box-sizing:border-box;margin-top:6px;padding:10px 12px;border:1px solid #d1d5db;border-radius:11px;font:inherit;font-size:16px;resize:vertical"></textarea>
+    </div>
+
+</div>
+
+
+<!-- =========================
+     IMPORT
+========================= -->
+
+<div class="card">
+
+    <div class="section-title">
+        📁 Import
+    </div>
+
+    <label
+        for="fileInput"
+        class="action-button secondary"
+    >
+        📁 Importer depuis Fichiers
+    </label>
+
+    <input
+        id="fileInput"
+        type="file"
+        accept="image/*,video/*"
+        multiple
+    >
+
+</div>
+
+
+<!-- =========================
+     FICHIERS
+========================= -->
+
+<div class="card">
+
+    <div class="file-count">
+
+        <strong>
+            Fichiers de la série
+        </strong>
+
+        <span id="count">
+            0 fichier
+        </span>
+
+    </div>
+
+    <div
+        id="empty"
+        class="info"
+    >
+        Aucun fichier pour le moment
+    </div>
+
+    <div
+        id="grid"
+        class="grid"
+    ></div>
+
+    <div
+        id="actions"
+        class="actions hidden"
+    >
+
+        <button
+            class="primary"
+            onclick="shareFiles()"
+        >
+            💾 Enregistrer dans Fichiers
+        </button>
+
+        <button
+            class="secondary"
+            onclick="openFolder()"
+        >
+            📂 Ouvrir Dossiers Essais
+        </button>
+
+        <button
+            class="danger"
+            onclick="clearFiles()"
+        >
+            🗑️ Effacer la série
+        </button>
+
+    </div>
+
+</div>
+
+
+<div
+    id="message"
+    class="info"
+>
+    Donne un nom à l'essai puis commence une capture.
+</div>
+
+</div>
+
+
+<!-- =========================
+     RÉGLAGES VIDÉO
+========================= -->
+
+<div
+    id="settingsModal"
+    class="modal hidden"
+>
+
+<div class="settings">
+
+    <h2>
+        🎥 Réglages vidéo
+    </h2>
+
+
+    <div class="setting-label">
+        Résolution
+    </div>
+
+    <div class="choice-grid">
+
+        <button
+            id="res4k"
+            class="choice"
+            onclick="selectResolution(3840,2160,'4K')"
+        >
+            4K
+        </button>
+
+        <button
+            id="res1080"
+            class="choice selected"
+            onclick="selectResolution(1920,1080,'1080p')"
+        >
+            1080p
+        </button>
+
+        <button
+            id="res720"
+            class="choice"
+            onclick="selectResolution(1280,720,'HD')"
+        >
+            HD
+        </button>
+
+    </div>
+
+
+    <div class="setting-label">
+        Mode vidéo
+    </div>
+
+    <div class="choice-grid">
+
+        <button
+            id="modeNormal"
+            class="choice selected"
+            onclick="selectMode('normal')"
+        >
+            🎬 Normal
+        </button>
+
+        <button
+            id="modeSlow"
+            class="choice"
+            onclick="selectMode('slow')"
+        >
+            🐌 Ralenti
+        </button>
+
+        <button
+            id="modeFast"
+            class="choice"
+            onclick="selectMode('fast')"
+        >
+            ⚡ Accéléré
+        </button>
+
+    </div>
+
+
+    <div class="setting-label">
+        Images par seconde
+    </div>
+
+    <div class="choice-grid">
+
+        <button
+            id="fps24"
+            class="choice"
+            onclick="selectFPS(24)"
+        >
+            24
+        </button>
+
+        <button
+            id="fps30"
+            class="choice selected"
+            onclick="selectFPS(30)"
+        >
+            30
+        </button>
+
+        <button
+            id="fps60"
+            class="choice"
+            onclick="selectFPS(60)"
+        >
+            60
+        </button>
+
+    </div>
+
+
+    <button
+        class="primary"
+        style="margin-top:20px"
+        onclick="launchCamera()"
+    >
+        📷 Ouvrir la caméra
+    </button>
+
+
+    <button
+        class="secondary close-settings"
+        onclick="closeVideoSettings()"
+    >
+        Annuler
+    </button>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     CAMÉRA
+========================= -->
+
+<div
+    id="cameraModal"
+    class="modal hidden"
+>
+
+<div class="camera-container">
+
+    <video
+        id="cameraPreview"
+        autoplay
+        muted
+        playsinline
+    ></video>
+
+
+    <div class="camera-top">
+
+        <div
+            id="cameraQuality"
+            class="camera-quality"
+        ></div>
+
+        <button
+            class="close-camera"
+            onclick="closeCamera()"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <div
+        id="zoomControls"
+        class="zoom-controls"
+    >
+
+        <button
+            class="zoom-button"
+            onclick="setZoom(.5,this)"
+        >
+            0,5×
+        </button>
+
+        <button
+            class="zoom-button active"
+            onclick="setZoom(1,this)"
+        >
+            1×
+        </button>
+
+        <button
+            class="zoom-button"
+            onclick="setZoom(2,this)"
+        >
+            2×
+        </button>
+
+        <button
+            class="zoom-button"
+            onclick="setZoom(3,this)"
+        >
+            3×
+        </button>
+
+    </div>
+
+
+    <div id="recordingStatus" class="recording-status" aria-live="polite">PRÊT À FILMER</div>
+    <div id="timer" class="timer" aria-live="off">00:00</div>
+
+
+    <div class="camera-bottom">
+
+        <button
+            id="recordButton"
+            class="record-button"
+            onclick="toggleRecording()"
+        ></button>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     RÉSULTAT
+========================= -->
+
+<div
+    id="resultModal"
+    class="modal hidden"
+>
+
+<video
+    id="resultVideo"
+    class="result-video"
+    controls
+    playsinline
+></video>
+
+<div class="result-info">
+
+    <div
+        id="resultName"
+        class="result-name"
+    ></div>
+
+    <div
+        id="resultMeta"
+        class="result-meta"
+    ></div>
+
+</div>
+
+<div class="result-actions">
+
+    <button
+        class="secondary"
+        onclick="discardLastVideo()"
+    >
+        🗑️ Supprimer
+    </button>
+
+    <button
+        class="primary"
+        onclick="keepLastVideo()"
+    >
+        ✓ Garder
+    </button>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   VCA CAPTURE — VERSION
+===================================================== */
+
+const APP_VERSION = "2.6";
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let files = [];
+
+let photoNumber = 0;
+let videoNumber = 0;
+
+let cameraStream = null;
+let mediaRecorder = null;
+let recordedChunks = [];
+
+let currentVideoFile = null;
+
+let currentZoom = 1;
+let zoomMin = 1;
+let zoomMax = 3;
+
+let startTime = 0;
+let timerInterval = null;
+
+let videoSettings = {
+
+    width:1920,
+    height:1080,
+    label:"1080p",
+
+    fps:30,
+
+    mode:"normal"
+
+};
+
+
+/* =====================================================
+   NOM ESSAI
+===================================================== */
+
+const sessionName =
+document.getElementById("sessionName");
+
+
+sessionName.addEventListener(
+    "input",
+    function(){
+
+        const name =
+            sessionName.value.trim();
+
+        const info =
+            document.getElementById(
+                "sessionInfo"
+            );
+
+        if(!name){
+
+            info.classList.add(
+                "hidden"
+            );
+
+            return;
+        }
+
+        info.classList.remove(
+            "hidden"
+        );
+
+        document.getElementById(
+            "displayName"
+        ).textContent =
+            name;
+
+        document.getElementById(
+            "displayDate"
+        ).textContent =
+            new Date().toLocaleString(
+                "fr-FR"
+            );
+    }
+);
+
+
+/* =====================================================
+   NOM DE FICHIER
+===================================================== */
+
+function safeName(){
+
+    return (
+        sessionName.value.trim()
+        ||
+        "Essai"
+    )
+    .normalize("NFD")
+    .replace(
+        /[\u0300-\u036f]/g,
+        ""
+    )
+    .replace(
+        /[^a-zA-Z0-9_-]+/g,
+        "-"
+    )
+    .replace(
+        /-+/g,
+        "-"
+    )
+    .replace(
+        /^-|-$/g,
+        ""
+    );
+}
+
+
+function safeFilePart(value, fallback = ""){
+    return (value || "")
+        .trim()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-zA-Z0-9_-]+/g, "-")
+        .replace(/-+/g, "-")
+        .replace(/^-|-$/g, "") || fallback;
+}
+
+function safePhotoLabel(){
+    const selected = document
+        .getElementById("photoLabel")
+        .value;
+
+    return safeFilePart(selected, "EI");
+}
+
+
+/* =====================================================
+   RÉGLAGES
+===================================================== */
+
+function showVideoSettings(){
+
+    document
+        .getElementById("settingsModal")
+        .classList.remove("hidden");
+}
+
+
+function closeVideoSettings(){
+
+    document
+        .getElementById("settingsModal")
+        .classList.add("hidden");
+}
+
+
+function selectResolution(
+    width,
+    height,
+    label
+){
+
+    videoSettings.width = width;
+    videoSettings.height = height;
+    videoSettings.label = label;
+
+    document
+        .querySelectorAll(
+            "#settingsModal .choice"
+        )
+        .forEach(
+            b =>
+                b.classList.remove(
+                    "selected"
+                )
+        );
+
+    if(label === "4K")
+        document
+            .getElementById("res4k")
+            .classList.add("selected");
+
+    if(label === "1080p")
+        document
+            .getElementById("res1080")
+            .classList.add("selected");
+
+    if(label === "HD")
+        document
+            .getElementById("res720")
+            .classList.add("selected");
+}
+
+
+function selectMode(mode){
+
+    videoSettings.mode = mode;
+
+    ["modeNormal","modeSlow","modeFast"]
+        .forEach(
+            id =>
+                document
+                    .getElementById(id)
+                    .classList.remove(
+                        "selected"
+                    )
+        );
+
+    if(mode === "normal")
+        document
+            .getElementById("modeNormal")
+            .classList.add("selected");
+
+    if(mode === "slow")
+        document
+            .getElementById("modeSlow")
+            .classList.add("selected");
+
+    if(mode === "fast")
+        document
+            .getElementById("modeFast")
+            .classList.add("selected");
+
+
+    /*
+       Le ralenti utilise 60 fps.
+       L'accéléré reste à 30/60 fps mais
+       sera identifié comme mode accéléré.
+    */
+
+    if(mode === "slow"){
+
+        videoSettings.fps = 60;
+
+        updateFPSButtons();
+
+    }
+}
+
+
+function selectFPS(fps){
+
+    videoSettings.fps = fps;
+
+    updateFPSButtons();
+}
+
+
+function updateFPSButtons(){
+
+    ["fps24","fps30","fps60"]
+        .forEach(
+            id =>
+                document
+                    .getElementById(id)
+                    .classList.remove(
+                        "selected"
+                    )
+        );
+
+    document
+        .getElementById(
+            "fps" +
+            videoSettings.fps
+        )
+        .classList.add(
+            "selected"
+        );
+}
+
+
+/* =====================================================
+   CAMÉRA
+===================================================== */
+
+async function launchCamera(){
+
+    closeVideoSettings();
+
+    try{
+
+        cameraStream =
+            await navigator.mediaDevices
+                .getUserMedia({
+
+                    audio:true,
+
+                    video:{
+
+                        facingMode:{
+                            ideal:"environment"
+                        },
+
+                        width:{
+                            ideal:
+                                videoSettings.width
+                        },
+
+                        height:{
+                            ideal:
+                                videoSettings.height
+                        },
+
+                        frameRate:{
+                            ideal:
+                                videoSettings.fps
+                        }
+
+                    }
+
+                });
+
+
+        const video =
+            document.getElementById(
+                "cameraPreview"
+            );
+
+        video.srcObject =
+            cameraStream;
+
+        await video.play();
+
+
+        const track =
+            cameraStream
+                .getVideoTracks()[0];
+
+
+        const capabilities =
+            track.getCapabilities
+                ? track.getCapabilities()
+                : {};
+
+
+        if(capabilities.zoom){
+
+            zoomMin =
+                capabilities.zoom.min || 1;
+
+            zoomMax =
+                capabilities.zoom.max || 3;
+
+            currentZoom =
+                zoomMin;
+
+            updateZoomButtons();
+
+        }
+        else{
+
+            document
+                .getElementById(
+                    "zoomControls"
+                )
+                .style.display =
+                    "none";
+        }
+
+
+        const settings =
+            track.getSettings
+                ? track.getSettings()
+                : {};
+
+
+        const actualWidth =
+            settings.width ||
+            videoSettings.width;
+
+        const actualHeight =
+            settings.height ||
+            videoSettings.height;
+
+        const actualFPS =
+            settings.frameRate ||
+            videoSettings.fps;
+
+
+        document.getElementById(
+            "cameraQuality"
+        ).textContent =
+            actualWidth +
+            "×" +
+            actualHeight +
+            " · " +
+            Math.round(actualFPS) +
+            " fps";
+
+
+        document
+            .getElementById(
+                "cameraModal"
+            )
+            .classList.remove(
+                "hidden"
+            );
+
+
+        fixCameraSize();
+
+        enablePinchZoom();
+
+    }
+    catch(error){
+
+        alert(
+            "Impossible d'accéder à la caméra.\n\n" +
+            error.message
+        );
+
+    }
+}
+
+
+/* =====================================================
+   CORRECTION ORIENTATION
+===================================================== */
+
+function fixCameraSize(){
+
+    const container =
+        document.querySelector(
+            ".camera-container"
+        );
+
+    const video =
+        document.getElementById(
+            "cameraPreview"
+        );
+
+    if(!container || !video)
+        return;
+
+    video.style.width = "100%";
+    video.style.height = "100%";
+
+    void video.offsetHeight;
+}
+
+
+window.addEventListener(
+    "resize",
+    function(){
+
+        if(cameraStream)
+            setTimeout(
+                fixCameraSize,
+                150
+            );
+
+    }
+);
+
+
+window.addEventListener(
+    "orientationchange",
+    function(){
+
+        if(cameraStream)
+            setTimeout(
+                fixCameraSize,
+                300
+            );
+
+    }
+);
+
+
+/* =====================================================
+   ZOOM
+===================================================== */
+
+async function setZoom(
+    requestedZoom,
+    button
+){
+
+    if(!cameraStream)
+        return;
+
+    const track =
+        cameraStream
+            .getVideoTracks()[0];
+
+    if(!track.applyConstraints)
+        return;
+
+    const value =
+        Math.max(
+            zoomMin,
+            Math.min(
+                zoomMax,
+                requestedZoom
+            )
+        );
+
+
+    try{
+
+        await track.applyConstraints({
+
+            advanced:[
+                {
+                    zoom:value
+                }
+            ]
+
+        });
+
+
+        currentZoom = value;
+
+
+        document
+            .querySelectorAll(
+                ".zoom-button"
+            )
+            .forEach(
+                b =>
+                    b.classList.remove(
+                        "active"
+                    )
+            );
+
+
+        if(button)
+            button.classList.add(
+                "active"
+            );
+
+    }
+    catch(error){
+
+        console.log(
+            "Zoom non disponible",
+            error
+        );
+
+    }
+}
+
+
+function updateZoomButtons(){
+
+    document
+        .querySelectorAll(
+            ".zoom-button"
+        )
+        .forEach(
+            button => {
+
+                const value =
+                    parseFloat(
+                        button.textContent
+                            .replace(",","." )
+                            .replace("×","")
+                    );
+
+                button.style.display =
+                    value >= zoomMin &&
+                    value <= zoomMax
+                    ? "flex"
+                    : "none";
+
+            }
+        );
+}
+
+
+/* =====================================================
+   PINCH
+===================================================== */
+
+function enablePinchZoom(){
+
+    const video =
+        document.getElementById(
+            "cameraPreview"
+        );
+
+    let startDistance = null;
+    let startZoom = currentZoom;
+
+
+    video.ontouchstart =
+        function(event){
+
+            if(
+                event.touches.length === 2
+            ){
+
+                startDistance =
+                    distance(
+                        event.touches[0],
+                        event.touches[1]
+                    );
+
+                startZoom =
+                    currentZoom;
+            }
+
+        };
+
+
+    video.ontouchmove =
+        function(event){
+
+            if(
+                event.touches.length !== 2
+            )
+                return;
+
+            event.preventDefault();
+
+
+            const currentDistance =
+                distance(
+                    event.touches[0],
+                    event.touches[1]
+                );
+
+
+            if(!startDistance)
+                return;
+
+
+            const ratio =
+                currentDistance /
+                startDistance;
+
+
+            const newZoom =
+                Math.max(
+                    zoomMin,
+                    Math.min(
+                        zoomMax,
+                        startZoom * ratio
+                    )
+                );
+
+
+            setZoom(
+                newZoom,
+                null
+            );
+
+        };
+
+}
+
+
+function distance(a,b){
+
+    const dx =
+        a.clientX - b.clientX;
+
+    const dy =
+        a.clientY - b.clientY;
+
+    return Math.sqrt(
+        dx*dx + dy*dy
+    );
+}
+
+
+/* =====================================================
+   ENREGISTREMENT
+===================================================== */
+
+function toggleRecording(){
+
+    if(
+        mediaRecorder &&
+        mediaRecorder.state === "recording"
+    ){
+
+        mediaRecorder.stop();
+
+        return;
+    }
+
+
+    recordedChunks = [];
+
+
+    let mimeType = "";
+
+
+    const types = [
+
+        "video/mp4",
+
+        "video/mp4;codecs=h264",
+
+        "video/webm;codecs=h264",
+
+        "video/webm"
+
+    ];
+
+
+    for(
+        const type of types
+    ){
+
+        if(
+            MediaRecorder.isTypeSupported(
+                type
+            )
+        ){
+
+            mimeType = type;
+
+            break;
+        }
+    }
+
+
+    try{
+
+        mediaRecorder =
+            new MediaRecorder(
+
+                cameraStream,
+
+                mimeType
+                    ? {
+                        mimeType,
+                        videoBitsPerSecond:
+                            videoSettings.label === "4K"
+                            ? 12000000
+                            : videoSettings.label === "1080p"
+                            ? 6000000
+                            : 3000000
+                    }
+                    : undefined
+            );
+
+    }
+    catch(error){
+
+        alert(
+            "Impossible de démarrer la vidéo."
+        );
+
+        return;
+    }
+
+
+    mediaRecorder.ondataavailable =
+        function(event){
+
+            if(
+                event.data &&
+                event.data.size > 0
+            ){
+
+                recordedChunks.push(
+                    event.data
+                );
+            }
+
+        };
+
+
+    mediaRecorder.onerror =
+        function(event){
+            console.error("Erreur MediaRecorder :", event.error || event);
+            stopTimer();
+
+            setRecordingUI(false);
+
+            alert("Une erreur est survenue pendant l'enregistrement vidéo. La vidéo peut être incomplète.");
+        };
+
+
+    mediaRecorder.onstop =
+        finishRecording;
+
+
+    // Demande au navigateur de transmettre régulièrement les données.
+    // Cela évite de conserver tout le tampon interne jusqu'à l'arrêt.
+    mediaRecorder.start(1000);
+
+
+    setRecordingUI(true);
+    startTimer();
+}
+
+
+/* =====================================================
+   TIMER
+===================================================== */
+
+function setRecordingUI(active){
+    document.getElementById("recordButton").classList.toggle("recording", active);
+    const status = document.getElementById("recordingStatus");
+    status.classList.toggle("is-recording", active);
+    status.textContent = active ? "● ENREGISTREMENT EN COURS" : "PRÊT À FILMER";
+}
+
+function updateRecordingTimer(){
+    const seconds = Math.floor((Date.now() - startTime) / 1000);
+    document.getElementById("timer").textContent =
+        String(Math.floor(seconds / 60)).padStart(2,"0") + ":" +
+        String(seconds % 60).padStart(2,"0");
+}
+
+function startTimer(){
+    startTime = Date.now();
+    updateRecordingTimer();
+    timerInterval = setInterval(updateRecordingTimer, 250);
+}
+
+function stopTimer(){
+    clearInterval(timerInterval);
+    timerInterval = null;
+    updateRecordingTimer();
+}
+
+
+/* =====================================================
+   FIN ENREGISTREMENT
+===================================================== */
+
+function finishRecording(){
+
+    stopTimer();
+    setRecordingUI(false);
+
+
+    const type =
+        mediaRecorder.mimeType ||
+        "video/mp4";
+
+
+    const extension =
+        type.includes("mp4")
+        ? "mp4"
+        : "webm";
+
+
+    const blob =
+        new Blob(
+            recordedChunks,
+            {
+                type
+            }
+        );
+
+
+    /*
+       IMPORTANT :
+       le nom de l'essai est récupéré ici,
+       au moment de créer le fichier.
+    */
+
+    const baseName =
+        safeName();
+
+
+    currentVideoFile =
+        new File(
+
+            [blob],
+
+            baseName +
+            "_video_" +
+            String(
+                videoNumber + 1
+            ).padStart(
+                2,
+                "0"
+            ) +
+            "_" +
+            videoSettings.mode +
+            "." +
+            extension,
+
+            {
+                type,
+                lastModified:
+                    Date.now()
+            }
+
+        );
+
+
+    closeCamera();
+
+
+    showVideoResult();
+}
+
+
+/* =====================================================
+   RÉSULTAT VIDÉO
+===================================================== */
+
+function showVideoResult(){
+
+    const video =
+        document.getElementById(
+            "resultVideo"
+        );
+
+
+    video.src =
+        URL.createObjectURL(
+            currentVideoFile
+        );
+
+
+    document.getElementById(
+        "resultName"
+    ).textContent =
+        currentVideoFile.name;
+
+
+    document.getElementById(
+        "resultMeta"
+    ).textContent =
+        formatSize(
+            currentVideoFile.size
+        );
+
+
+    document
+        .getElementById(
+            "resultModal"
+        )
+        .classList.remove(
+            "hidden"
+        );
+}
+
+
+function keepLastVideo(){
+
+    videoNumber++;
+
+
+    const extension =
+        currentVideoFile.name
+            .split(".")
+            .pop();
+
+
+    /*
+       On renumérote proprement le fichier.
+    */
+
+    const mode =
+        videoSettings.mode;
+
+
+    currentVideoFile =
+        new File(
+
+            [currentVideoFile],
+
+            safeName() +
+            "_video_" +
+            String(
+                videoNumber
+            ).padStart(
+                2,
+                "0"
+            ) +
+            "_" +
+            mode +
+            "." +
+            extension,
+
+            {
+                type:
+                    currentVideoFile.type,
+
+                lastModified:
+                    Date.now()
+            }
+
+        );
+
+
+    files.push(
+        currentVideoFile
+    );
+
+
+    document
+        .getElementById(
+            "resultModal"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+
+    renderFiles();
+}
+
+
+function discardLastVideo(){
+
+    currentVideoFile = null;
+
+
+    document
+        .getElementById(
+            "resultModal"
+        )
+        .classList.add(
+            "hidden"
+        );
+}
+
+
+/* =====================================================
+   FERMETURE CAMÉRA
+===================================================== */
+
+function closeCamera(){
+
+    stopTimer();
+
+
+    if(cameraStream){
+
+        cameraStream
+            .getTracks()
+            .forEach(
+                track =>
+                    track.stop()
+            );
+
+        cameraStream = null;
+    }
+
+
+    document.getElementById(
+        "cameraPreview"
+    ).srcObject = null;
+
+
+    document
+        .getElementById(
+            "cameraModal"
+        )
+        .classList.add(
+            "hidden"
+        );
+}
+
+
+/* =====================================================
+   PHOTO
+===================================================== */
+
+document
+    .getElementById("photoInput")
+    .addEventListener(
+        "change",
+        function(event){
+
+            Array.from(event.target.files).forEach(file => {
+                photoNumber++;
+
+                const mime = file.type || "image/jpeg";
+                let extension = "jpg";
+
+                if(mime.includes("png")) extension = "png";
+                else if(mime.includes("webp")) extension = "webp";
+                else if(mime.includes("heic")) extension = "heic";
+                else if(mime.includes("heif")) extension = "heif";
+
+                const designation = safePhotoLabel();
+                const result = document.getElementById("photoResult").value;
+                const piece = document.getElementById("pieceNumber").value || "1";
+                const comment = document.getElementById("photoComment").value.trim();
+                const number = String(photoNumber).padStart(2,"0");
+                const resultPart = safeFilePart(result);
+                const piecePart = "P" + String(piece).padStart(2,"0");
+                const commentPart = safeFilePart(comment);
+                const fileName = [
+                    safeName(),
+                    designation,
+                    resultPart,
+                    piecePart,
+                    number,
+                    commentPart
+                ].filter(Boolean).join("_") + "." + extension;
+
+                const photoFile = new File(
+                    [file],
+                    fileName,
+                    {
+                        type:mime,
+                        lastModified:Date.now()
+                    }
+                );
+
+                files.push(photoFile);
+            });
+
+            document.getElementById("photoComment").value = "";
+            event.target.value = "";
+            renderFiles();
+        }
+    );
+
+
+/* =====================================================
+   IMPORT
+===================================================== */
+
+document
+    .getElementById(
+        "fileInput"
+    )
+    .addEventListener(
+        "change",
+        function(event){
+
+            Array.from(
+                event.target.files
+            ).forEach(
+                file => {
+
+                    if(
+                        file.type.startsWith(
+                            "image/"
+                        )
+                    ){
+
+                        photoNumber++;
+
+                    }
+                    else if(
+                        file.type.startsWith(
+                            "video/"
+                        )
+                    ){
+
+                        videoNumber++;
+
+                    }
+
+
+                    files.push(file);
+
+                }
+            );
+
+
+            event.target.value = "";
+
+            renderFiles();
+
+        }
+    );
+
+
+/* =====================================================
+   AFFICHAGE
+===================================================== */
+
+function renderFiles(){
+
+    const grid =
+        document.getElementById(
+            "grid"
+        );
+
+
+    grid.innerHTML = "";
+
+
+    files.forEach(
+        (file,index) => {
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+            item.className = "item";
+
+
+            let media;
+
+
+            if(
+                file.type.startsWith(
+                    "video/"
+                )
+            ){
+
+                media =
+                    document.createElement(
+                        "video"
+                    );
+
+                media.src =
+                    URL.createObjectURL(
+                        file
+                    );
+
+                media.muted = true;
+                media.playsInline = true;
+
+                item.onclick =
+                    () =>
+                        openVideo(file);
+
+            }
+            else{
+
+                media =
+                    document.createElement(
+                        "img"
+                    );
+
+                media.src =
+                    URL.createObjectURL(
+                        file
+                    );
+
+            }
+
+
+            const badge =
+                document.createElement(
+                    "div"
+                );
+
+            badge.className = "badge";
+
+            badge.textContent =
+                file.type.startsWith(
+                    "video/"
+                )
+                ? "VIDÉO"
+                : "PHOTO";
+
+
+            const info =
+                document.createElement(
+                    "div"
+                );
+
+            info.className =
+                "file-info";
+
+            info.textContent =
+                formatSize(
+                    file.size
+                );
+
+
+            const del =
+                document.createElement(
+                    "button"
+                );
+
+            del.className = "delete";
+
+            del.textContent = "×";
+
+
+            del.onclick =
+                function(event){
+
+                    event.stopPropagation();
+
+                    files.splice(
+                        index,
+                        1
+                    );
+
+                    renderFiles();
+                };
+
+
+            item.appendChild(media);
+
+            item.appendChild(badge);
+            item.appendChild(info);
+            item.appendChild(del);
+
+            grid.appendChild(item);
+
+        }
+    );
+
+
+    document.getElementById(
+        "count"
+    ).textContent =
+        files.length +
+        " fichier" +
+        (
+            files.length > 1
+            ? "s"
+            : ""
+        );
+
+
+    document.getElementById(
+        "empty"
+    ).classList.toggle(
+        "hidden",
+        files.length > 0
+    );
+
+
+    document.getElementById(
+        "actions"
+    ).classList.toggle(
+        "hidden",
+        files.length === 0
+    );
+}
+
+
+/* =====================================================
+   LECTURE VIDÉO
+===================================================== */
+
+function openVideo(file){
+
+    const video =
+        document.getElementById(
+            "resultVideo"
+        );
+
+
+    video.src =
+        URL.createObjectURL(
+            file
+        );
+
+
+    document.getElementById(
+        "resultName"
+    ).textContent =
+        file.name;
+
+
+    document.getElementById(
+        "resultMeta"
+    ).textContent =
+        formatSize(
+            file.size
+        );
+
+
+    document
+        .getElementById(
+            "resultModal"
+        )
+        .classList.remove(
+            "hidden"
+        );
+}
+
+
+/* =====================================================
+   TAILLE
+===================================================== */
+
+function formatSize(bytes){
+
+    if(bytes < 1024)
+        return bytes + " o";
+
+    if(bytes < 1024 * 1024)
+        return (
+            bytes / 1024
+        ).toFixed(1) +
+        " Ko";
+
+    return (
+        bytes /
+        (1024 * 1024)
+    ).toFixed(1) +
+    " Mo";
+}
+
+
+/* =====================================================
+   EXPORT
+===================================================== */
+
+async function shareFiles(){
+
+    if(!files.length)
+        return;
+
+
+    if(
+        navigator.canShare &&
+        navigator.canShare({
+            files
+        })
+    ){
+
+        try{
+
+            await navigator.share({
+
+                files,
+
+                title:
+                    sessionName.value ||
+                    "Essai",
+
+                text:
+                    "VCA Capture"
+
+            });
+
+        }
+        catch(error){
+
+            console.log(error);
+
+        }
+
+    }
+    else{
+
+        alert(
+            "Le partage de fichiers n'est pas disponible."
+        );
+
+    }
+}
+
+
+/* =====================================================
+   SHAREPOINT
+===================================================== */
+
+function openFolder(){
+
+    window.location.href =
+        "https://richemont.sharepoint.com/sites/VCAlab/Dossiers%20Essais/";
+}
+
+
+/* =====================================================
+   EFFACER
+===================================================== */
+
+function clearFiles(){
+
+    files = [];
+    photoNumber = 0;
+    videoNumber = 0;
+
+    renderFiles();
+}
+
+
+/* =====================================================
+   INITIALISATION
+===================================================== */
+
+renderFiles();
+
+</script>
+
+</body>
+</html>
