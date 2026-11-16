@@ -105,6 +105,22 @@ input[type="file"]{display:none}
     gap:10px
 }
 
+select.photo-label-select{
+    width:100%;
+    min-height:46px;
+    padding:0 12px;
+    border:1px solid #d1d5db;
+    border-radius:11px;
+    background:white;
+    color:#111827;
+    font:inherit;
+    font-size:16px
+}
+
+.photo-label{
+    margin-top:14px
+}
+
 .session{
     margin-top:10px;
     padding:10px 12px;
@@ -432,7 +448,7 @@ input[type="file"]{display:none}
     </div>
 
     <div class="version">
-        v2.2
+        v2.3
     </div>
 
 </header>
@@ -508,6 +524,28 @@ input[type="file"]{display:none}
             🎥 Vidéo
         </button>
 
+    </div>
+
+    <div class="photo-label">
+        <div class="setting-label">Désignation de la photo</div>
+        <select id="photoLabel" class="photo-label-select">
+            <option value="EI" selected>EI</option>
+            <option value="EF">EF</option>
+            <option value="KO">KO</option>
+            <option value="Test Rupture">Test Rupture</option>
+            <option value="Arrachement">Arrachement</option>
+            <option value="Contrôle intermédiaire">Contrôle intermédiaire</option>
+            <option value="Contrôle">Contrôle</option>
+            <option value="Commentaire">Commentaire</option>
+            <option value="Chocs 450g">Chocs 450g</option>
+            <option value="Chocs 550g">Chocs 550g</option>
+            <option value="Chute accidentelle">Chute accidentelle</option>
+            <option value="Reese">Reese</option>
+            <option value="Vieillissement">Vieillissement</option>
+        </select>
+        <input id="customPhotoLabel" type="text"
+            placeholder="Ou saisir une désignation personnalisée"
+            style="margin-top:8px">
     </div>
 
 </div>
@@ -899,7 +937,7 @@ input[type="file"]{display:none}
    VCA CAPTURE — VERSION
 ===================================================== */
 
-const APP_VERSION = "2.2";
+const APP_VERSION = "2.3";
 
 
 /* =====================================================
@@ -1013,6 +1051,24 @@ function safeName(){
         /^-|-$/g,
         ""
     );
+}
+
+
+function safePhotoLabel(){
+    const custom = document
+        .getElementById("customPhotoLabel")
+        .value.trim();
+
+    const selected = document
+        .getElementById("photoLabel")
+        .value;
+
+    return (custom || selected || "EI")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-zA-Z0-9_-]+/g, "-")
+        .replace(/-+/g, "-")
+        .replace(/^-|-$/g, "") || "EI";
 }
 
 
@@ -1646,11 +1702,26 @@ function toggleRecording(){
         };
 
 
+    mediaRecorder.onerror =
+        function(event){
+            console.error("Erreur MediaRecorder :", event.error || event);
+            stopTimer();
+
+            document
+                .getElementById("recordButton")
+                .classList.remove("recording");
+
+            alert("Une erreur est survenue pendant l'enregistrement vidéo. La vidéo peut être incomplète.");
+        };
+
+
     mediaRecorder.onstop =
         finishRecording;
 
 
-    mediaRecorder.start();
+    // Demande au navigateur de transmettre régulièrement les données.
+    // Cela évite de conserver tout le tampon interne jusqu'à l'arrêt.
+    mediaRecorder.start(1000);
 
 
     document
@@ -1978,55 +2049,39 @@ function closeCamera(){
 ===================================================== */
 
 document
-    .getElementById(
-        "photoInput"
-    )
+    .getElementById("photoInput")
     .addEventListener(
         "change",
         function(event){
 
-            Array.from(
-                event.target.files
-            ).forEach(
-                file => {
+            Array.from(event.target.files).forEach(file => {
+                photoNumber++;
 
-                    photoNumber++;
+                const mime = file.type || "image/jpeg";
+                let extension = "jpg";
 
+                if(mime.includes("png")) extension = "png";
+                else if(mime.includes("webp")) extension = "webp";
+                else if(mime.includes("heic")) extension = "heic";
+                else if(mime.includes("heif")) extension = "heif";
 
-                    files.push(
+                const designation = safePhotoLabel();
+                const number = String(photoNumber).padStart(2,"0");
 
-                        new File(
-
-                            [file],
-
-                            safeName() +
-                            "_photo_" +
-                            String(
-                                photoNumber
-                            ).padStart(
-                                2,
-                                "0"
-                            ) +
-                            ".jpg",
-
-                            {
-                                type:file.type,
-                                lastModified:
-                                    Date.now()
-                            }
-
-                        )
-
-                    );
-
-                }
-            );
-
+                files.push(
+                    new File(
+                        [file],
+                        safeName() + "_" + designation + "_" + number + "." + extension,
+                        {
+                            type:mime,
+                            lastModified:Date.now()
+                        }
+                    )
+                );
+            });
 
             event.target.value = "";
-
             renderFiles();
-
         }
     );
 
