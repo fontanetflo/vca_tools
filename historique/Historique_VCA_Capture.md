@@ -26,3 +26,13 @@
 
 **Date :** 16 novembre 2026  
 **Déploiement :** version intégrée à la branche `main` pour GitHub Pages.
+
+## v2.5
+- Suppression du champ de désignation personnalisée : le type d’essai est choisi dans la liste prédéfinie.
+- Conservation du commentaire facultatif ; s’il est renseigné, il est normalisé et ajouté à la fin du nom de chaque photo capturée.
+- Le champ commentaire est vidé après la capture pour éviter de le réutiliser involontairement.
+- Suppression de l’affichage temporaire du commentaire dans la galerie : le commentaire figure désormais directement dans le nom du fichier photo.
+- Conservation du résultat facultatif (OK/KO/vide), du numéro de pièce et des fonctions vidéo, import, galerie, partage et accès SharePoint.
+
+**Date :** 16 novembre 2026  
+**Déploiement :** version intégrée à la branche `main` pour GitHub Pages.
