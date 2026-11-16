@@ -36,3 +36,13 @@
 
 **Date :** 16 novembre 2026  
 **Déploiement :** version intégrée à la branche `main` pour GitHub Pages.
+
+## v2.6
+- Optimisation de l'interface caméra pour iPhone : ajout d'un statut toujours lisible (« PRÊT À FILMER » / « ENREGISTREMENT EN COURS ») avec annonce accessible.
+- Agrandissement et mise en évidence du compteur de durée, avec chiffres à largeur fixe pour faciliter la lecture pendant la capture.
+- Synchronisation de l'indicateur visuel et du compteur au démarrage, à l'arrêt et en cas d'erreur d'enregistrement.
+- Conservation des fonctions et réglages de la v2.5, notamment les choix de type d'essai, résultat, pièce, commentaire dans le nom photo, import, galerie, partage et accès SharePoint.
+
+**Date :** 16 novembre 2026  
+**Déploiement :** branche `main`, publication GitHub Pages.  
+**Vérifications :** syntaxe JavaScript contrôlée ; test réel de la caméra et de l'enregistrement à effectuer sur iPhone.
