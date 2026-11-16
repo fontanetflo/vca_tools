@@ -1750,9 +1750,7 @@ function toggleRecording(){
             console.error("Erreur MediaRecorder :", event.error || event);
             stopTimer();
 
-            document
-                .getElementById("recordButton")
-                ;
+            setRecordingUI(false);
 
             alert("Une erreur est survenue pendant l'enregistrement vidéo. La vidéo peut être incomplète.");
         };
@@ -1765,13 +1763,6 @@ function toggleRecording(){
     // Demande au navigateur de transmettre régulièrement les données.
     // Cela évite de conserver tout le tampon interne jusqu'à l'arrêt.
     mediaRecorder.start(1000);
-
-
-    document
-        .getElementById(
-            "recordButton"
-        )
-        ;
 
 
     setRecordingUI(true);
