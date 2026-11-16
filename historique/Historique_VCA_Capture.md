@@ -15,3 +15,14 @@
 **Date :** 16 novembre 2026  
 **Déploiement :** version intégrée à la branche `main` pour GitHub Pages.  
 **Vérification :** présence des modifications confirmée sur GitHub. Les essais fonctionnels sur iPhone et les enregistrements vidéo longs restent à effectuer.
+
+## v2.4
+- Renommage de la zone en « Type d’essai », avec conservation des 13 choix et du champ personnalisé.
+- Ajout du résultat photo facultatif : OK, KO ou non renseigné.
+- Ajout du numéro de pièce de 1 à 10 (pièce 1 par défaut).
+- Ajout d'un commentaire facultatif associé à chaque photo pendant la session ; il est visible dans la galerie mais n'est pas exporté.
+- Nommage des photos : `NOM_ESSAI_TYPE_[RESULTAT_]PXX_XX.ext`. Le résultat est omis s'il n'est pas renseigné.
+- Les fonctions de capture vidéo, import, galerie, partage et accès SharePoint sont conservées.
+
+**Date :** 16 novembre 2026  
+**Déploiement :** version intégrée à la branche `main` pour GitHub Pages.

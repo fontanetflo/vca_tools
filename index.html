@@ -121,6 +121,25 @@ select.photo-label-select{
     margin-top:14px
 }
 
+.comment-preview{
+    position:absolute;
+    left:5px;
+    right:5px;
+    top:5px;
+    z-index:2;
+    padding:4px 6px;
+    border-radius:5px;
+    background:rgba(0,0,0,.72);
+    color:white;
+    font-size:10px;
+    line-height:1.25;
+    overflow:hidden;
+    display:-webkit-box;
+    -webkit-line-clamp:3;
+    -webkit-box-orient:vertical;
+    pointer-events:none
+}
+
 .session{
     margin-top:10px;
     padding:10px 12px;
@@ -448,7 +467,7 @@ select.photo-label-select{
     </div>
 
     <div class="version">
-        v2.3
+        v2.4
     </div>
 
 </header>
@@ -527,7 +546,7 @@ select.photo-label-select{
     </div>
 
     <div class="photo-label">
-        <div class="setting-label">Désignation de la photo</div>
+        <div class="setting-label">Type d’essai</div>
         <select id="photoLabel" class="photo-label-select">
             <option value="EI" selected>EI</option>
             <option value="EF">EF</option>
@@ -546,6 +565,32 @@ select.photo-label-select{
         <input id="customPhotoLabel" type="text"
             placeholder="Ou saisir une désignation personnalisée"
             style="margin-top:8px">
+
+        <div class="setting-label" style="margin-top:12px">Résultat</div>
+        <select id="photoResult" class="photo-label-select">
+            <option value="" selected>Non renseigné</option>
+            <option value="OK">OK</option>
+            <option value="KO">KO</option>
+        </select>
+
+        <div class="setting-label" style="margin-top:12px">Numéro de pièce</div>
+        <select id="pieceNumber" class="photo-label-select">
+            <option value="1" selected>Pièce 1</option>
+            <option value="2">Pièce 2</option>
+            <option value="3">Pièce 3</option>
+            <option value="4">Pièce 4</option>
+            <option value="5">Pièce 5</option>
+            <option value="6">Pièce 6</option>
+            <option value="7">Pièce 7</option>
+            <option value="8">Pièce 8</option>
+            <option value="9">Pièce 9</option>
+            <option value="10">Pièce 10</option>
+        </select>
+
+        <div class="setting-label" style="margin-top:12px">Commentaire (facultatif)</div>
+        <textarea id="photoComment" rows="2"
+            placeholder="Ajouter un commentaire pour cette capture"
+            style="width:100%;box-sizing:border-box;margin-top:6px;padding:10px 12px;border:1px solid #d1d5db;border-radius:11px;font:inherit;font-size:16px;resize:vertical"></textarea>
     </div>
 
 </div>
@@ -937,7 +982,7 @@ select.photo-label-select{
    VCA CAPTURE — VERSION
 ===================================================== */
 
-const APP_VERSION = "2.3";
+const APP_VERSION = "2.4";
 
 
 /* =====================================================
@@ -945,6 +990,7 @@ const APP_VERSION = "2.3";
 ===================================================== */
 
 let files = [];
+let photoMetadata = new Map();
 
 let photoNumber = 0;
 let videoNumber = 0;
@@ -1054,6 +1100,16 @@ function safeName(){
 }
 
 
+function safeFilePart(value, fallback = ""){
+    return (value || "")
+        .trim()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-zA-Z0-9_-]+/g, "-")
+        .replace(/-+/g, "-")
+        .replace(/^-|-$/g, "") || fallback;
+}
+
 function safePhotoLabel(){
     const custom = document
         .getElementById("customPhotoLabel")
@@ -1063,12 +1119,7 @@ function safePhotoLabel(){
         .getElementById("photoLabel")
         .value;
 
-    return (custom || selected || "EI")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^a-zA-Z0-9_-]+/g, "-")
-        .replace(/-+/g, "-")
-        .replace(/^-|-$/g, "") || "EI";
+    return safeFilePart(custom || selected, "EI");
 }
 
 
@@ -2066,18 +2117,36 @@ document
                 else if(mime.includes("heif")) extension = "heif";
 
                 const designation = safePhotoLabel();
+                const result = document.getElementById("photoResult").value;
+                const piece = document.getElementById("pieceNumber").value || "1";
+                const comment = document.getElementById("photoComment").value.trim();
                 const number = String(photoNumber).padStart(2,"0");
+                const resultPart = safeFilePart(result);
+                const piecePart = "P" + String(piece).padStart(2,"0");
+                const fileName = [
+                    safeName(),
+                    designation,
+                    resultPart,
+                    piecePart,
+                    number
+                ].filter(Boolean).join("_") + "." + extension;
 
-                files.push(
-                    new File(
-                        [file],
-                        safeName() + "_" + designation + "_" + number + "." + extension,
-                        {
-                            type:mime,
-                            lastModified:Date.now()
-                        }
-                    )
+                const photoFile = new File(
+                    [file],
+                    fileName,
+                    {
+                        type:mime,
+                        lastModified:Date.now()
+                    }
                 );
+
+                files.push(photoFile);
+                photoMetadata.set(photoFile, {
+                    designation,
+                    result,
+                    piece,
+                    comment
+                });
             });
 
             event.target.value = "";
@@ -2249,6 +2318,7 @@ function renderFiles(){
 
                     event.stopPropagation();
 
+                    photoMetadata.delete(files[index]);
                     files.splice(
                         index,
                         1
@@ -2259,6 +2329,15 @@ function renderFiles(){
 
 
             item.appendChild(media);
+
+            const metadata = photoMetadata.get(file);
+            if(metadata && metadata.comment){
+                const comment = document.createElement("div");
+                comment.className = "comment-preview";
+                comment.textContent = metadata.comment;
+                item.appendChild(comment);
+            }
+
             item.appendChild(badge);
             item.appendChild(info);
             item.appendChild(del);
@@ -2431,6 +2510,7 @@ function openFolder(){
 function clearFiles(){
 
     files = [];
+    photoMetadata.clear();
 
     photoNumber = 0;
     videoNumber = 0;
