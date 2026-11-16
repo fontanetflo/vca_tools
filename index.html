@@ -381,14 +381,37 @@ select.photo-label-select{
 
 .timer{
     position:absolute;
-    bottom:93px;
-    left:0;
-    right:0;
+    bottom:101px;
+    left:50%;
+    transform:translateX(-50%);
+    min-width:104px;
+    padding:8px 16px;
+    border-radius:22px;
+    background:rgba(0,0,0,.62);
     text-align:center;
     color:white;
-    font-weight:700;
-    font-size:14px
+    font-weight:800;
+    font-size:22px;
+    font-variant-numeric:tabular-nums;
+    letter-spacing:1px;
+    z-index:21
 }
+.recording-status{
+    position:absolute;
+    bottom:151px;
+    left:50%;
+    transform:translateX(-50%);
+    padding:6px 12px;
+    border-radius:16px;
+    background:rgba(0,0,0,.58);
+    color:white;
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:.8px;
+    white-space:nowrap;
+    z-index:21
+}
+.recording-status.is-recording{background:#b91c1c}
 
 
 /* =========================
@@ -448,7 +471,7 @@ select.photo-label-select{
     </div>
 
     <div class="version">
-        v2.4
+        v2.6
     </div>
 
 </header>
@@ -880,12 +903,8 @@ select.photo-label-select{
     </div>
 
 
-    <div
-        id="timer"
-        class="timer"
-    >
-        00:00
-    </div>
+    <div id="recordingStatus" class="recording-status" aria-live="polite">PRÊT À FILMER</div>
+    <div id="timer" class="timer" aria-live="off">00:00</div>
 
 
     <div class="camera-bottom">
@@ -960,7 +979,7 @@ select.photo-label-select{
    VCA CAPTURE — VERSION
 ===================================================== */
 
-const APP_VERSION = "2.5";
+const APP_VERSION = "2.6";
 
 
 /* =====================================================
@@ -1733,7 +1752,7 @@ function toggleRecording(){
 
             document
                 .getElementById("recordButton")
-                .classList.remove("recording");
+                ;
 
             alert("Une erreur est survenue pendant l'enregistrement vidéo. La vidéo peut être incomplète.");
         };
@@ -1752,11 +1771,10 @@ function toggleRecording(){
         .getElementById(
             "recordButton"
         )
-        .classList.add(
-            "recording"
-        );
+        ;
 
 
+    setRecordingUI(true);
     startTimer();
 }
 
@@ -1765,64 +1783,30 @@ function toggleRecording(){
    TIMER
 ===================================================== */
 
-function startTimer(){
-
-    startTime = Date.now();
-
-
-    timerInterval =
-        setInterval(
-            function(){
-
-                const seconds =
-                    Math.floor(
-                        (
-                            Date.now() -
-                            startTime
-                        ) / 1000
-                    );
-
-
-                const minutes =
-                    Math.floor(
-                        seconds / 60
-                    );
-
-
-                const rest =
-                    seconds % 60;
-
-
-                document.getElementById(
-                    "timer"
-                ).textContent =
-                    String(minutes)
-                        .padStart(2,"0")
-                    +
-                    ":"
-                    +
-                    String(rest)
-                        .padStart(2,"0");
-
-            },
-            500
-        );
+function setRecordingUI(active){
+    document.getElementById("recordButton").classList.toggle("recording", active);
+    const status = document.getElementById("recordingStatus");
+    status.classList.toggle("is-recording", active);
+    status.textContent = active ? "● ENREGISTREMENT EN COURS" : "PRÊT À FILMER";
 }
 
+function updateRecordingTimer(){
+    const seconds = Math.floor((Date.now() - startTime) / 1000);
+    document.getElementById("timer").textContent =
+        String(Math.floor(seconds / 60)).padStart(2,"0") + ":" +
+        String(seconds % 60).padStart(2,"0");
+}
+
+function startTimer(){
+    startTime = Date.now();
+    updateRecordingTimer();
+    timerInterval = setInterval(updateRecordingTimer, 250);
+}
 
 function stopTimer(){
-
-    clearInterval(
-        timerInterval
-    );
-
+    clearInterval(timerInterval);
     timerInterval = null;
-
-
-    document.getElementById(
-        "timer"
-    ).textContent =
-        "00:00";
+    updateRecordingTimer();
 }
 
 
@@ -1833,15 +1817,7 @@ function stopTimer(){
 function finishRecording(){
 
     stopTimer();
-
-
-    document
-        .getElementById(
-            "recordButton"
-        )
-        .classList.remove(
-            "recording"
-        );
+    setRecordingUI(false);
 
 
     const type =
