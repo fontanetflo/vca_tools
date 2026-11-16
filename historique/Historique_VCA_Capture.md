@@ -46,3 +46,15 @@
 **Date :** 16 novembre 2026  
 **Déploiement :** branche `main`, publication GitHub Pages.  
 **Vérifications :** syntaxe JavaScript contrôlée ; test réel de la caméra et de l'enregistrement à effectuer sur iPhone.
+
+
+## v2.6.1
+- Suppression complète du champ manuel « Nom de l’essai » et de son encart en haut de l’application.
+- L’écran s’ouvre directement sur la zone de capture et la sélection du type d’essai.
+- Le nom des photos commence désormais par le type sélectionné, suivi du résultat éventuel, du numéro de pièce et du numéro de fichier ; le commentaire facultatif est ajouté à la toute fin.
+- Les noms des vidéos utilisent également le type d’essai sélectionné, sans champ manuel.
+- Conservation des réglages vidéo, de la caméra, de l’import, de la galerie, du partage et de l’accès SharePoint.
+
+**Date :** 16 novembre 2026  
+**Déploiement :** branche `main`, publication GitHub Pages à vérifier.  
+**Vérifications :** syntaxe JavaScript contrôlée ; test réel de capture photo/vidéo à effectuer sur iPhone.
