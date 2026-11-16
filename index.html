@@ -121,24 +121,6 @@ select.photo-label-select{
     margin-top:14px
 }
 
-.session{
-    margin-top:10px;
-    padding:10px 12px;
-    border-radius:10px;
-    background:#f3f4f6
-}
-
-.session-name{
-    font-weight:700;
-    font-size:14px
-}
-
-.session-date{
-    margin-top:2px;
-    color:#6b7280;
-    font-size:12px
-}
-
 .file-count{
     display:flex;
     justify-content:space-between;
@@ -471,46 +453,10 @@ select.photo-label-select{
     </div>
 
     <div class="version">
-        v2.6
+        v2.6.1
     </div>
 
 </header>
-
-
-<!-- =========================
-     ESSAI
-========================= -->
-
-<div class="card">
-
-    <div class="section-title">
-        🏷️ Essai
-    </div>
-
-    <input
-        id="sessionName"
-        type="text"
-        placeholder="Nom de l'essai"
-    >
-
-    <div
-        id="sessionInfo"
-        class="session hidden"
-    >
-
-        <div
-            id="displayName"
-            class="session-name"
-        ></div>
-
-        <div
-            id="displayDate"
-            class="session-date"
-        ></div>
-
-    </div>
-
-</div>
 
 
 <!-- =========================
@@ -689,7 +635,7 @@ select.photo-label-select{
     id="message"
     class="info"
 >
-    Donne un nom à l'essai puis commence une capture.
+    Sélectionne un type d’essai puis commence une capture.
 </div>
 
 </div>
@@ -979,7 +925,7 @@ select.photo-label-select{
    VCA CAPTURE — VERSION
 ===================================================== */
 
-const APP_VERSION = "2.6";
+const APP_VERSION = "2.6.1";
 
 
 /* =====================================================
@@ -1018,83 +964,8 @@ let videoSettings = {
 
 
 /* =====================================================
-   NOM ESSAI
-===================================================== */
-
-const sessionName =
-document.getElementById("sessionName");
-
-
-sessionName.addEventListener(
-    "input",
-    function(){
-
-        const name =
-            sessionName.value.trim();
-
-        const info =
-            document.getElementById(
-                "sessionInfo"
-            );
-
-        if(!name){
-
-            info.classList.add(
-                "hidden"
-            );
-
-            return;
-        }
-
-        info.classList.remove(
-            "hidden"
-        );
-
-        document.getElementById(
-            "displayName"
-        ).textContent =
-            name;
-
-        document.getElementById(
-            "displayDate"
-        ).textContent =
-            new Date().toLocaleString(
-                "fr-FR"
-            );
-    }
-);
-
-
-/* =====================================================
    NOM DE FICHIER
 ===================================================== */
-
-function safeName(){
-
-    return (
-        sessionName.value.trim()
-        ||
-        "Essai"
-    )
-    .normalize("NFD")
-    .replace(
-        /[\u0300-\u036f]/g,
-        ""
-    )
-    .replace(
-        /[^a-zA-Z0-9_-]+/g,
-        "-"
-    )
-    .replace(
-        /-+/g,
-        "-"
-    )
-    .replace(
-        /^-|-$/g,
-        ""
-    );
-}
-
 
 function safeFilePart(value, fallback = ""){
     return (value || "")
@@ -1831,14 +1702,8 @@ function finishRecording(){
         );
 
 
-    /*
-       IMPORTANT :
-       le nom de l'essai est récupéré ici,
-       au moment de créer le fichier.
-    */
-
     const baseName =
-        safeName();
+        safePhotoLabel();
 
 
     currentVideoFile =
@@ -1941,7 +1806,7 @@ function keepLastVideo(){
 
             [currentVideoFile],
 
-            safeName() +
+            safePhotoLabel() +
             "_video_" +
             String(
                 videoNumber
@@ -2065,7 +1930,6 @@ document
                 const piecePart = "P" + String(piece).padStart(2,"0");
                 const commentPart = safeFilePart(comment);
                 const fileName = [
-                    safeName(),
                     designation,
                     resultPart,
                     piecePart,
@@ -2394,7 +2258,7 @@ async function shareFiles(){
                 files,
 
                 title:
-                    sessionName.value ||
+                    document.getElementById("photoLabel").value ||
                     "Essai",
 
                 text:
